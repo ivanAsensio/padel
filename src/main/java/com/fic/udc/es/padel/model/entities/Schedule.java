@@ -1,5 +1,7 @@
 package com.fic.udc.es.padel.model.entities;
 
+import java.time.DayOfWeek;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,8 +15,8 @@ public class Schedule {
 	
 	private Long scheduleId;
 	private DayOfWeek day;
-	private String initHour;
-	private String finalHour;
+	private int initHour;
+	private int finalHour;
 	private User user;
 	
 	public Schedule() {
@@ -39,19 +41,19 @@ public class Schedule {
 		this.day = day;
 	}
 
-	public String getInitHour() {
+	public int getInitHour() {
 		return initHour;
 	}
 
-	public void setInitHour(String initHour) {
+	public void setInitHour(int initHour) {
 		this.initHour = initHour;
 	}
 
-	public String getFinalHour() {
+	public int getFinalHour() {
 		return finalHour;
 	}
 
-	public void setFinalHour(String finalHour) {
+	public void setFinalHour(int finalHour) {
 		this.finalHour = finalHour;
 	}
 

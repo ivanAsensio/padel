@@ -23,8 +23,9 @@ public class User {
 	private RoleEnum role;
 	private Set<Team> teams;
 
-	public User() {}
-	
+	public User() {
+		super();
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getUserId() {

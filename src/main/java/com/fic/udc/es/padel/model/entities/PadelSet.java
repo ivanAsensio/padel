@@ -9,14 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Set {
+public class PadelSet {
 
 	private Long setId;
 	private int numberSet;
 	private String result;
 	private ProfessionalGame game;
 	
-	public Set() {
+	public PadelSet() {
 		super();
 	}
 	

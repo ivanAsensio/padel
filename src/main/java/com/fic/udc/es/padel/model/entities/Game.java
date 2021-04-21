@@ -1,9 +1,11 @@
 package com.fic.udc.es.padel.model.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -22,7 +25,8 @@ public class Game {
 	private LocalDateTime finalDate;
 	private float minimunLevel;
 	private float maximunLevel;
-	private Set<User> gameUsers;
+	private Field field;
+	private Set<User> gameUsers = new HashSet<>();
 	
 	public Game() {
 		super();
@@ -60,6 +64,16 @@ public class Game {
 	public void setMaximunLevel(float maximunLevel) {
 		this.maximunLevel = maximunLevel;
 	}
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
+	@JoinColumn(name= "field_id")
+	public Field getField() {
+		return field;
+	}
+
+	public void setField(Field field) {
+		this.field = field;
+	}
+
 	@ManyToMany
 	@JoinTable(
 			name = "game_user", 
