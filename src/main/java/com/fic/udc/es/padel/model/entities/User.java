@@ -1,5 +1,6 @@
 package com.fic.udc.es.padel.model.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -7,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import org.springframework.scheduling.annotation.Schedules;
 
 @Entity
 public class User {
@@ -21,11 +24,27 @@ public class User {
 	private float level;
 	private String position;
 	private RoleEnum role;
-	private Set<Team> teams;
+	private Set<Team> teams = new HashSet<>();
+	private Set<Schedule> schedules = new HashSet<>();
 
 	public User() {
 		super();
 	}
+	
+	public User(Long userId, String name, String lastname1, String lastname2, String login, boolean state,
+			String password, float level, String position) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.lastname1 = lastname1;
+		this.lastname2 = lastname2;
+		this.login = login;
+		this.state = state;
+		this.password = password;
+		this.level = level;
+		this.position = position;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getUserId() {
@@ -96,6 +115,15 @@ public class User {
 
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
+	}
+	
+	@ManyToMany(mappedBy = "scheduleUser")
+	public Set<Schedule> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(Set<Schedule> schedules) {
+		this.schedules = schedules;
 	}
 	
 	

@@ -19,7 +19,8 @@ public interface UserService {
 	User loginFromId(Long id) throws InstanceNotFoundException;
 	
 	User updateProfile(Long id, String firstName, String lastName1, 
-			String lastName2, Set<Schedule> schedules) throws InstanceNotFoundException;
+			String lastName2, boolean state, String position, float level, 
+			Set<Schedule> schedules) throws InstanceNotFoundException;
 	
 	void changePassword(Long id, String oldPassword, String newPassword)
 			throws InstanceNotFoundException, IncorrectPasswordException;

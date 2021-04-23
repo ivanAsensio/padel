@@ -243,6 +243,7 @@ public class GameServiceImpl implements GameService {
 		}
 		for(PadelSet set: sets) {
 			set.setGame(pGame.get());
+			setDao.save(set);
 		}
 	}
 
