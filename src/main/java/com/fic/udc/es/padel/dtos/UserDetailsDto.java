@@ -3,12 +3,12 @@ package com.fic.udc.es.padel.dtos;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fic.udc.es.padel.dtos.UserDto.AllValidations;
 import com.fic.udc.es.padel.dtos.UserDto.UpdateValidations;
 import com.fic.udc.es.padel.model.entities.Schedule;
-import com.sun.istack.NotNull;
 
 public class UserDetailsDto {
 	
@@ -50,7 +50,6 @@ public interface AllValidations {}
 		this.id = id;
 	}
 
-	@NotNull(groups={AllValidations.class})
 	@Size(min=1, max=60, groups={AllValidations.class})
 	public String getLogin() {
 		return login;

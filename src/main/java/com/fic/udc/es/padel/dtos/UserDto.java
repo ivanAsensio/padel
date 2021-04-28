@@ -3,10 +3,10 @@ package com.fic.udc.es.padel.dtos;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fic.udc.es.padel.model.entities.Schedule;
-import com.sun.istack.NotNull;
 
 public class UserDto {
 	
