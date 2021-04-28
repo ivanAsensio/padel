@@ -1,5 +1,11 @@
 package com.fic.udc.es.padel.model.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Field {
 	
 	private Long fieldId;
@@ -9,6 +15,8 @@ public class Field {
 	public Field() {
 		super();
 	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getFieldId() {
 		return fieldId;
 	}

@@ -77,7 +77,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Block<Game> findGamesByUserId(Long userId, int page, int size) {
 
-		Slice<Game> games = gameDao.findByUserId(userId, PageRequest.of(page, size));
+		Slice<Game> games = gameDao.findByGameUsersUserId(userId, PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
 	}
@@ -85,7 +85,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Block<Game> findAllFinishedGames(int page, int size) {
 
-		Slice<Game> games = gameDao.findFinishedGames(LocalDateTime.now(), PageRequest.of(page, size));
+		Slice<Game> games = gameDao.findAllWithDateFinished(LocalDateTime.now(), PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
 	}
@@ -93,7 +93,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Block<Game> findAllPublishedGames(int page, int size) {
 
-		Slice<Game> games = gameDao.findFinishedGames(LocalDateTime.now(), PageRequest.of(page, size));
+		Slice<Game> games = gameDao.findAllWithDatePublished(LocalDateTime.now(), PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
 	}
@@ -106,7 +106,7 @@ public class GameServiceImpl implements GameService {
 			throw new InstanceNotFoundException("project.entities.user", userId);
 		}
 		User userObtained = user.get();
-		Slice<Game> games = gameDao.findByInitDateAndLevel(LocalDateTime.now(), userObtained.getLevel(), PageRequest.of(page, size));
+		Slice<Game> games = gameDao.findAllWithDateAndLevel(LocalDateTime.now(), userObtained.getLevel(), PageRequest.of(page, size));
 		List<Game> list = games.getContent();
 		List<Schedule> schedules = scheduleDao.findByUser(userObtained);
 		for(Game game : list) {

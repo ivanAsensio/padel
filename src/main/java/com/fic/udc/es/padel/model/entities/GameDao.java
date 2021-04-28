@@ -6,23 +6,23 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface GameDao extends PagingAndSortingRepository<Game, Long>{
 	
-	Slice<Game> findByUserId(Long userId, Pageable pageable);
+	Slice<Game> findByGameUsersUserId(Long userId, Pageable pageable);
 	
-	@Query("select g from Game g where 1 < u.initDate and 2 betwwen g.minimunLevel and g.maximunLevel")
-	Slice<Game> findByInitDateAndLevel(LocalDateTime date, float level, Pageable pageable);
+	@Query("select g from Game g where 1 < g.initDate and 2 between g.minimunLevel and g.maximunLevel")
+	Slice<Game> findAllWithDateAndLevel(LocalDateTime date, float level, Pageable pageable);
 	
-	@Query("select g from Game g where u.initDate < 1")
-	Slice<Game> findFinishedGames(LocalDateTime date, Pageable pageable);
+	@Query("select g from Game g where g.initDate < 1")
+	Slice<Game> findAllWithDateFinished(LocalDateTime date, Pageable pageable);
 	
-	@Query("select g from Game g where u.initDate > 1")
-	Slice<Game> findPublishedGames(LocalDateTime date, Pageable pageable);
+	@Query("select g from Game g where g.initDate > 1")
+	Slice<Game> findAllWithDatePublished(LocalDateTime date, Pageable pageable);
 	
-	@Query("select g from Game g where u.field = 2 and 1 between u.initDate and u.finalDate")
+	@Query("select g from Game g where g.field = 2 and 1 between g.initDate and g.finalDate")
 	Optional<Game> findGameByDate(LocalDateTime date, Field field);
 
 }

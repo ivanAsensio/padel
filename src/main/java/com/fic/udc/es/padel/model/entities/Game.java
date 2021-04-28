@@ -65,7 +65,7 @@ public class Game {
 		this.maximunLevel = maximunLevel;
 	}
 	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	@JoinColumn(name= "field_id")
+	@JoinColumn(name= "fieldId")
 	public Field getField() {
 		return field;
 	}

@@ -3,11 +3,15 @@ package com.fic.udc.es.padel.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.entities.UserDao;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 
+@Service
+@Transactional(readOnly=true)
 public class PermissionCheckerImpl implements PermissionChecker{
 	
 	@Autowired

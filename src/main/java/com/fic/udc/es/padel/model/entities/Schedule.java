@@ -58,7 +58,7 @@ public class Schedule {
 	}
 
 	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	@JoinColumn(name= "user_id")
+	@JoinColumn(name= "userId")
 	public User getUser() {
 		return user;
 	}

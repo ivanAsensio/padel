@@ -3,13 +3,13 @@ package com.fic.udc.es.padel.model.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
-import org.springframework.scheduling.annotation.Schedules;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -117,7 +117,7 @@ public class User {
 		this.teams = teams;
 	}
 	
-	@ManyToMany(mappedBy = "scheduleUser")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	public Set<Schedule> getSchedules() {
 		return schedules;
 	}
