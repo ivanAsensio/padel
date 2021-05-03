@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void signUp(User user) throws DuplicateInstanceException {
 		
-		if (userDao.existsByName(user.getName())) {
-			throw new DuplicateInstanceException("project.entities.user", user.getName());
+		if (userDao.existsByLogin(user.getLogin())) {
+			throw new DuplicateInstanceException("project.entities.user", user.getLogin());
 		}
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));

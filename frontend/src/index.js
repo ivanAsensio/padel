@@ -1,17 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {initReactIntl} from './i18n';
+import {App} from './modules/app';
 
+import {Provider} from 'react-redux';
+import {IntlProvider} from 'react-intl';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap';
+import '@fortawesome/fontawesome-free-webfonts/css/fontawesome.css';
+import '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css';
+
+import * as serviceWorker from './serviceWorker';
+
+import configureStore from './store';
+import backend from './backend';
+import {NetworkError} from './backend';
+import app from './modules/app';
+
+/* Configure store. */
+const store = configureStore();
+
+/* Configure backend proxy. */
+backend.init(error => store.dispatch(app.actions.error(new NetworkError())));
+
+/* Configure i18n. */
+const {locale, messages} = initReactIntl();
+
+/* Render application. */
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  <Provider store={store}>
+      <IntlProvider locale={locale} messages={messages}>
+          <App/>
+      </IntlProvider>
+  </Provider>, 
+  document.getElementById('root'));
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+serviceWorker.register();
+

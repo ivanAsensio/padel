@@ -12,7 +12,7 @@ public interface UserDao extends PagingAndSortingRepository<User, Long>{
 	
 	public Optional<User> findByLogin(String login);
 	
-	public boolean existsByName(String name);
+	public boolean existsByLogin(String name);
 	
 	
 }
