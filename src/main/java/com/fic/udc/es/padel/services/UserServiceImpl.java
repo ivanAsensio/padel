@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void signUp(User user) throws DuplicateInstanceException {
-
+		
 		if (userDao.existsByName(user.getName())) {
 			throw new DuplicateInstanceException("project.entities.user", user.getName());
 		}
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional(readOnly=true)
 	public User login(String userName, String password) throws IncorrectLoginException {
 		
-		Optional<User> user = userDao.findByName(userName);
+		Optional<User> user = userDao.findByLogin(userName);
 		
 		if (!user.isPresent()) {
 			throw new IncorrectLoginException(userName, password);

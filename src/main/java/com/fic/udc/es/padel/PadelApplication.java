@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class PadelApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(PadelApplication.class, args);
 	}
 	
