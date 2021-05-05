@@ -29,6 +29,8 @@ public interface UserService {
 	
 	User getUserById(Long id) throws InstanceNotFoundException;
 	
+	Block<User> getAllUsers(int page, int size);
+	
 	
 	
 

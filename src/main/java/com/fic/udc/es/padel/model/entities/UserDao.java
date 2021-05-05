@@ -2,6 +2,8 @@ package com.fic.udc.es.padel.model.entities;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface UserDao extends PagingAndSortingRepository<User, Long>{
@@ -13,6 +15,8 @@ public interface UserDao extends PagingAndSortingRepository<User, Long>{
 	public Optional<User> findByLogin(String login);
 	
 	public boolean existsByLogin(String name);
+	
+	Page<User> findAll(Pageable pageable);
 	
 	
 }

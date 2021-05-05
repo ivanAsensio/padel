@@ -1,5 +1,7 @@
 export default {
     'project.app.Footer.text': 'TFG - Padel Application by Iván Asensio Vázquez',
+    'project.app.Header.logout': 'LogOut',
+    'project.app.Header.detailsProfile': 'User details',
 
     'project.common.ErrorDialog.title': 'Error',
 
@@ -8,16 +10,22 @@ export default {
     'project.global.buttons.close': 'Close',
     'project.global.buttons.next': 'Next',
     'project.global.buttons.ok': 'Ok',
+    'project.global.buttons.save': 'Save changes',
 
     'project.global.exceptions.NetworkError': 'Network error',
 
-    'project.global.fields.email': 'Email',
+    'project.global.fields.position': 'Position',
     'project.global.fields.firstName': 'Name',
+    'project.global.fields.lastNames': 'LastNames',
     'project.global.fields.lastName': 'First lastName',
     'project.global.fields.lastName2': 'Second lastName',
     'project.global.fields.level': 'Level',
     'project.global.fields.userName': 'Username',
     'project.global.fields.password': 'Password',
+    'project.global.fields.state': 'State',
+    'project.global.fields.state.true': 'Active',
+    'project.global.fields.state.false': 'Inactive',
+    'project.global.fields.role': 'Role',
 
     'project.global.Login.title': 'Login',
     
@@ -25,11 +33,19 @@ export default {
     'project.global.validator.email': 'Bad format on email',
     'project.global.validator.passwordsDoNotMatch': 'Password doesn´t match',
 
+    'project.users.ChangePassword.title': 'Change password',
+
     'project.users.Login.title': 'Login',
 
     'project.users.SignUp.title': 'Sign up',
 
     'project.users.SignUp.fields.confirmPassword': 'Confirm password',
+
+    'project.users.userList.title': 'User List',
+
+    'project.users.getUsersResult.noUsers': 'No users found',
+
+    'project.users.UpdateProfile.title': 'Update user',
 
     
 }

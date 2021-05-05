@@ -6,11 +6,14 @@ export const getUser = state =>
 export const isLoggedIn = state =>
     getUser(state) !== null
 
-export const getUserName = state => 
-    isLoggedIn(state) ? getUser(state).userName : null;
+export const getLogin = state => 
+    isLoggedIn(state) ? getUser(state).login : null;
 
 export const getUserRole = state => 
     isLoggedIn(state) ? getUser(state).role : null;
+
+export const getAllUsers = state =>
+    getModuleState(state).users;
 
 
 

@@ -22,15 +22,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fic.udc.es.padel.dtos.AuthenticatedUserDto;
+import com.fic.udc.es.padel.dtos.BlockDto;
 import com.fic.udc.es.padel.dtos.ChangeLevelParamsDto;
 import com.fic.udc.es.padel.dtos.ChangePasswordParamsDto;
 import com.fic.udc.es.padel.dtos.LoginParamsDto;
+import com.fic.udc.es.padel.dtos.UserConversor;
 import com.fic.udc.es.padel.dtos.UserDetailsDto;
 import com.fic.udc.es.padel.dtos.UserDto;
 import com.fic.udc.es.padel.model.entities.User;
@@ -42,9 +45,11 @@ import com.fic.udc.es.padel.model.exceptions.PermissionException;
 import com.fic.udc.es.padel.rest.common.ErrorsDto;
 import com.fic.udc.es.padel.rest.common.JwtGenerator;
 import com.fic.udc.es.padel.rest.common.JwtInfo;
+import com.fic.udc.es.padel.services.Block;
 import com.fic.udc.es.padel.services.UserService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
 	
@@ -147,6 +152,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public UserDetailsDto getProfile(@PathVariable Long id) 
 		throws InstanceNotFoundException, PermissionException {
 		
@@ -176,6 +182,12 @@ public class UserController {
 		
 		userService.changeLevel(id, params.getLevel());
 		
+	}
+	
+	@GetMapping("/users")
+	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page){
+		Block<User> users = userService.getAllUsers(page, 10);
+		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());
 	}
 	
 	private String generateServiceToken(User user) {

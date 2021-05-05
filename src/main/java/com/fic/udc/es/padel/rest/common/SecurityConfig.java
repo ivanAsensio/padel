@@ -28,30 +28,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/signUp").permitAll()	
 			.antMatchers("/users/login").permitAll()
 			.antMatchers("/users/loginFromServiceToken").permitAll()
-			.antMatchers("/users/*").hasRole("ADMIN")
+			.antMatchers("/users/*/changePassword").permitAll()
+			.antMatchers("/users/*").permitAll()
+			.antMatchers("/users").permitAll()
 			.antMatchers("/users/*/changeLevel").hasRole("ADMIN")
-			.antMatchers("/catalog/categories").permitAll()
-			.antMatchers("/catalog/products/*").permitAll()
-			.antMatchers("/catalog/products").permitAll()
 			.anyRequest().hasRole("USER");
 
 	}
 	
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		
-		CorsConfiguration config = new CorsConfiguration();
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		
-		config.setAllowCredentials(true);
-	    config.addAllowedOrigin("*");
-	    config.addAllowedHeader("*");
-	    config.addAllowedMethod("*");
-	    
-	    source.registerCorsConfiguration("/**", config);
-	    
-	    return source;
-	    
-	 }
+//	@Bean
+//	public CorsConfigurationSource corsConfigurationSource() {
+//		
+//		CorsConfiguration config = new CorsConfiguration();
+//	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		
+//		config.setAllowCredentials(true);
+//	    config.addAllowedOrigin("*");
+//	    config.addAllowedHeader("*");
+//	    config.addAllowedMethod("*");
+//	    
+//	    source.registerCorsConfiguration("/**", config);
+//	    
+//	    return source;
+//	    
+//	 }
 
 }

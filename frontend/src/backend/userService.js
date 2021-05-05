@@ -40,3 +40,16 @@ export const signUp = (user, onSuccess, onErrors, reauthenticationCallback) => {
 }
 
 export const logout = () => removeServiceToken();
+
+export const updateProfile = (user, onSuccess, onErrors) =>
+    appFetch(`/users/${user.id}`, config('PUT', user),
+        onSuccess, onErrors);
+
+export const changePassword = (id, oldPassword, newPassword, onSuccess,
+    onErrors) =>
+    appFetch(`/users/${id}/changePassword`, 
+        config('POST', {oldPassword, newPassword}),
+        onSuccess, onErrors);
+
+export const getAllUsers = ({page}, onSuccess) =>
+    appFetch(`/users/users?page=${page}`, config('GET'), onSuccess)

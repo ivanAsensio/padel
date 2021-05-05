@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {useHistory} from 'react-router-dom';
 
@@ -42,11 +41,6 @@ const Login = () => {
 
     return (
         <div>
-            <p className="text-center">
-                <Link to="/users/signup">
-                    <FormattedMessage id="project.users.SignUp.title"/>
-                </Link>
-            </p>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
             <div className="card bg-light border-dark">
                 <h5 className="card-header">

@@ -1,6 +1,4 @@
-import React from 'react';
-import { Login } from '../../users';
 
-const Home = () => (<Login></Login>);
+const Home = () => (null);
 
 export default Home;

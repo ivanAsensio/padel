@@ -1,10 +1,17 @@
 package com.fic.udc.es.padel.dtos;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fic.udc.es.padel.model.entities.User;
 
 public class UserConversor {
 
 	private UserConversor() {}
+	
+	public final static List<UserDto> toUserDtos(List<User> users) {
+		return users.stream().map(o -> toUserDto(o)).collect(Collectors.toList());
+	}
 	
 	public final static UserDto toUserDto(User user) {
 		return new UserDto(user.getUserId(), user.getLogin(), user.getPassword(), user.getName(), user.getLastname1(), user.getLastname2(), user.getLevel(),

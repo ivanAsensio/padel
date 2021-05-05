@@ -17,7 +17,7 @@ const SignUp = () => {
     const [lastName, setLastName] = useState('');
     const [lastName2, setLastName2] = useState('');
     const [level, setLevel] = useState('');
-    const [email, setEmail]  = useState('');
+    const [position, setPosition]  = useState('');
     const [backendErrors, setBackendErrors] = useState(null);
     const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
     let form;
@@ -30,11 +30,13 @@ const SignUp = () => {
         if (form.checkValidity() && checkConfirmPassword()) {
             
             dispatch(actions.signUp(
-                {userName: userName.trim(),
+                {login: userName.trim(),
                 password: password,
-                firstName: firstName.trim(),
-                lastName: lastName.trim(),
-                email: email.trim()},
+                name: firstName.trim(),
+                lastName1: lastName.trim(),
+                lastName2: lastName2.trim(),
+                level: level.trim(),
+                position: position.trim()},
                 () => history.push('/'),
                 errors => setBackendErrors(errors),
                 () => {
@@ -176,7 +178,7 @@ const SignUp = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label htmlFor="lastName2" className="col-md-3 col-form-label">
+                            <label htmlFor="level" className="col-md-3 col-form-label">
                                 <FormattedMessage id="project.global.fields.level"/>
                             </label>
                             <div className="col-md-4">
@@ -190,16 +192,16 @@ const SignUp = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label htmlFor="email" className="col-md-3 col-form-label">
-                                <FormattedMessage id="project.global.fields.email"/>
+                            <label htmlFor="position" className="col-md-3 col-form-label">
+                                <FormattedMessage id="project.global.fields.position"/>
                             </label>
                             <div className="col-md-4">
-                                <input type="email" id="email" className="form-control"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
+                                <input type="text" id="position" className="form-control"
+                                    value={position}
+                                    onChange={e => setPosition(e.target.value)}
                                     required/>
                                 <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.email'/>
+                                    <FormattedMessage id='project.global.validator.required'/>
                                 </div>
                             </div>
                         </div>

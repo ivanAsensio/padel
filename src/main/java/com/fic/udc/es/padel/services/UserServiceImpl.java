@@ -1,14 +1,18 @@
 package com.fic.udc.es.padel.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fic.udc.es.padel.dtos.UserDto;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.ScheduleDao;
@@ -139,6 +143,12 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return user.get();
+	}
+
+	@Override
+	public Block<User> getAllUsers(int page, int size) {
+		Page<User> users = userDao.findAll(PageRequest.of(page, size));
+		return new Block<>(users.getContent(), users.hasNext());
 	}
 	
 	
