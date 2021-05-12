@@ -52,4 +52,14 @@ export const changePassword = (id, oldPassword, newPassword, onSuccess,
         onSuccess, onErrors);
 
 export const getAllUsers = ({page}, onSuccess) =>
-    appFetch(`/users/users?page=${page}`, config('GET'), onSuccess)
+    appFetch(`/users/users?page=${page}`, config('GET'), onSuccess);
+
+export const findUserById = (id, onSuccess) => {
+    appFetch(`/users/${id}`, config('GET'), onSuccess);
+}
+
+export const changeLevel = (id, level, onSuccess, onErrors) => {
+
+    appFetch(`/users/${id}/changeLevel`, config('POST', level), 
+        onSuccess, onErrors);
+}

@@ -4,7 +4,8 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
     user: null,
-    users: null
+    users: null,
+    userObtained: null,
 };
 
 const user = (state = initialState.user, action) => {
@@ -44,9 +45,27 @@ const users = (state = initialState.users, action) => {
 
 }
 
+const userObtained = (state = initialState.userObtained, action) => {
+
+    switch (action.type) {
+
+        case actionTypes.FIND_USER_BY_ID_COMPLETED:
+            return action.userObtained;
+
+        case actionTypes.CLEAR_USER:
+            return initialState.userObtained;
+
+        default:
+            return state;
+
+    }
+
+}
+
 const reducer = combineReducers({
     user,
-    users
+    users,
+    userObtained
 });
 
 export default reducer;

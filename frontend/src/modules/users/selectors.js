@@ -3,6 +3,9 @@ const getModuleState = state => state.users;
 export const getUser = state => 
     getModuleState(state).user;
 
+export const getUserObtained = state => 
+    getModuleState(state).userObtained;
+
 export const isLoggedIn = state =>
     getUser(state) !== null
 

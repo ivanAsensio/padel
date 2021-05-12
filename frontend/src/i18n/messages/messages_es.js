@@ -11,6 +11,10 @@ export default {
     'project.global.buttons.next': 'Siguiente',
     'project.global.buttons.ok': 'Ok',
     'project.global.buttons.save': 'Guardar cambios',
+    'project.global.buttons.changeLevel': 'Cambiar nivel',
+    'project.global.buttons.update': 'Actualizar',
+    'project.global.buttons.delete': 'Eliminar',
+    'project.global.buttons.changeState': 'Cambiar estado',
 
     'project.global.exceptions.NetworkError': 'Error de red',
 
@@ -26,8 +30,13 @@ export default {
     'project.global.fields.state.true': 'Activo',
     'project.global.fields.state.false': 'Inactivo',
     'project.global.fields.role': 'Rol',
+    'project.global.fields.fieldName': 'Campo',
 
     'project.global.Login.title': 'Login',
+
+    'project.field.fieldList.title': 'Lista de campos',
+    'project.fields.addField.title': 'Añadir campo',
+    'project.fields.updateField.title': 'Actualizar campo',
     
     'project.global.validator.required': 'Este campo es obligatorio',
     'project.global.validator.email': 'Mal formato para el email',

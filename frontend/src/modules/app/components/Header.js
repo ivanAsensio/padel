@@ -37,6 +37,12 @@ const Header = () => {
                     </li>
 
                     <li className="nav-item">                  
+                        <Link className="nav-link" to="/fields/fieldList">
+                            {!user && <FormattedMessage id="project.field.fieldList.title"/>}
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">                  
                         <Link className="nav-link" to="/users/userList">
                             {!user && <FormattedMessage id="project.users.userList.title"/>}
                         </Link>

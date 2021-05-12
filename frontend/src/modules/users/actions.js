@@ -78,3 +78,20 @@ export const previousGetUsersResultPage = criteria =>
 export const nextGetUsersResultPage = criteria => 
     getAllUsers({page: criteria.page+1});
 
+const findUserByIdCompleted = userObtained => ({
+    type: actionTypes.FIND_USER_BY_ID_COMPLETED,
+    userObtained
+});
+
+export const findUserById = id => dispatch => {
+    backend.userService.findUserById(id,
+        user => dispatch(findUserByIdCompleted(user)));
+}
+
+export const clearUserObtained = () => ({
+    type: actionTypes.CLEAR_USER
+})
+
+export const changeLevel = (id, level, onSuccess, onErrors) => dispatch => {
+    backend.userService.changeLevel(id, level, onSuccess, onErrors);
+}

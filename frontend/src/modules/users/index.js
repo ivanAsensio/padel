@@ -12,5 +12,7 @@ export {default as DetailsProfile} from './components/DetailsProfile';
 export {default as UserList} from './components/UserList';
 export {default as UserListResult} from './components/UserListResult';
 export {default as Users} from './components/Users';
+export {default as UserDetails} from './components/UserDetails';
+export {default as ChangeLevel} from './components/ChangeLevel';
 
 export default {actions, actionTypes, reducer, selectors};

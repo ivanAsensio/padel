@@ -32,6 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/*").permitAll()
 			.antMatchers("/users").permitAll()
 			.antMatchers("/users/*/changeLevel").hasRole("ADMIN")
+			.antMatchers("/fields/fields").permitAll()
+			.antMatchers("/fields/addField").hasRole("ADMIN")
+			.antMatchers("/fields/updateField").hasRole("ADMIN")
+			.antMatchers("/fields/deleteField").hasRole("ADMIN")
+			.antMatchers("/fields/changeState").hasRole("ADMIN")
 			.anyRequest().hasRole("USER");
 
 	}
