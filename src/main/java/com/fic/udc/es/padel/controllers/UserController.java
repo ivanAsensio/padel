@@ -60,6 +60,7 @@ public class UserController {
 	private final static String INCORRECT_LOGIN_EXCEPTION_CODE = "project.exceptions.IncorrectLoginException";
 	private final static String INCORRECT_PASSWORD_EXCEPTION_CODE = "project.exceptions.IncorrectPasswordException";
 	private final static String INSTANCE_NOT_FOUND_EXCEPTION_CODE = "project.exceptions.InstanceNotFoundException";
+	private final static String DUPLICATE_INSTANCE_EXCEPTION_CODE = "project.exceptions.DuplicateInstanceException";
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -100,6 +101,17 @@ public class UserController {
 		
 		String errorMessage = messageSource.getMessage(INSTANCE_NOT_FOUND_EXCEPTION_CODE, null,
 				INSTANCE_NOT_FOUND_EXCEPTION_CODE, locale);
+
+		return new ErrorsDto(errorMessage);
+	}
+	
+	@ExceptionHandler(DuplicateInstanceException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ErrorsDto handleDuplicateInstanceException(DuplicateInstanceException exception, Locale locale) {
+		
+		String errorMessage = messageSource.getMessage(DUPLICATE_INSTANCE_EXCEPTION_CODE, null,
+				DUPLICATE_INSTANCE_EXCEPTION_CODE, locale);
 
 		return new ErrorsDto(errorMessage);
 	}

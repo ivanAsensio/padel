@@ -9,7 +9,7 @@ const Home = () => {
     const userRole = useSelector(users.selectors.getUserRole) === "USER";
     const user = useSelector(users.selectors.getUser);
 
-    return (user && !userRole ? <FinishedGameList/> : <PublishedGameList/> : null )
+    return (user && !userRole ? <FinishedGameList/> : <PublishedGameList/>)
 
 } 
 

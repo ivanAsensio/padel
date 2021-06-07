@@ -20,5 +20,16 @@ public class PadelApplication {
     public BCryptPasswordEncoder passwordEncoder() {
     	return new BCryptPasswordEncoder();
     }
+	
+	@Bean
+    public MessageSource messageSource() {
+    	
+        ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
+        
+        bean.setBasename("classpath:messages");
+        bean.setDefaultEncoding("UTF-8");
+        
+        return bean;
+    }
 
 }
