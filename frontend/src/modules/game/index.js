@@ -9,5 +9,6 @@ export {default as GameUserListResult} from './components/GameUserListResult';
 export {default as GameDetails} from './components/GameDetails';
 export {default as FinishedGamesList} from './components/FinishedGameList';
 export {default as PublishedGamesList} from './components/PublishedGameList';
+export {default as BtnAddPlayer} from './components/BtnAddPlayer';
 
 export default {actions, actionTypes, reducer, selectors};

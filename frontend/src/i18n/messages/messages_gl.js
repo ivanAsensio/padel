@@ -69,6 +69,8 @@ export default {
 
     'project.games.gamesUserList.title': 'Miña lista de partidas',
 
-    'project.games.finishedGamesList.title': 'Lista de partidas finalizadas'
+    'project.games.finishedGamesList.title': 'Lista de partidas finalizadas',
+
+    'project.fields.addPlayerToGame.title': 'Apúntome'
     
 }

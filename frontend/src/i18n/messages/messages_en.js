@@ -69,7 +69,9 @@ export default {
 
     'project.games.gamesUserList.title': 'My game list',
 
-    'project.games.finishedGamesList.title': 'Finished games list'
+    'project.games.finishedGamesList.title': 'Finished games list',
+
+    'project.fields.addPlayerToGame.title': 'Sign up to game'
 
     
 }

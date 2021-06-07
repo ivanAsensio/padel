@@ -6,6 +6,7 @@ import {useParams} from 'react-router-dom';
 import * as selectors from '../selectors';
 import * as actions from '../actions';
 import {Errors, UserLink} from '../../common';
+import BtnAddPlayer from './BtnAddPlayer';
 import {BackLink} from '../../common';
 import {FormattedDate, FormattedTime} from 'react-intl';
 import users from '../../users';
@@ -20,29 +21,6 @@ const GameDetails = () => {
     const {id} = useParams();
     const initDate = gameObtained ? new Date(gameObtained.millisInitDate) : null;
     const finalDate = gameObtained ? new Date(gameObtained.millisFinalDate) : null;
-    let form;
-
-    const handleAddGame = event => {
-
-        event.preventDefault();
-
-        if (form.checkValidity()) {
-            
-            actions.addToGame(
-                {userId: Number(user.id),
-                gameId: Number(id)},
-                () => dispatch(actions.findGameById(id)),
-                errors => setBackendErrors(errors)
-            );
-            
-        } else {
-
-            setBackendErrors(null);
-            form.classList.add('was-validated');
-
-        }
-
-    }
 
     useEffect(() => {
 
@@ -100,26 +78,21 @@ const GameDetails = () => {
                        </thead>
                        <tbody>
                             <tr>
-                                <td>{gameObtained.teams[0].users[0] &&
-                                    <UserLink id={gameObtained.teams[0].users[0].id} login={gameObtained.teams[0].users[0].login}/>
+                                <td>{gameObtained.teams[0].users[0] ?
+                                    <UserLink id={gameObtained.teams[0].users[0].id} login={gameObtained.teams[0].users[0].login}/> 
+                                    : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>
                                 }</td>
-                                <td>{gameObtained.teams[1].users[0] && <UserLink id={gameObtained.teams[1].users[0].id} login={gameObtained.teams[1].users[0].login}/>}</td>   
+                                <td>{gameObtained.teams[1].users[0] ? <UserLink id={gameObtained.teams[1].users[0].id} login={gameObtained.teams[1].users[0].login}/>
+                                    : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
+                                </td>   
                             </tr>
                             <tr>
-                                <td>{gameObtained.teams[0].users[1] && <UserLink id={gameObtained.teams[0].users[1].id} login={gameObtained.teams[0].users[1].login}/>}</td>
+                                <td>{gameObtained.teams[0].users[1] ? <UserLink id={gameObtained.teams[0].users[1].id} login={gameObtained.teams[0].users[1].login}/>
+                                    : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
+                                </td>
                                 <td>{
-                                    gameObtained.teams[1].users[1] ? <UserLink id={gameObtained.teams[1].users[1].id} login={gameObtained.teams[1].users[1].login}/> :
-                                        <form ref={node => form = node}
-                                        className="needs-validation" noValidate 
-                                        onSubmit={e => handleAddGame(e)}>
-                                            <div className="form-group row">
-                                                <div className="offset-md-3 col-md-2">
-                                                    <button type="submit" className="btn btn-primary">
-                                                        <FormattedMessage id="project.fields.addField.title"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                    gameObtained.teams[1].users[1] ? <UserLink id={gameObtained.teams[1].users[1].id} login={gameObtained.teams[1].users[1].login}/> 
+                                        : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>
                                     }
                                 </td>   
                             </tr>
@@ -133,7 +106,8 @@ const GameDetails = () => {
                             <div class="card bg-light mb-3">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        {gameObtained.users[0] && <UserLink id={gameObtained.users[0].id} login={gameObtained.users[0].login}/>}
+                                        {gameObtained.users[0] ? <UserLink id={gameObtained.users[0].id} login={gameObtained.users[0].login}/>
+                                        : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
                                     </p>
                                 </div>
                             </div>
@@ -142,7 +116,8 @@ const GameDetails = () => {
                             <div class="card bg-light mb-3">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        {gameObtained.users[1] && <UserLink id={gameObtained.users[1].id} login={gameObtained.users[0].login}/>}
+                                        {gameObtained.users[1] ? <UserLink id={gameObtained.users[1].id} login={gameObtained.users[0].login}/>
+                                    : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
                                     </p>
                                 </div>
                             </div>
@@ -153,7 +128,8 @@ const GameDetails = () => {
                             <div class="card bg-light mb-3">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        {gameObtained.users[2] && <UserLink id={gameObtained.users[2].id} login={gameObtained.users[2].login}/>}
+                                        {gameObtained.users[2] ? <UserLink id={gameObtained.users[2].id} login={gameObtained.users[2].login}/>
+                                        : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
                                     </p>
                                 </div>
                             </div>
@@ -162,7 +138,8 @@ const GameDetails = () => {
                             <div class="card bg-light mb-3">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        {gameObtained.users[3] && <UserLink id={gameObtained.users[3].id} login={gameObtained.users[3].login}/>}
+                                        {gameObtained.users[3] ? <UserLink id={gameObtained.users[3].id} login={gameObtained.users[3].login}/>
+                                        : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors}/>}
                                     </p>
                                 </div>
                             </div>
