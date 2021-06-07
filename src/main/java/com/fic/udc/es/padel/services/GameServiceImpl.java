@@ -62,12 +62,12 @@ public class GameServiceImpl implements GameService {
 	private ProfessionalGameDao professionalGameDao;
 
 	@Override
-	public Game getGameById(Long id) throws DuplicateInstanceException {
+	public Game getGameById(Long id) throws InstanceNotFoundException {
 
 		Optional<Game> game = gameDao.findById(id);
 
 		if (!game.isPresent()) {
-			throw new DuplicateInstanceException("project.entities.game", id);
+			throw new InstanceNotFoundException("project.entities.game", id);
 		}
 
 		return game.get();
@@ -209,6 +209,7 @@ public class GameServiceImpl implements GameService {
 			aGame.setInitDate(initDate);
 			aGame.setMaximunLevel(maximunLevel);
 			aGame.setMinimunLevel(minimunLevel);
+			aGame.setGameType("Amateur");
 			AmateurGame finalGame = gameDao.save(aGame);
 			return finalGame;
 		}else {
@@ -218,6 +219,7 @@ public class GameServiceImpl implements GameService {
 			pGame.setInitDate(initDate);
 			pGame.setMaximunLevel(maximunLevel);
 			pGame.setMinimunLevel(minimunLevel);
+			pGame.setGameType("Pro");
 			ProfessionalGame finalGame = gameDao.save(pGame);
 			Team team1 = new Team();
 			team1.setGame(finalGame);

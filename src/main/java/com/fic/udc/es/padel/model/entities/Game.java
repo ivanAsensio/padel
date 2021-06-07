@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -25,6 +27,7 @@ public class Game {
 	private LocalDateTime finalDate;
 	private float minimunLevel;
 	private float maximunLevel;
+	private String gameType;
 	private Field field;
 	private Set<User> gameUsers = new HashSet<>();
 	
@@ -64,6 +67,12 @@ public class Game {
 	public void setMaximunLevel(float maximunLevel) {
 		this.maximunLevel = maximunLevel;
 	}
+	public String getGameType() {
+		return gameType;
+	}
+	public void setGameType(String gameType) {
+		this.gameType = gameType;
+	}
 	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(name= "fieldId")
 	public Field getField() {
@@ -74,7 +83,7 @@ public class Game {
 		this.field = field;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 			name = "game_user", 
 			joinColumns = @JoinColumn(name = "gameId"), 
@@ -85,8 +94,5 @@ public class Game {
 	public void setGameUsers(Set<User> users) {
 		this.gameUsers = users;
 	}
-	
-	
-	
 
 }

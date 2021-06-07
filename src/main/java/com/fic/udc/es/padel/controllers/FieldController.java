@@ -27,7 +27,6 @@ import com.fic.udc.es.padel.dtos.UpdateFieldDto;
 import com.fic.udc.es.padel.model.entities.Field;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 import com.fic.udc.es.padel.rest.common.ErrorsDto;
-import com.fic.udc.es.padel.rest.common.JwtGenerator;
 import com.fic.udc.es.padel.services.FieldService;
 
 @RestController
@@ -40,9 +39,6 @@ public class FieldController {
 	
 	@Autowired
 	private MessageSource messageSource;
-	
-	@Autowired
-	private JwtGenerator jwtGenerator;
 	
 	@Autowired
 	private FieldService fieldService;

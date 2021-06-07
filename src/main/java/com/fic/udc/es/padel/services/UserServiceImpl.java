@@ -1,6 +1,6 @@
 package com.fic.udc.es.padel.services;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fic.udc.es.padel.dtos.UserDto;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.ScheduleDao;
@@ -149,6 +148,11 @@ public class UserServiceImpl implements UserService{
 	public Block<User> getAllUsers(int page, int size) {
 		Page<User> users = userDao.findAll(PageRequest.of(page, size));
 		return new Block<>(users.getContent(), users.hasNext());
+	}
+
+	@Override
+	public List<User> findUserByLevelAndDate(float minLevel, float maxLevel, LocalDateTime date) {
+		return userDao.findUserByLevelAndSchedules(minLevel, maxLevel, (date.getHour() * 60) + date.getMinute(), date.getDayOfWeek());
 	}
 	
 	

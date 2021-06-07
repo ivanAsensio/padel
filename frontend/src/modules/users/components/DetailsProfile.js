@@ -1,5 +1,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import ScheduleList from './ScheduleList';
 
 const DetailsProfile = (user) => {
 
@@ -58,6 +59,9 @@ const DetailsProfile = (user) => {
                         </label>
                     </div>
                 </div>
+            </div>
+            <div className="row">
+                <ScheduleList user={userObtained}></ScheduleList>
             </div>
         </div>
     );

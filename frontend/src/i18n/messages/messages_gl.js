@@ -31,6 +31,13 @@ export default {
     'project.global.fields.state.false': 'Inactivo',
     'project.global.fields.role': 'Rol',
     'project.global.fields.fieldName': 'Campo',
+    'project.global.fields.maximunLevel': 'Nivel máximo',
+    'project.global.fields.minimunLevel': 'Nivel Mínimo',
+    'project.global.fields.initDate': 'Data de inicio',
+    'project.global.fields.finalDate': 'Data de fin',
+    'project.global.fields.typeGame': 'Tipo de partida',
+    'project.global.fields.showDetails': 'Amosar detalle',
+    'project.global.fields.numPlayers': 'Número de xogadores',
 
     'project.global.Login.title': 'Login',
 
@@ -55,5 +62,13 @@ export default {
     'project.users.getUsersResult.noUsers': 'Non atopáronse usuarios',
 
     'project.users.SignUp.fields.confirmPassword': 'Confirmar contrasinal',
+
+    'project.users.getSchedules.noSchedules': 'Non hai horarios',
+
+    'project.games.getGamesResult.noGames': 'Non hai partidas',
+
+    'project.games.gamesUserList.title': 'Miña lista de partidas',
+
+    'project.games.finishedGamesList.title': 'Lista de partidas finalizadas'
     
 }

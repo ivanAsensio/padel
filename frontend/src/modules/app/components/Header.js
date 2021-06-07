@@ -47,6 +47,18 @@ const Header = () => {
                             {!user && <FormattedMessage id="project.users.userList.title"/>}
                         </Link>
                     </li>
+
+                    <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/gamesUserList">
+                            {user && <FormattedMessage id="project.games.gamesUserList.title"/>}
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/finishedGamesList">
+                            {!user && <FormattedMessage id="project.games.finishedGamesList.title"/>}
+                        </Link>
+                    </li>
                 
                     <li className="nav-item dropdown">
 

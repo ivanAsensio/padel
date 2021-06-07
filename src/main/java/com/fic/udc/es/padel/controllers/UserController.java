@@ -6,6 +6,10 @@ import static com.fic.udc.es.padel.dtos.UserConversor.toUserDetailsDto;
 import static com.fic.udc.es.padel.dtos.UserConversor.toUserDto;
 
 import java.net.URI;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,7 +191,14 @@ public class UserController {
 	@GetMapping("/users")
 	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page){
 		Block<User> users = userService.getAllUsers(page, 10);
-		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());
+		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());	
+	}
+	
+	@GetMapping("/getUsers")
+	public List<UserDto> getUsersWithLevelAndDate(@RequestParam float minLevel, @RequestParam float maxLevel, long millis){
+		Instant instant = Instant.ofEpochMilli(millis);
+	    LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+	    return UserConversor.toUserDtos(userService.findUserByLevelAndDate(minLevel, maxLevel, date));
 	}
 	
 	private String generateServiceToken(User user) {

@@ -30,6 +30,14 @@ export default {
     'project.global.fields.state.true': 'Active',
     'project.global.fields.state.false': 'Inactive',
     'project.global.fields.role': 'Role',
+    'project.global.fields.fieldName': 'Field',
+    'project.global.fields.maximunLevel': 'Maximun level',
+    'project.global.fields.minimunLevel': 'Minimun Level',
+    'project.global.fields.initDate': 'Init Date',
+    'project.global.fields.finalDate': 'Final Date',
+    'project.global.fields.typeGame': 'Game type',
+    'project.global.fields.showDetails': 'Show details',
+    'project.global.fields.numPlayers': 'Number of players',
 
     'project.global.Login.title': 'Login',
 
@@ -54,6 +62,14 @@ export default {
     'project.users.getUsersResult.noUsers': 'No users found',
 
     'project.users.UpdateProfile.title': 'Update user',
+
+    'project.users.getSchedules.noSchedules': 'There are no schedules',
+
+    'project.games.getGamesResult.noGames': 'There are no games',
+
+    'project.games.gamesUserList.title': 'My game list',
+
+    'project.games.finishedGamesList.title': 'Finished games list'
 
     
 }

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
-import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
+import com.fic.udc.es.padel.model.entities.ProfessionalGame;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
 import com.fic.udc.es.padel.model.exceptions.GameTypeException;
@@ -16,7 +16,7 @@ import com.fic.udc.es.padel.model.exceptions.UserNotFoundException;
 
 public interface GameService {
 	
-	public Game getGameById(Long id) throws DuplicateInstanceException;
+	public Game getGameById(Long id) throws InstanceNotFoundException;
 	
 	public Block<Game> findGamesByUserId(Long userId, int page, int size);
 	
