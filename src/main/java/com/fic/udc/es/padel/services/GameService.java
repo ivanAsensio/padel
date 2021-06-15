@@ -1,11 +1,11 @@
 package com.fic.udc.es.padel.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
-import com.fic.udc.es.padel.model.entities.ProfessionalGame;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
 import com.fic.udc.es.padel.model.exceptions.GameTypeException;
@@ -24,7 +24,7 @@ public interface GameService {
 	
 	public Block<Game> findAllPublishedGames(int page, int size);
 	
-	public Block<Game> findByLevelAndSchedule(Long userId, int page, int size) throws InstanceNotFoundException;
+	public List<Game> findByLevelAndScheduleAndDate(Long userId, LocalDateTime initDate, LocalDateTime finalDate) throws InstanceNotFoundException;
 	
 	public void deleteGame(Long id) throws InstanceNotFoundException;
 	

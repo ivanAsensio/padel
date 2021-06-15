@@ -31,7 +31,6 @@ import com.fic.udc.es.padel.dtos.AddGameDto;
 import com.fic.udc.es.padel.dtos.AddUserGameDto;
 import com.fic.udc.es.padel.dtos.BlockDto;
 import com.fic.udc.es.padel.dtos.GameDetailsDto;
-import com.fic.udc.es.padel.dtos.UserConversor;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
 import com.fic.udc.es.padel.model.entities.Team;
@@ -201,5 +200,24 @@ public class GameController {
 		return new BlockDto<>(gameDetailsDtoList, games.getExistMoreItems());	
 		
 	}
-
+	
+	@GetMapping("/findGamesFiltered")
+	public List<GameDetailsDto> getGamesFiltered(@PathVariable Long initMillis, @PathVariable Long finalMillis, @PathVariable float level, @PathVariable Long userId) throws InstanceNotFoundException{
+		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
+		LocalDateTime initDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());
+		LocalDateTime finalDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(finalMillis), ZoneId.systemDefault());
+		List<Game> games = gameService.findByLevelAndScheduleAndDate(userId, initDate, finalDate);
+		for(Game game: games) {
+			if(game.getGameType() == "Pro") {
+				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
+				gameDetailsDtoList.add(details);
+			}else {
+				GameDetailsDto details = toGameDetails(game, new HashSet<>(), new HashSet<>());
+				gameDetailsDtoList.add(details);
+			}
+		}
+		return gameDetailsDtoList;
+	}
 }

@@ -2,6 +2,7 @@ package com.fic.udc.es.padel.model.entities;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -24,5 +25,8 @@ public interface GameDao extends PagingAndSortingRepository<Game, Long>{
 	
 	@Query("select g from Game g where g.field = ?2 and ?1 between g.initDate and g.finalDate")
 	Optional<Game> findGameByDate(LocalDateTime date, Field field);
+	
+	@Query("select g from Game g where g.initDate between ?1 and ?2 and ?3 between g.minimunLevel and g.maximunLevel")
+	List<Game> findGameByDateAndLevel(LocalDateTime initDate, LocalDateTime finalDate, float level);
 
 }

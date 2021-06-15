@@ -1,7 +1,7 @@
 package com.fic.udc.es.padel.services;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,7 +27,6 @@ import com.fic.udc.es.padel.model.entities.Team;
 import com.fic.udc.es.padel.model.entities.TeamDao;
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.entities.UserDao;
-import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
 import com.fic.udc.es.padel.model.exceptions.GameTypeException;
@@ -96,31 +95,6 @@ public class GameServiceImpl implements GameService {
 		Slice<Game> games = gameDao.findAllWithDatePublished(LocalDateTime.now(), PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
-	}
-
-	@Override
-	public Block<Game> findByLevelAndSchedule(Long userId, int page, int size) throws InstanceNotFoundException {
-
-		Optional<User> user = userDao.findById(userId);
-		if(!user.isPresent()) {
-			throw new InstanceNotFoundException("project.entities.user", userId);
-		}
-		User userObtained = user.get();
-		Slice<Game> games = gameDao.findAllWithDateAndLevel(LocalDateTime.now(), userObtained.getLevel(), PageRequest.of(page, size));
-		List<Game> list = games.getContent();
-		List<Schedule> schedules = scheduleDao.findByUser(userObtained);
-		for(Game game : list) {
-			LocalDateTime date = game.getInitDate();
-			DayOfWeek day = date.getDayOfWeek();
-			int minutes = date.getHour() * 60 + date.getMinute();
-			for(Schedule schedule: schedules) {
-				if(schedule.getDay() == day && (schedule.getInitHour() < minutes && schedule.getFinalHour() > minutes )) {
-					list.remove(game);
-					continue;
-				}
-			}
-		}
-		return new Block<>(list, games.hasNext());
 	}
 
 	@Override
@@ -247,6 +221,28 @@ public class GameServiceImpl implements GameService {
 			set.setGame(pGame.get());
 			setDao.save(set);
 		}
+	}
+
+	@Override
+	public List<Game> findByLevelAndScheduleAndDate(Long userId, LocalDateTime initDate, LocalDateTime finalDate) throws InstanceNotFoundException {
+		List<Game> gamesFiltered = new ArrayList<>();
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		List<Game> games = gameDao.findGameByDateAndLevel(initDate, finalDate, user.get().getLevel());
+		for(Game game: games) {
+			for(Schedule schedule: user.get().getSchedules()) {
+				if(game.getInitDate().getDayOfWeek().equals(schedule.getDay())) {
+					int mins = game.getInitDate().getHour() * 60 + game.getInitDate().getMinute();
+					if((mins <= schedule.getFinalHour()) && (mins >= schedule.getInitHour())) {
+						gamesFiltered.add(game);
+						break;
+					}
+				}
+			}
+		}
+		return gamesFiltered;
 	}
 
 }
