@@ -220,4 +220,24 @@ public class GameController {
 		}
 		return gameDetailsDtoList;
 	}
+	
+	@GetMapping("/findGameByDate")
+	public List<GameDetailsDto> getGamesByDate(@PathVariable Long initMillis, @PathVariable Long finalMillis){
+		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
+		LocalDateTime initDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());
+		LocalDateTime finalDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(finalMillis), ZoneId.systemDefault());
+		List<Game> games = gameService.findGameByDate(initDate, finalDate);
+		for(Game game: games) {
+			if(game.getGameType() == "Pro") {
+				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
+				gameDetailsDtoList.add(details);
+			}else {
+				GameDetailsDto details = toGameDetails(game, new HashSet<>(), new HashSet<>());
+				gameDetailsDtoList.add(details);
+			}
+		}
+		return gameDetailsDtoList;
+	}
 }

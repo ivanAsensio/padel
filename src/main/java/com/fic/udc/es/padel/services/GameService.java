@@ -36,4 +36,7 @@ public interface GameService {
 	Game createGame(LocalDateTime initDate, LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId, int gameType) throws InstanceNotFoundException, FieldTakenException;
 
 	void scoreGame(Long gameId, Set<PadelSet> sets) throws InstanceNotFoundException, GameTypeException;
+
+	List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate);
+	
 }

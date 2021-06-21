@@ -29,4 +29,6 @@ public interface GameDao extends PagingAndSortingRepository<Game, Long>{
 	@Query("select g from Game g where g.initDate between ?1 and ?2 and ?3 between g.minimunLevel and g.maximunLevel")
 	List<Game> findGameByDateAndLevel(LocalDateTime initDate, LocalDateTime finalDate, float level);
 
+	@Query("select g from Game g where g.initDate between ?1 and ?2")
+	List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate);
 }

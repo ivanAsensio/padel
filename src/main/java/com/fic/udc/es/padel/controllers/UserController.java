@@ -206,6 +206,15 @@ public class UserController {
 		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());	
 	}
 	
+	
+	@GetMapping("/filteredUsers")
+	public List<UserDto> getUsersByScheduleAndLevel(@RequestParam float minLevel, @RequestParam float maxLevel,
+			@RequestParam Long millis){
+		Instant instant = Instant.ofEpochMilli(millis);
+	    LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+	    return UserConversor.toUserDtos(userService.findUserByLevelAndDate(minLevel, maxLevel, date));
+	}
+	
 	@GetMapping("/getUsers")
 	public List<UserDto> getUsersWithLevelAndDate(@RequestParam float minLevel, @RequestParam float maxLevel, long millis){
 		Instant instant = Instant.ofEpochMilli(millis);
@@ -220,6 +229,5 @@ public class UserController {
 		return jwtGenerator.generate(jwtInfo);
 		
 	}
-	
 
 }

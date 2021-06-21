@@ -245,4 +245,9 @@ public class GameServiceImpl implements GameService {
 		return gamesFiltered;
 	}
 
+	@Override
+	public List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate) {
+		return gameDao.findGameByDate(initDate, finalDate);
+	}
+
 }

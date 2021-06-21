@@ -152,7 +152,9 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<User> findUserByLevelAndDate(float minLevel, float maxLevel, LocalDateTime date) {
-		return userDao.findUserByLevelAndSchedules(minLevel, maxLevel, (date.getHour() * 60) + date.getMinute(), date.getDayOfWeek());
+		int mins = (date.getHour() * 60) + date.getMinute();
+		System.out.println(date.getDayOfWeek());
+		return userDao.findUserByLevelAndSchedules(minLevel, maxLevel, mins, date.getDayOfWeek());
 	}
 	
 	
