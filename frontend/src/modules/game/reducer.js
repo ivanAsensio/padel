@@ -4,7 +4,8 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
     gamesUser: null,
-    gameObtained: null
+    gameObtained: null,
+    gamesDate: null
 };
 
 const gamesUser = (state = initialState.gamesUser, action) => {
@@ -35,10 +36,25 @@ const gameObtained = (state = initialState.gameObtained, action) => {
 
 }
 
+const gamesDate = (state = initialState.gamesDate, action) => {
+
+    switch (action.type) {
+
+        case actionTypes.GET_GAMES_BY_DATE_COMPLETED:
+            return action.gamesDate;
+
+        default:
+            return state;
+
+    }
+
+}
+
 
 const reducer = combineReducers({
     gamesUser,
     gameObtained,
+    gamesDate,
 });
 
 export default reducer;

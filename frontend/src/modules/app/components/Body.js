@@ -8,7 +8,7 @@ import users from '../../users';
 import AppGlobalComponents from './AppGlobalComponents';
 import Home from './Home';
 import { FieldListResult, FieldList, AddField, UpdateField } from '../../field';
-import { GameUserList, GameUserListResult, GameDetails } from '../../game';
+import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate } from '../../game';
 import FinishedGameList from '../../game/components/FinishedGameList';
 import PublishedGameList from '../../game/components/PublishedGameList';
 
@@ -46,6 +46,8 @@ const Body = () => {
                 {loggedIn && <Route exact path="/users/detailsProfile"><DetailsProfile user={user}/></Route>}
                 {loggedIn && <Route exact path="/games/game-details/:id"><GameDetails/></Route>}
                 {!userRole && loggedIn && <Route exact path="/users/user-details"><DetailsProfile user={user}/></Route>}
+                {loggedIn && <Route exact path="/games/gameCalendar"><GameCalendar/></Route>}
+                {loggedIn && <Route exact path="/games/gameCalendarDate"><CalendarGamesDate/></Route>}
                 <Route><Home/></Route>
             </Switch>
         </div>

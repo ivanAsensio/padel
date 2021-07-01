@@ -202,7 +202,7 @@ public class GameController {
 	}
 	
 	@GetMapping("/findGamesFiltered")
-	public List<GameDetailsDto> getGamesFiltered(@PathVariable Long initMillis, @PathVariable Long finalMillis, @PathVariable float level, @PathVariable Long userId) throws InstanceNotFoundException{
+	public List<GameDetailsDto> getGamesFiltered(@RequestParam Long initMillis, @RequestParam Long finalMillis, @RequestParam float level, @RequestParam Long userId) throws InstanceNotFoundException{
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());
@@ -222,7 +222,7 @@ public class GameController {
 	}
 	
 	@GetMapping("/findGameByDate")
-	public List<GameDetailsDto> getGamesByDate(@PathVariable Long initMillis, @PathVariable Long finalMillis){
+	public List<GameDetailsDto> getGamesByDate(@RequestParam Long initMillis, @RequestParam Long finalMillis){
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());

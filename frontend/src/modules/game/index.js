@@ -10,5 +10,7 @@ export {default as GameDetails} from './components/GameDetails';
 export {default as FinishedGamesList} from './components/FinishedGameList';
 export {default as PublishedGamesList} from './components/PublishedGameList';
 export {default as BtnAddPlayer} from './components/BtnAddPlayer';
+export {default as GameCalendar} from './components/GameCalendar';
+export {default as CalendarGamesDate} from './components/CalendarGamesDate';
 
 export default {actions, actionTypes, reducer, selectors};

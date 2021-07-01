@@ -35,4 +35,12 @@ export const getFinishedGames = (criteria) => dispatch =>
 
 export const getPublishedGames = (criteria) => dispatch =>
     backend.gameService.getPublishedGames(criteria, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
+
+export const getGamesByDateCompleted = (gamesDate) => ({
+    type: actionTypes.GET_GAMES_BY_DATE_COMPLETED,
+    gamesDate
+});
+
+export const getGamesByDate = (initDate, finalDate) => dispatch =>
+    backend.gameService.getGamesByDate(initDate, finalDate, games => dispatch(getGamesByDateCompleted(games)));
     

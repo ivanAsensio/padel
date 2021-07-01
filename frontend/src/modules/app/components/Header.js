@@ -25,10 +25,18 @@ const Header = () => {
 
                 <ul className="navbar-nav mr-auto">
                 </ul>
+
                 
                 {login ? 
 
                 <ul className="navbar-nav">
+
+                    <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/gameCalendarDate">
+                            Calendario
+                        </Link>
+                    </li>
+
 
                     <li className="nav-item">                  
                         <Link className="nav-link" to="/users/signup">
