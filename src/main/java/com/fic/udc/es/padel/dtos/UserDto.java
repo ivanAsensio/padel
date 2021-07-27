@@ -42,7 +42,7 @@ public class UserDto {
 		this.role = role;
 		this.position = position;
 		this.state = state;
-		this.schedules = schedules;
+		//this.schedules = schedules;
 	}
 
 

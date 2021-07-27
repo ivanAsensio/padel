@@ -37,9 +37,11 @@ import com.fic.udc.es.padel.dtos.BlockDto;
 import com.fic.udc.es.padel.dtos.ChangeLevelParamsDto;
 import com.fic.udc.es.padel.dtos.ChangePasswordParamsDto;
 import com.fic.udc.es.padel.dtos.LoginParamsDto;
+import com.fic.udc.es.padel.dtos.ScheduleDto;
 import com.fic.udc.es.padel.dtos.UserConversor;
 import com.fic.udc.es.padel.dtos.UserDetailsDto;
 import com.fic.udc.es.padel.dtos.UserDto;
+import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
 import com.fic.udc.es.padel.model.exceptions.IncorrectLoginException;
@@ -220,6 +222,18 @@ public class UserController {
 		Instant instant = Instant.ofEpochMilli(millis);
 	    LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 	    return UserConversor.toUserDtos(userService.findUserByLevelAndDate(minLevel, maxLevel, date));
+	}
+	
+	@GetMapping("/getSchedules/{id}")
+	public List<ScheduleDto> getSchedulesByUserId(@PathVariable Long id) throws InstanceNotFoundException{
+		return UserConversor.toScheduleDtos(userService.findSchedulesByUserId(id));
+	}
+	
+	@PostMapping("/schedules/{id}")
+	public void addScheduleByUserId(@PathVariable Long id, @Validated @RequestBody ScheduleDto scheduleDto) throws InstanceNotFoundException{
+		User user = userService.getUserById(id);
+		Schedule schedule = UserConversor.toSchedule(scheduleDto, user);
+		userService.addScheduleByUserId(schedule, id);
 	}
 	
 	private String generateServiceToken(User user) {

@@ -217,9 +217,40 @@ public class GameServiceImpl implements GameService {
 		if(!pGame.isPresent()) {
 			throw new GameTypeException();
 		}
+		int index = 0;
+		Boolean winnerTeam1 = null;
 		for(PadelSet set: sets) {
 			set.setGame(pGame.get());
 			setDao.save(set);
+			if(index == (sets.size() - 1)){
+				String lastResult = set.getResult();
+				String[] results = lastResult.split("-");
+				if(Integer.valueOf(results[0]) < Integer.valueOf(results[1])) {
+					winnerTeam1 = false;
+				}else {
+					winnerTeam1 = true;
+				}
+					
+			}
+		}
+		if(winnerTeam1 != null) {
+			Set<Team> teams = teamDao.findTeamByGameGameId(pGame.get().getGameId());
+			for(Team team: teams) {
+				if(team.getName().equals("Team 1")) {
+					if(winnerTeam1) {
+						team.setResultMatch("WIN");
+					}else {
+						team.setResultMatch("DEFEAT");
+					}
+				}else {
+					if(!winnerTeam1) {
+						team.setResultMatch("WIN");
+					}else {
+						team.setResultMatch("DEFEAT");
+					}
+				}
+				teamDao.save(team);
+			}
 		}
 	}
 

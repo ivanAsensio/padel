@@ -156,7 +156,24 @@ public class UserServiceImpl implements UserService{
 		System.out.println(date.getDayOfWeek());
 		return userDao.findUserByLevelAndSchedules(minLevel, maxLevel, mins, date.getDayOfWeek());
 	}
-	
-	
 
+	@Override
+	public List<Schedule> findSchedulesByUserId(Long userId) throws InstanceNotFoundException {
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		return scheduleDao.findByUser(user.get());
+	}
+
+	@Override
+	public void addScheduleByUserId(Schedule schedule, Long userId) throws InstanceNotFoundException {
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		scheduleDao.save(schedule);
+		
+	}
+	
 }

@@ -32,11 +32,16 @@ const Header = () => {
                 <ul className="navbar-nav">
 
                     <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/gameCalendarDate">
-                            Calendario
+                        <Link className="nav-link" to="/games/gameCalendarFiltered">
+                            {user && <FormattedMessage id="project.games.filteredGames.title"/>}
                         </Link>
                     </li>
 
+                    <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/gameCalendarDate">
+                            {!user && <FormattedMessage id="project.games.dateFilteredGames.title"/>}
+                        </Link>
+                    </li>
 
                     <li className="nav-item">                  
                         <Link className="nav-link" to="/users/signup">
@@ -47,6 +52,12 @@ const Header = () => {
                     <li className="nav-item">                  
                         <Link className="nav-link" to="/fields/fieldList">
                             {!user && <FormattedMessage id="project.field.fieldList.title"/>}
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/addGameLink">
+                            {!user && <FormattedMessage id="project.games.addGame.title"/>}
                         </Link>
                     </li>
 

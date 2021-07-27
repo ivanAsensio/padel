@@ -95,3 +95,14 @@ export const clearUserObtained = () => ({
 export const changeLevel = (id, level, onSuccess, onErrors) => dispatch => {
     backend.userService.changeLevel(id, level, onSuccess, onErrors);
 }
+
+export const getAllSchedulesCompleted = (schedules) => ({
+    type: actionTypes.GET_ALL_SCHEDULES_COMPLETED,
+    schedules
+});
+
+export const getAllSchedules = userId => dispatch =>
+    backend.userService.getAllSchedules(userId, schedules => dispatch(getAllSchedulesCompleted(schedules)));
+
+export const addSchedule = (userId, schedule) => dispatch => 
+    backend.userService.addSchedule(userId, schedule, () => dispatch(getAllSchedules(userId)));

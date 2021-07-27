@@ -3,6 +3,7 @@ package com.fic.udc.es.padel.dtos;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.User;
 
 public class UserConversor {
@@ -33,5 +34,17 @@ public class UserConversor {
 		
 		return new AuthenticatedUserDto(serviceToken, toUserDto(user));
 		
+	}
+	
+	public final static List<ScheduleDto> toScheduleDtos(List<Schedule> schedules) {
+		return schedules.stream().map(o -> toScheduleDto(o)).collect(Collectors.toList());
+	}
+	
+	public final static ScheduleDto toScheduleDto(Schedule schedule) {
+		return new ScheduleDto(schedule.getScheduleId(),schedule.getDay(),schedule.getInitHour(),schedule.getFinalHour());
+	}
+	
+	public final static Schedule toSchedule(ScheduleDto scheduleDto, User user) {
+		return new Schedule(scheduleDto.getScheduleId(),scheduleDto.getDay(),scheduleDto.getInitHour(), scheduleDto.getFinalHour(), user);
 	}
 }

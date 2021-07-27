@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/*/changePassword").permitAll()
 			.antMatchers("/users/*").permitAll()
 			.antMatchers("/users").permitAll()
+			.antMatchers("/users/*/*").permitAll()
 			.antMatchers("/users/*/changeLevel").hasRole("ADMIN")
 			.antMatchers("/fields/fields").permitAll()
 			.antMatchers("/fields/addField").hasRole("ADMIN")
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/fields/changeState").hasRole("ADMIN")
 			.antMatchers("/games/addGame").permitAll()
 			.antMatchers("/games/*").permitAll()
+			.antMatchers("/games/scoreGame/*").hasRole("ADMIN")
 			.antMatchers("/games/user/*").permitAll()
 			.anyRequest().hasRole("USER");
 

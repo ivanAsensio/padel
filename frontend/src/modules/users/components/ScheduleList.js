@@ -1,135 +1,148 @@
 import React, { useState } from 'react';
 import {FormattedMessage} from 'react-intl';
+import { useSelector } from 'react-redux';
+import * as selectors from '../selectors';
+import * as actions from '../actions';
+import {Errors} from '../../common';
 
 const ScheduleList = (user) => {
 
-    const schedulesExample = [
-        {
-            scheduleId: 1,
-            day: "Lunes",
-            initHour: "13:00",
-            finalHour: "16:00"
-        },
-        {
-            scheduleId: 2,
-            day: "Lunes",
-            initHour: "13:00",
-            finalHour: "16:00"
-        },
-        {
-            scheduleId: 3,
-            day: "Lunes",
-            initHour: "13:00",
-            finalHour: "16:00"
-        }
-    ]
+    const schedules = useSelector(selectors.getAllSchedules);
 
-    const [schedules, setSchedules] = useState(schedulesExample);
-    const [day, setDay] = useState('');
+    const [day, setDay] = useState("Monday");
     const [initHour, setInitHour] = useState('');
     const [finalHour, setFinalHour] = useState('');
+    const [backendErrors, setBackendErrors] = useState(null);
     const [showAdd, setShowAdd] = useState(false);
 
-    let scheduleId = 5;
+    let form;
 
     const handleAdd = () => {
-        setShowAdd(!showAdd)
+        setShowAdd(true);
     }
 
-    const addSchedule = () => {
-        scheduleId = scheduleId + 1;
-        schedules.push(
-            {
-                scheduleId: scheduleId,
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (form.checkValidity()) {
+            
+            const schedule = {
                 day: day,
                 initHour: initHour,
                 finalHour: finalHour
             }
-        );
-        setSchedules(schedules);
-        console.log(schedules);
-    }
+            actions.addSchedule(user.user.id, schedule);
+            
+        } else {
+
+            setBackendErrors(null);
+            form.classList.add('was-validated');
+
+        }
+    };
 
     const onChangeSelect = (value) => {
         setDay(value);
-    }
+    };
 
-    if(!schedules){
-        return null;
+    const padLeadingZeros = (num, size)  => {
+        var s = num+"";
+        while (s.length < size) s = "0" + s;
+        return s;
     }
 
     return (
 
-        schedules != null ? 
-
         <div>
-            {schedules.length === 0 ?
+            <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
+            <button type="button" onClick={handleAdd}>Añadir</button>
+            {schedules != null ? 
+
                 <div>
-                    <div className="alert alert-info" role="alert">
-                        <FormattedMessage id='project.users.getSchedules.noSchedules'/>
-                    </div>
+                    {schedules.length === 0 ?
+                        <div>
+                            <div className="alert alert-info" role="alert">
+                                <FormattedMessage id='project.users.getSchedules.noSchedules'/>
+                            </div>
+                        </div>
+                    : 
+                    undefined}
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <FormattedMessage id='project.global.fields.day'/>
+                                    </th>
+                                    <th scope="col">
+                                        <FormattedMessage id='project.global.fields.initHour'/>
+                                    </th>
+                                    <th scope="col">
+                                        <FormattedMessage id='project.global.fields.finalHour'/>
+                                    </th>
+                                </tr>
+                            </thead>
+        
+                            <tbody>
+                                {schedules.map(schedule => 
+                                    <tr key={schedule.scheduleId}>
+                                        <td>
+                                            <label className="col-md-6 col-form-label">
+                                                {schedule.day}
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label className="col-md-6 col-form-label">
+                                                {padLeadingZeros(schedule.initHour/60, 2)}:{padLeadingZeros(schedule.initHour % 60, 2)}
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label className="col-md-6 col-form-label">
+                                                {padLeadingZeros(schedule.finalHour/60, 2)}:{padLeadingZeros(schedule.finalHour % 60, 2)}
+                                            </label>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+        
+                        </table>
+        
                 </div>
-            : 
-            undefined}
-                <button type="button" onClick={handleAdd}>Añadir</button>
-                <table className="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <FormattedMessage id='project.global.fields.day'/>
-                            </th>
-                            <th scope="col">
-                                <FormattedMessage id='project.global.fields.initHour'/>
-                            </th>
-                            <th scope="col">
-                                <FormattedMessage id='project.global.fields.finalHour'/>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {schedules.map(schedule => 
-                            <tr key={schedule.scheduleId}>
-                                <td>
-                                    <label className="col-md-6 col-form-label">
-                                        {schedule.day}
-                                    </label>
-                                </td>
-                                <td>
-                                    <label className="col-md-6 col-form-label">
-                                        {schedule.initHour}
-                                    </label>
-                                </td>
-                                <td>
-                                    <label className="col-md-6 col-form-label">
-                                        {schedule.finalHour}
-                                    </label>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-
-                </table>
+                : <table className="table table-striped table-hover"></table>}
                 {showAdd ? 
-                    <div>
+                <div>
+                    <form ref={node => form = node}
+                        className="needs-validation" noValidate 
+                        onSubmit={e => handleSubmit(e)}>
                         <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
-                            <option value="Monday">Lunes</option>
-                            <option value="Tuesday">Martes</option>
-                            <option value="Miercoles">Miercoles</option>
-                            <option value="Jueves">Jueves</option>
-                            <option value="Viernes">Viernes</option>
-                            <option value="Sabado">Sabado</option>
-                            <option value="Domingo">Domingo</option>
+                            <FormattedMessage id="project.global.day.monday">
+                                {(message) => <option value="Monday">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.tuesday">
+                                {(message) => <option value="Tuesday">{message}</option>}
+                            </FormattedMessage>
+                            v<FormattedMessage id="project.global.day.wednesday">
+                                {(message) => <option value="Wednesday">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.thursday">
+                                {(message) => <option value="Thrusday">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.friday">
+                                {(message) => <option value="Friday">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.saturday">
+                                {(message) => <option value="Saturday">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.sunday">
+                                {(message) => <option value="Sunday">{message}</option>}
+                            </FormattedMessage>
                         </select>
-                        <input id="initHour" type="text" onChange={setInitHour} placeholder="InitHour"/>
-                        <input id="finalHour" type="text" onChange={setFinalHour} placeholder="FinalHour"/>
-                        <button type="button" onClick={addSchedule}>Añadir horario</button>
-                    </div>
-                    : undefined}
-
-        </div>
-        : 
-        <table className="table table-striped table-hover"></table>
+                        <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} placeholder="InitHour"/>
+                        <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} placeholder="FinalHour"/>
+                        <button type="submit">Añadir horario</button>
+                    </form>
+                </div>
+                : undefined}
+            </div>
 
     );
 

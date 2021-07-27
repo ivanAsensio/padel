@@ -8,9 +8,10 @@ import users from '../../users';
 import AppGlobalComponents from './AppGlobalComponents';
 import Home from './Home';
 import { FieldListResult, FieldList, AddField, UpdateField } from '../../field';
-import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate } from '../../game';
+import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate, CalendarGamesFiltered, AddGameForm, ScoreGame } from '../../game';
 import FinishedGameList from '../../game/components/FinishedGameList';
 import PublishedGameList from '../../game/components/PublishedGameList';
+import AddGame from '../../game/components/AddGame';
 
 const Body = () => {
 
@@ -46,8 +47,12 @@ const Body = () => {
                 {loggedIn && <Route exact path="/users/detailsProfile"><DetailsProfile user={user}/></Route>}
                 {loggedIn && <Route exact path="/games/game-details/:id"><GameDetails/></Route>}
                 {!userRole && loggedIn && <Route exact path="/users/user-details"><DetailsProfile user={user}/></Route>}
-                {loggedIn && <Route exact path="/games/gameCalendar"><GameCalendar/></Route>}
-                {loggedIn && <Route exact path="/games/gameCalendarDate"><CalendarGamesDate/></Route>}
+                {<Route exact path="/games/gameCalendar"><GameCalendar/></Route>}
+                {!userRole && loggedIn && <Route exact path="/games/gameCalendarDate"><CalendarGamesDate/></Route>}
+                {userRole && loggedIn && <Route exact path="/games/gameCalendarFiltered"><CalendarGamesFiltered/></Route>}
+                {loggedIn && <Route exact path="/games/addGameLink"><AddGame/></Route>} 
+                {loggedIn && <Route exact path="/games/addGame"><AddGameForm/></Route>} 
+                {!userRole && loggedIn && <Route exact path="/games/scoreGame"><ScoreGame/></Route>}
                 <Route><Home/></Route>
             </Switch>
         </div>

@@ -18,5 +18,8 @@ export const getUserRole = state =>
 export const getAllUsers = state =>
     getModuleState(state).users;
 
+export const getAllSchedules = state =>
+    getModuleState(state).schedules;
+
 
 

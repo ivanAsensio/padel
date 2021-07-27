@@ -1,13 +1,11 @@
 package com.fic.udc.es.padel.dtos;
-import com.fic.udc.es.padel.dtos.UserConversor;
-
 import static com.fic.udc.es.padel.dtos.UserConversor.toUserDtos;
 
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fic.udc.es.padel.model.entities.Game;
@@ -49,6 +47,21 @@ public class GameConversor {
 	
 	public final static SetDto toSetDto(PadelSet set) {
 		return new SetDto(set.getNumberSet(), set.getResult());
+	}
+	
+	public final static Set<PadelSet> toSets(List<SetDto> sets){
+		Set<PadelSet> setsDto = new HashSet<>();
+		for(SetDto set : sets) {
+			setsDto.add(toSet(set));
+		}
+		return setsDto;
+	}
+	
+	public final static PadelSet toSet(SetDto set) {
+		PadelSet newSet = new PadelSet();
+		newSet.setNumberSet(set.getNumberSet());
+		newSet.setResult(set.getResult());
+		return newSet;
 	}
 
 }

@@ -6,6 +6,7 @@ const initialState = {
     user: null,
     users: null,
     userObtained: null,
+    schedules: null,
 };
 
 const user = (state = initialState.user, action) => {
@@ -62,10 +63,25 @@ const userObtained = (state = initialState.userObtained, action) => {
 
 }
 
+const schedules = (state = initialState.schedules, action) => {
+
+    switch (action.type) {
+
+        case actionTypes.GET_ALL_SCHEDULES_COMPLETED:
+            return action.schedules;
+
+        default:
+            return state;
+
+    }
+
+}
+
 const reducer = combineReducers({
     user,
     users,
-    userObtained
+    userObtained,
+    schedules
 });
 
 export default reducer;

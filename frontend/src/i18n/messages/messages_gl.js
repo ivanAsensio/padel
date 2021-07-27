@@ -1,6 +1,6 @@
 export default {
     'project.app.Footer.text': 'TFG -Aplicación de pádel por Iván Asensio Vázquez',
-    'project.app.Header.logout': 'LogOut',
+    'project.app.Header.logout': 'Pechar sesión',
     'project.app.Header.detailsProfile': 'Datos do usuario',
 
     'project.common.ErrorDialog.title': 'Error',
@@ -38,8 +38,25 @@ export default {
     'project.global.fields.typeGame': 'Tipo de partida',
     'project.global.fields.showDetails': 'Amosar detalle',
     'project.global.fields.numPlayers': 'Número de xogadores',
+    'project.global.fields.day': 'Día',
+    'project.global.fields.initHour': 'Hora de inicio',
+    'project.global.fields.finalHour': 'Hora de finalización',
+    'project.global.fields.numberSet': 'Número de set',
+    'project.global.fields.firstResult': 'Team 1',
+    'project.global.fields.secondResult': 'Team 2',
+    'project.global.field.empty': 'Vacío',
+    'project.games.scoreGame.addSet.title': 'Engadir set',
+    'project.global.fields.addScore': 'Engadir puntuación',
 
     'project.global.Login.title': 'Login',
+
+    'project.global.day.monday': 'Luns',
+    'project.global.day.tuesday': 'Martes',
+    'project.global.day.wednesday': 'Mércores',
+    'project.global.day.thursday': 'Xoves',
+    'project.global.day.friday': 'Venres',
+    'project.global.day.saturday': 'Sábado',
+    'project.global.day.sunday': 'Domingo',
 
     'project.field.fieldList.title': 'Lista de campos',
     'project.fields.addField.title': 'Engadir campo',
@@ -69,8 +86,13 @@ export default {
 
     'project.games.gamesUserList.title': 'Miña lista de partidas',
 
+    'project.games.addGame.title': 'Engadir partida',
+
     'project.games.finishedGamesList.title': 'Lista de partidas finalizadas',
 
-    'project.fields.addPlayerToGame.title': 'Apúntome'
+    'project.fields.addPlayerToGame.title': 'Apúntome',
+
+    'project.games.filteredGames.title': 'Calendario',
+    'project.games.dateFilteredGames.title': 'Calendario'
     
 }

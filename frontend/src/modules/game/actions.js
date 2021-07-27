@@ -43,4 +43,31 @@ export const getGamesByDateCompleted = (gamesDate) => ({
 
 export const getGamesByDate = (initDate, finalDate) => dispatch =>
     backend.gameService.getGamesByDate(initDate, finalDate, games => dispatch(getGamesByDateCompleted(games)));
+
+export const getGamesFiltered = (initDate, finalDate, level, userId) => dispatch =>
+    backend.gameService.getGamesFiltered(initDate, finalDate, level, userId, games => dispatch(getGamesByDateCompleted(games)));
+
+export const addGame = (game, onSuccess, onErrors) => dispatch =>
+    backend.gameService.addGame(game, onSuccess, onErrors);
+
+export const addSetCompleted = (sets) => ({
+    type: actionTypes.ADD_SET_COMPLETED,
+    sets
+})
+
+export const addSet = (sets) => dispatch =>
+    dispatch(addSetCompleted(sets));
+
+export const addSetList = (sets, gameId, onSuccess) => dispatch =>
+    backend.gameService.addSetList(sets, gameId, onSuccess);
+
+export const findUsersByLevelAndDateCompleted = (usersGameFiltered) => ({
+    type: actionTypes.FIND_USERS_BY_LEVEL_AND_DATE_COMPLETED,
+    usersGameFiltered
+})
+
+export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date) => dispatch =>
+    backend.userService.findUsersByLevelAndDate(minimunLevel, maximunLevel, date, 
+        (users) => dispatch(findUsersByLevelAndDateCompleted(users)));
+    
     

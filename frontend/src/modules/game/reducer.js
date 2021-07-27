@@ -5,7 +5,9 @@ import * as actionTypes from './actionTypes';
 const initialState = {
     gamesUser: null,
     gameObtained: null,
-    gamesDate: null
+    gamesDate: null,
+    sets: [],
+    usersGameFiltered: []
 };
 
 const gamesUser = (state = initialState.gamesUser, action) => {
@@ -50,11 +52,41 @@ const gamesDate = (state = initialState.gamesDate, action) => {
 
 }
 
+const sets = (state = initialState.sets, action) => {
+
+    switch (action.type) {
+
+        case actionTypes.ADD_SET_COMPLETED:
+            return action.sets;
+
+        default:
+            return state;
+
+    }
+
+}
+
+const usersGameFiltered = (state = initialState.usersGameFiltered, action) => {
+
+    switch (action.type) {
+
+        case actionTypes.FIND_USERS_BY_LEVEL_AND_DATE_COMPLETED:
+            return action.usersGameFiltered;
+
+        default:
+            return state;
+
+    }
+
+}
+
 
 const reducer = combineReducers({
     gamesUser,
     gameObtained,
     gamesDate,
+    sets,
+    usersGameFiltered,
 });
 
 export default reducer;

@@ -63,3 +63,15 @@ export const changeLevel = (id, level, onSuccess, onErrors) => {
     appFetch(`/users/${id}/changeLevel`, config('POST', level), 
         onSuccess, onErrors);
 }
+
+export const getAllSchedules = (userId, onSuccess) => {
+    appFetch(`/users/getSchedules/${userId}`, config('GET'), onSuccess);
+}
+
+export const addSchedule = (userId, schedule, onSuccess) => {
+    appFetch(`/users/schedules/${userId}`, config('POST', schedule), onSuccess);
+}
+
+export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date, onSuccess) => {
+    appFetch(`users/filteredUsers?minLevel=${minimunLevel}&maxLevel=${maximunLevel}&millis=${date}`, config('GET'), onSuccess);
+}

@@ -30,12 +30,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fic.udc.es.padel.dtos.AddGameDto;
 import com.fic.udc.es.padel.dtos.AddUserGameDto;
 import com.fic.udc.es.padel.dtos.BlockDto;
+import com.fic.udc.es.padel.dtos.GameConversor;
 import com.fic.udc.es.padel.dtos.GameDetailsDto;
+import com.fic.udc.es.padel.dtos.SetDto;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
 import com.fic.udc.es.padel.model.entities.Team;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
+import com.fic.udc.es.padel.model.exceptions.GameTypeException;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 import com.fic.udc.es.padel.model.exceptions.NoSpaceException;
 import com.fic.udc.es.padel.model.exceptions.UserAlreadyAddedException;
@@ -239,5 +242,12 @@ public class GameController {
 			}
 		}
 		return gameDetailsDtoList;
+	}
+	
+	@PostMapping("/scoreGame/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void scoreGame(@PathVariable Long id, @Validated({SetDto.AllValidations.class}) @RequestBody List<SetDto> sets) throws InstanceNotFoundException, GameTypeException{
+		Set<PadelSet> setsObtained = GameConversor.toSets(sets);
+		gameService.scoreGame(id, setsObtained);
 	}
 }

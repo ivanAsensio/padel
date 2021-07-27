@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {FormattedMessage} from 'react-intl';
 import ScheduleList from './ScheduleList';
+import * as actions from '../actions';
+import { useDispatch, useSelector } from 'react-redux';
+import * as selectors from '../selectors';
 
 const DetailsProfile = (user) => {
+
+    const dispatch = useDispatch();
+    const schedules = useSelector(selectors.getAllSchedules);
+
+    useEffect(() => {
+
+        dispatch(actions.getAllSchedules(user.user.id));
+
+    });
 
     const userObtained = user ? user.user : undefined;
 
@@ -61,7 +73,7 @@ const DetailsProfile = (user) => {
                 </div>
             </div>
             <div className="row">
-                <ScheduleList user={userObtained}></ScheduleList>
+                <ScheduleList schedules={schedules} user={userObtained}></ScheduleList>
             </div>
         </div>
     );

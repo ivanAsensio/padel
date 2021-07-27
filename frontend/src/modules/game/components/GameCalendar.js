@@ -19,10 +19,12 @@ import {
 import * as selectors from '../selectors';
 import * as selectorsField from '../../field/selectors';
 import { useSelector } from 'react-redux';
+import { grey, blueGrey, orange, deepOrange, amber, deepPurple } from '@material-ui/core/colors';
 
 
 const GameCalendar = () => {
 
+    const colors = [grey, blueGrey, orange, deepOrange, amber, deepPurple];
     const games = useSelector(selectors.getGamesDate);
     const fields = useSelector(selectorsField.getAllFields);
     const gamesObtained = games ? games.map((game) => 
@@ -40,9 +42,10 @@ const GameCalendar = () => {
     const resources = [{
         fieldName: 'fields',
         title: 'Fields',
-        instances: fields ? fields.map((field) => Object.assign(field, {
+        instances: fields ? fields.map((field, index) => Object.assign(field, {
           text: field.name,
-          id: field.fieldId
+          id: field.fieldId,
+          color : colors[index]
         })) : [{text: 'No Field'}],
         allowMultiple: true,
       }];
@@ -60,9 +63,9 @@ const GameCalendar = () => {
         {<div className="text-center">
         <div>
             <div>
-            <h4>Level:{data.minimunLevel}-{data.maximunLevel}</h4>
-            <h4><FormattedTime value={data.startDate} key={data.startDate.getTime()}/>
-            -<FormattedTime value={data.endDate} key={data.endDate.getTime()}/></h4>
+            <h5><FormattedMessage id="project.global.fields.level"/>:{data.minimunLevel}-{data.maximunLevel}</h5>
+            <h5><FormattedTime value={data.startDate} key={data.startDate.getTime()}/>
+            -<FormattedTime value={data.endDate} key={data.endDate.getTime()}/></h5>
             </div>
             <Link to={`/games/game-details/${data.id}`}>
                         <button type="submit" className="btn btn-primary">

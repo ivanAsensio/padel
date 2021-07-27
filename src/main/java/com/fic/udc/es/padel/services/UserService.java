@@ -35,5 +35,9 @@ public interface UserService {
 	Block<User> getAllUsers(int page, int size);
 	
 	List<User> findUserByLevelAndDate(float minLevel, float maxLevel, LocalDateTime date);
+	
+	List<Schedule> findSchedulesByUserId(Long userId) throws InstanceNotFoundException;
+	
+	void addScheduleByUserId(Schedule schedule, Long userId) throws InstanceNotFoundException;
 
 }

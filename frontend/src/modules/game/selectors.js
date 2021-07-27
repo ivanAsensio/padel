@@ -8,3 +8,9 @@ export const getGamesDate = state =>
 
 export const getGameObtained = state => 
     getModuleState(state).gameObtained;
+
+export const getSets = state => 
+    getModuleState(state).sets;
+
+export const getUsersGameFiltered = state => 
+    getModuleState(state).usersGameFiltered;

@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.body {
+  text-align: center;
+  font-family: inherit !important
+}
+
 .form-group > label > span {
   font-weight: bold;
 }
