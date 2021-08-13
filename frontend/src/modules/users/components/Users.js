@@ -21,7 +21,7 @@ const Users = ({users}) => (
         <tbody>
             {users.map(user => 
                 <tr key={user.id}>
-                    <td><UserLink id={user.id} login={user.login}/></td>
+                    <td><UserLink id={user.id} login={user.login} level={user.level}/></td>
                 </tr>
             )}
         </tbody>

@@ -23,13 +23,13 @@ public interface AllValidations {}
 	private String lastName2;
 	private float level;
 	private String position;
-	private Set<Schedule> schedules = new HashSet<>();
+	private Set<ScheduleDto> schedules = new HashSet<>();
 
 	public UserDetailsDto() {}
 
 
 	public UserDetailsDto(Long id, String login, String name, String lastName1, String lastName2, float level,
-			String position, Set<Schedule> schedules) {
+			String position, Set<ScheduleDto> schedules) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -107,12 +107,12 @@ public interface AllValidations {}
 		this.position = position;
 	}
 
-	public Set<Schedule> getSchedules() {
+	public Set<ScheduleDto> getSchedules() {
 		return schedules;
 	}
 
 
-	public void setSchedules(Set<Schedule> schedules) {
+	public void setSchedules(Set<ScheduleDto> schedules) {
 		this.schedules = schedules;
 	}
 

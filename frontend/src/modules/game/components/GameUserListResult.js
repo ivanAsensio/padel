@@ -13,6 +13,7 @@ const GameUserListResult = () => {
 
     const games = useSelector(selectors.getGamesUser);
     const user = useSelector(users.selectors.getUser);
+    const userRole = useSelector(users.selectors.getUserRole) === "USER";
     const dispatch = useDispatch();
 
     if (!games) {
@@ -28,16 +29,15 @@ const GameUserListResult = () => {
     }
 
     return (
-
         <div>
             <Games games={games.games.items}/>
             <Pager 
                 back={{
                     enabled: games.criteria.page >= 1,
-                    onClick: () => dispatch(actions.previousGetGamesByUserIdResultPage(games.criteria, Number(user.id)))}}
+                    onClick: () => dispatch(actions.previousGetGamesResultPage(games.criteria, Number(user.id), userRole))}}
                 next={{
-                    enabled: games.games.items.existMoreItems,
-                    onClick: () => dispatch(actions.nextGetGamesByUserIdResultPage(games.criteria, Number(user.id)))}}/>
+                    enabled: games.games.existMoreItems,
+                    onClick: () => dispatch(actions.nextGetGamesResultPage(games.criteria, Number(user.id), userRole))}}/>
         </div>
 
     );

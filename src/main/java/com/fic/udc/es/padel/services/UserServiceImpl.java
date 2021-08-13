@@ -153,7 +153,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> findUserByLevelAndDate(float minLevel, float maxLevel, LocalDateTime date) {
 		int mins = (date.getHour() * 60) + date.getMinute();
-		System.out.println(date.getDayOfWeek());
 		return userDao.findUserByLevelAndSchedules(minLevel, maxLevel, mins, date.getDayOfWeek());
 	}
 
@@ -174,6 +173,15 @@ public class UserServiceImpl implements UserService{
 		}
 		scheduleDao.save(schedule);
 		
+	}
+
+	@Override
+	public void deleteSchedulebyScheduleId(Long scheduleId) throws InstanceNotFoundException {
+		Optional<Schedule> schedule = scheduleDao.findById(scheduleId);
+		if(!schedule.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.schedule", scheduleId);
+		}
+		scheduleDao.delete(schedule.get());	
 	}
 	
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {FormattedTime} from 'react-intl';
 import Paper from '@material-ui/core/Paper';
 import {
   ViewState, GroupingState, IntegratedGrouping
@@ -63,15 +62,11 @@ const GameCalendar = () => {
         {<div className="text-center">
         <div>
             <div>
-            <h5><FormattedMessage id="project.global.fields.level"/>:{data.minimunLevel}-{data.maximunLevel}</h5>
-            <h5><FormattedTime value={data.startDate} key={data.startDate.getTime()}/>
-            -<FormattedTime value={data.endDate} key={data.endDate.getTime()}/></h5>
+              <h5><FormattedMessage id="project.global.fields.level"/>:{data.minimunLevel}-{data.maximunLevel}</h5>
+              <Link className="float-right" to={`/games/game-details/${data.id}`}>
+                <h6 className="text-success"><FormattedMessage id="project.global.fields.showDetails"/>-></h6>
+              </Link>
             </div>
-            <Link to={`/games/game-details/${data.id}`}>
-                        <button type="submit" className="btn btn-primary">
-                            <FormattedMessage id="project.global.fields.showDetails"/> 
-                        </button>
-                    </Link>
         </div>
         </div>}
     </Appointments.Appointment>

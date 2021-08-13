@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const UsersSelectGame = ({users, gameId, setBackendErrors}) => {
    
-    const options = users.length === 0 ? 
+    const options = users.length !== 0 ? 
     users.map((user) => {return ({
         value: user.id,
         label: user.login + " " + user.level

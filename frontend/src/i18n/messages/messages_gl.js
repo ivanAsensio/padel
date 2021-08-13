@@ -67,6 +67,9 @@ export default {
     'project.global.validator.passwordsDoNotMatch': 'As contrasinais no son as mesmas',
 
     'project.users.ChangePassword.title': 'Cambiar contrasinal',
+    'project.users.ChangePassword.fields.oldPassword': 'Antiga contrasinal',
+    'project.users.ChangePassword.fields.newPassword': 'Nova contrasinal',
+    'project.users.ChangePassword.fields.confirmNewPassword': 'Confirmar novo contrasinal',
 
     'project.users.Login.title': 'Login',
 

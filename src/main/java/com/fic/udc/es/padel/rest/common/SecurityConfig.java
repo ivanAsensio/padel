@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/games/addGame").permitAll()
 			.antMatchers("/games/*").permitAll()
 			.antMatchers("/games/scoreGame/*").hasRole("ADMIN")
+			.antMatchers("/games/deleteGame/*").permitAll()
+			.antMatchers("/games/removeFromGame").permitAll()
 			.antMatchers("/games/user/*").permitAll()
 			.anyRequest().hasRole("USER");
 

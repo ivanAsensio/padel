@@ -13,7 +13,7 @@ const Games = ({games}) => (
         <thead>
             <tr>
                 <th scope="col">
-                    <FormattedMessage id='project.global.fields.userName'/>
+                    <FormattedMessage id='project.games.finishedGamesList.title'/>
                 </th>
             </tr>
         </thead>

@@ -39,5 +39,7 @@ public interface UserService {
 	List<Schedule> findSchedulesByUserId(Long userId) throws InstanceNotFoundException;
 	
 	void addScheduleByUserId(Schedule schedule, Long userId) throws InstanceNotFoundException;
+	
+	void deleteSchedulebyScheduleId(Long scheduleId) throws InstanceNotFoundException;
 
 }

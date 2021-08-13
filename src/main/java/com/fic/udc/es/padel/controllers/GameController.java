@@ -2,6 +2,7 @@ package com.fic.udc.es.padel.controllers;
 
 import static com.fic.udc.es.padel.dtos.GameConversor.toGameDetails;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,7 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fic.udc.es.padel.dtos.AddGameDto;
 import com.fic.udc.es.padel.dtos.AddUserGameDto;
+import com.fic.udc.es.padel.dtos.AddUserTeamDto;
 import com.fic.udc.es.padel.dtos.BlockDto;
+import com.fic.udc.es.padel.dtos.DeleteUserDto;
 import com.fic.udc.es.padel.dtos.GameConversor;
 import com.fic.udc.es.padel.dtos.GameDetailsDto;
 import com.fic.udc.es.padel.dtos.SetDto;
@@ -42,6 +45,7 @@ import com.fic.udc.es.padel.model.exceptions.GameTypeException;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 import com.fic.udc.es.padel.model.exceptions.NoSpaceException;
 import com.fic.udc.es.padel.model.exceptions.UserAlreadyAddedException;
+import com.fic.udc.es.padel.model.exceptions.UserNotFoundException;
 import com.fic.udc.es.padel.rest.common.ErrorsDto;
 import com.fic.udc.es.padel.services.Block;
 import com.fic.udc.es.padel.services.GameService;
@@ -138,8 +142,15 @@ public class GameController {
 	}
 	
 	@PostMapping("/addPlayerToGame")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void addPlayerToGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
 		gameService.addPlayerToGame(params.getGameId(), params.getUserId());
+	}
+	
+	@PostMapping("/addPlayerToTeam")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void addPlayerToTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		gameService.addPlayerToTeam(params.getTeamId(), params.getUserId());
 	}
 	
 	@GetMapping("/{id}")
@@ -156,7 +167,7 @@ public class GameController {
 	}
 	
 	@GetMapping("/findFinishedGames")
-	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page) throws InstanceNotFoundException {
+	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page){
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		Block<Game> games = gameService.findAllFinishedGames(page, 10);
 		for(Game game: games.getItems()) {
@@ -249,5 +260,23 @@ public class GameController {
 	public void scoreGame(@PathVariable Long id, @Validated({SetDto.AllValidations.class}) @RequestBody List<SetDto> sets) throws InstanceNotFoundException, GameTypeException{
 		Set<PadelSet> setsObtained = GameConversor.toSets(sets);
 		gameService.scoreGame(id, setsObtained);
+	}
+	
+	@PostMapping("/deleteGame/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteGame(@PathVariable Long id, @Validated({DeleteUserDto.AllValidations.class}) @RequestBody DeleteUserDto userDto) throws InstanceNotFoundException {
+		gameService.deleteGame(userDto.getUserId());
+	}
+	
+	@PostMapping("/removeFromGame")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleleFromGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto removeUserDto) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
+		gameService.removePlayerToGame(removeUserDto.getGameId(), removeUserDto.getUserId());
+	}
+	
+	@PostMapping("/removeFromTeam")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleleFromTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto removeUserDto) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
+		gameService.removePlayerToTeam(removeUserDto.getTeamId(), removeUserDto.getUserId());
 	}
 }

@@ -3,7 +3,7 @@ import * as actions from '../actions';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import * as selectors from '../selectors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 
@@ -15,6 +15,7 @@ const ScoreGame = () => {
     const [numberSet, setNumberSet] = useState(1);
     const [firstResult, setFirstResult] = useState(null);
     const [secondResult, setSecondResult] = useState(null);
+    const dispatch = useDispatch();
     let form;
 
     const handleSubmit = (event) => {
@@ -35,7 +36,7 @@ const ScoreGame = () => {
         event.preventDefault();
 
         if (form.checkValidity()) {
-            actions.addSetList(sets, game.gameId, () => history.push(`/games/game-details/${game.gameId}`));     
+            dispatch(actions.addSetList(sets, game.gameId, () => history.push(`/games/game-details/${game.gameId}`)));     
         } 
     }
 
@@ -46,47 +47,47 @@ const ScoreGame = () => {
         <div className="d-flex">
             <div className="p-2">
                 <div className="card-body">
+                    <div className="form-group row">
+                        <label htmlFor="firstResult" className="col-md-6 col-form-label">
+                            <FormattedMessage id="project.global.fields.firstResult"/>
+                        </label>
+                        <div className="col-md-6">
+                            <input type="number" id="firstResult" className="form-control"
+                                value={firstResult}
+                                onChange={e => setFirstResult(e.target.value)}
+                                autoFocus
+                                required/>
+                            <div className="invalid-feedback">
+                                <FormattedMessage id='project.global.validator.required'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label htmlFor="secondResult" className="col-md-6 col-form-label">
+                            <FormattedMessage id="project.global.fields.secondResult"/>
+                        </label>
+                        <div className="col-md-6">
+                            <input type="number" id="secondResult" className="form-control"
+                                value={secondResult}
+                                onChange={e => setSecondResult(e.target.value)}
+                                autoFocus
+                                required/>
+                            <div className="invalid-feedback">
+                                <FormattedMessage id='project.global.validator.required'/>
+                            </div>
+                        </div>
+                    </div>
                     <form ref={node => form = node}
                         className="needs-validation" noValidate 
                         onSubmit={e => handleSubmit(e)}>
                         <div className="form-group row">
-                            <label htmlFor="firstResult" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.firstResult"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="number" id="firstResult" className="form-control"
-                                    value={firstResult}
-                                    onChange={e => setFirstResult(e.target.value)}
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="secondResult" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.secondResult"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="number" id="secondResult" className="form-control"
-                                    value={secondResult}
-                                    onChange={e => setSecondResult(e.target.value)}
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
                             <div className="offset-md-6 col-md-4">
-                                <button type="button" onClick={handleSubmit} className="btn btn-primary">
+                                <button type="submit" className="btn btn-primary">
                                     <FormattedMessage id="project.games.scoreGame.addSet.title"/>
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form>                   
                 </div>
             </div>
             <div className="ml-auto p-2">
@@ -132,11 +133,11 @@ const ScoreGame = () => {
             </div>
             <form ref={node => form = node}
                         className="needs-validation" noValidate 
-                        onSubmit={e => handleAddResult(e)}>
+                        onSubmit={(e) => handleAddResult(e)}>
                 <div className="form-group row">
                     <div className="offset-md-6 col-md-4">
-                        <button type="submit" onClick={handleAddResult} className="btn btn-primary">
-                            <FormattedMessage id="project.global.fields.addScore"></FormattedMessage>
+                        <button type="submit" className="btn btn-primary">
+                            <FormattedMessage id="project.global.fields.addScore"/>
                         </button>
                     </div>
                 </div>

@@ -36,6 +36,7 @@ import com.fic.udc.es.padel.dtos.AuthenticatedUserDto;
 import com.fic.udc.es.padel.dtos.BlockDto;
 import com.fic.udc.es.padel.dtos.ChangeLevelParamsDto;
 import com.fic.udc.es.padel.dtos.ChangePasswordParamsDto;
+import com.fic.udc.es.padel.dtos.DeleteScheduleDto;
 import com.fic.udc.es.padel.dtos.LoginParamsDto;
 import com.fic.udc.es.padel.dtos.ScheduleDto;
 import com.fic.udc.es.padel.dtos.UserConversor;
@@ -230,10 +231,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/schedules/{id}")
+	@ResponseStatus( HttpStatus.NO_CONTENT )
 	public void addScheduleByUserId(@PathVariable Long id, @Validated @RequestBody ScheduleDto scheduleDto) throws InstanceNotFoundException{
 		User user = userService.getUserById(id);
 		Schedule schedule = UserConversor.toSchedule(scheduleDto, user);
 		userService.addScheduleByUserId(schedule, id);
+	}
+	
+	@PostMapping("/deleteSchedules")
+	@ResponseStatus( HttpStatus.NO_CONTENT )
+	public void deleteScheduleByUserId(@Validated @RequestBody DeleteScheduleDto scheduleDto) throws InstanceNotFoundException{
+		userService.deleteSchedulebyScheduleId(scheduleDto.getScheduleId());
 	}
 	
 	private String generateServiceToken(User user) {

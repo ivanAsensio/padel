@@ -76,7 +76,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Block<Game> findGamesByUserId(Long userId, int page, int size) {
 
-		Slice<Game> games = gameDao.findByGameUsersUserId(userId, PageRequest.of(page, size));
+		Slice<Game> games = gameDao.findByGameUsersUserIdOrderByInitDateDesc(userId, PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
 	}
@@ -122,7 +122,7 @@ public class GameServiceImpl implements GameService {
 			throw new FinishedGameException();
 		}
 		Game gameObtained = game.get();
-		if(gameObtained.getGameUsers().size() > 4) {
+		if(gameObtained.getGameUsers().size() > 3) {
 			throw new NoSpaceException();
 		}
 		for(User gameUser : gameObtained.getGameUsers()) {
@@ -172,7 +172,7 @@ public class GameServiceImpl implements GameService {
 		if(!field.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.field", fieldId);
 		}
-		Optional<Game> game = gameDao.findGameByDate(initDate, field.get());
+		Optional<Game> game = gameDao.findGameByDateAndCampo(initDate, finalDate, field.get().getFieldId());
 		if(game.isPresent()) {
 			throw new FieldTakenException();
 		}
@@ -261,9 +261,10 @@ public class GameServiceImpl implements GameService {
 		if(!user.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.user", userId);
 		}
+		List<Schedule> schedules = scheduleDao.findByUser(user.get());
 		List<Game> games = gameDao.findGameByDateAndLevel(initDate, finalDate, user.get().getLevel());
 		for(Game game: games) {
-			for(Schedule schedule: user.get().getSchedules()) {
+			for(Schedule schedule: schedules) {
 				if(game.getInitDate().getDayOfWeek().equals(schedule.getDay())) {
 					int mins = game.getInitDate().getHour() * 60 + game.getInitDate().getMinute();
 					if((mins <= schedule.getFinalHour()) && (mins >= schedule.getInitHour())) {
@@ -279,6 +280,64 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate) {
 		return gameDao.findGameByDate(initDate, finalDate);
+	}
+
+	@Override
+	public void addPlayerToTeam(Long teamId, Long userId)
+			throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		Optional<Team> team = teamDao.findById(teamId);
+		if(!team.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.team", teamId);
+		}
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		LocalDateTime date = team.get().getGame().getInitDate();
+		if(date.isBefore(LocalDateTime.now())) {
+			throw new FinishedGameException();
+		}
+		Team teamObtained = team.get();
+		if(teamObtained.getTeamUsers().size() > 1) {
+			throw new NoSpaceException();
+		}
+		for(User gameUser : teamObtained.getTeamUsers()) {
+			if(gameUser.getUserId() == userId) {
+				throw new UserAlreadyAddedException();
+			}
+		}
+		teamObtained.getTeamUsers().add(user.get());
+		teamDao.save(teamObtained);		
+	}
+
+	@Override
+	public void removePlayerToTeam(Long teamId, Long userId) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
+		boolean foundPlayer = false;
+		Optional<Team> team = teamDao.findById(teamId);
+		if(!team.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.team", teamId);
+		}
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		LocalDateTime date = team.get().getGame().getInitDate();
+		if(date.isBefore(LocalDateTime.now())) {
+			throw new FinishedGameException();
+		}
+		Team teamObtained = team.get();
+		for(User gameUser : teamObtained.getTeamUsers()) {
+			if(gameUser.getUserId() == userId) {
+				foundPlayer = true;
+				continue;
+			}
+		}
+		if(!foundPlayer) {
+			throw new UserNotFoundException();
+		}
+		teamObtained.getTeamUsers().remove(user.get());
+		teamDao.save(teamObtained);
+		
 	}
 
 }

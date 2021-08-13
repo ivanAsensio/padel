@@ -27,3 +27,26 @@ export const addGame = (game, onSuccess, onErrors) =>
 
 export const addSetList = (sets, gameId, onSuccess) =>
     appFetch(`/games/scoreGame/${gameId}`, config('POST', sets), onSuccess);
+
+export const deleteGame = (userId, onSuccess) =>
+    appFetch(`/games/deleteGame/${userId}`, config('POST', 
+        {
+            userId: userId
+        }
+    ), onSuccess);
+
+export const deleteFromGame = (userId, gameId, onSuccess) =>
+    appFetch(`/games/removeFromGame`, config('POST', 
+        {
+            userId: userId,
+            gameId: gameId
+        }
+    ), onSuccess);
+
+export const deleteFromTeam = (userId, teamId, onSuccess) =>
+    appFetch(`/games/removeFromTeam`, config('POST', 
+        {
+            userId: userId,
+            teamId: teamId
+        }
+    ), onSuccess);

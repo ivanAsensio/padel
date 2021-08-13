@@ -9,11 +9,11 @@ export const getGamesByUserIdCompleted = (gamesUser) => ({
 export const getGamesByUserId = (criteria, userId) => dispatch =>
     backend.gameService.getGamesByUserId(criteria, userId, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
 
-export const previousGetGamesByUserIdResultPage = (criteria, userId) => 
-    getGamesByUserId({page: criteria.page-1}, userId);
+export const previousGetGamesResultPage = (criteria, userId, userRole) => 
+    userRole ? getGamesByUserId({page: criteria.page-1}, userId) : getFinishedGames({page: criteria.page-1});
 
-export const nextGetGamesByUserIdResultPage = (criteria, userId) => 
-    getGamesByUserId({page: criteria.page+1}, userId);
+export const nextGetGamesResultPage = (criteria, userId, userRole) => 
+    userRole ? getGamesByUserId({page: criteria.page+1}, userId) : getFinishedGames({page: criteria.page+1});
 
 const findGameByIdCompleted = gameObtained => ({
     type: actionTypes.FIND_GAME_BY_ID_COMPLETED,
@@ -22,7 +22,10 @@ const findGameByIdCompleted = gameObtained => ({
 
 export const findGameById = id => dispatch => {
     backend.gameService.findGameById(id,
-        game => dispatch(findGameByIdCompleted(game)));
+        game => {
+            dispatch(findGameByIdCompleted(game));
+            dispatch(findUsersByLevelAndDate(Number(game.minimunLevel), Number(game.maximunLevel), Number(game.millisInitDate)));
+        });
 }
 
 export const addToGame = (body, onSuccess, onErrors) => {
@@ -66,8 +69,17 @@ export const findUsersByLevelAndDateCompleted = (usersGameFiltered) => ({
     usersGameFiltered
 })
 
-export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date) => dispatch =>
+export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date) => dispatch => 
     backend.userService.findUsersByLevelAndDate(minimunLevel, maximunLevel, date, 
         (users) => dispatch(findUsersByLevelAndDateCompleted(users)));
+
+export const deleteGame = (id, onSuccess) => 
+    backend.gameService.deleteGame(id, onSuccess);
+
+export const deleteFromGame = (userId, gameId, onSuccess) => 
+    backend.gameService.deleteFromGame(userId, gameId, onSuccess);
+
+export const deleteFromTeam = (userId, teamId, onSuccess) => 
+    backend.gameService.deleteFromTeam(userId, teamId, onSuccess);
     
     

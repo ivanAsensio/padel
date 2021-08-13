@@ -1,11 +1,9 @@
 package com.fic.udc.es.padel.dtos;
 
-import java.time.DayOfWeek;
-
 public class ScheduleDto {
 
 	private Long scheduleId;
-	private DayOfWeek day;
+	private String day;
 	private int initHour;
 	private int finalHour;
 	
@@ -13,7 +11,7 @@ public class ScheduleDto {
 		super();
 	}
 	
-	public ScheduleDto(Long scheduleId, DayOfWeek day, int initHour, int finalHour) {
+	public ScheduleDto(Long scheduleId, String day, int initHour, int finalHour) {
 		super();
 		this.scheduleId = scheduleId;
 		this.day = day;
@@ -27,10 +25,10 @@ public class ScheduleDto {
 	public void setScheduleId(Long scheduleId) {
 		this.scheduleId = scheduleId;
 	}
-	public DayOfWeek getDay() {
+	public String getDay() {
 		return day;
 	}
-	public void setDay(DayOfWeek day) {
+	public void setDay(String day) {
 		this.day = day;
 	}
 	public int getInitHour() {

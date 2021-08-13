@@ -22,7 +22,6 @@ const handleOkResponse = (response, onSuccess) => {
     if (!onSuccess) {
         return true;
     }
-
     if (response.status === 204) {
         onSuccess();
         return true;
@@ -122,7 +121,7 @@ export const config = (method, body) => {
 
 }
 
-export const appFetch = (path, options, onSuccess, onErrors) =>
+export const appFetch = (path, options, onSuccess, onErrors) =>{
     fetch(`${process.env.REACT_APP_BACKEND_URL}${path}`, options)
         .then(response => handleResponse(response, onSuccess, onErrors))
-        .catch(networkErrorCallback);
+        .catch(networkErrorCallback);}

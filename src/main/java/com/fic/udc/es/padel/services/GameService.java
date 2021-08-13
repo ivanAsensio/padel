@@ -29,8 +29,13 @@ public interface GameService {
 	public void deleteGame(Long id) throws InstanceNotFoundException;
 	
 	public void addPlayerToGame(Long gameId, Long userId) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException;
+	
+	public void addPlayerToTeam(Long teamId, Long userId) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException;
 
 	void removePlayerToGame(Long gameId, Long userId)
+			throws InstanceNotFoundException, FinishedGameException, UserNotFoundException;
+	
+	void removePlayerToTeam(Long teamId, Long userId)
 			throws InstanceNotFoundException, FinishedGameException, UserNotFoundException;
 	
 	Game createGame(LocalDateTime initDate, LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId, int gameType) throws InstanceNotFoundException, FieldTakenException;

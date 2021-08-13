@@ -67,6 +67,9 @@ export default {
     'project.global.validator.passwordsDoNotMatch': 'Password doesn´t match',
 
     'project.users.ChangePassword.title': 'Change password',
+    'project.users.ChangePassword.fields.oldPassword': 'Old password',
+    'project.users.ChangePassword.fields.newPassword': 'New password',
+    'project.users.ChangePassword.fields.comfirmNewPassword': 'Confirm new password',
 
     'project.users.Login.title': 'Login',
 

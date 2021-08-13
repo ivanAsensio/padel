@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
 
-const UserLink = ({id, login}) => {
+const UserLink = ({id, login, level}) => {
 
     return (
         <Link to={`/users/user-details/${id}`}>
-            {login}
+            <h4>{login}</h4>
+            <h4>{level}</h4>
         </Link>
     );
 

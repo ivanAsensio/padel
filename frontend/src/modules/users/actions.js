@@ -1,5 +1,8 @@
 import * as actionTypes from './actionTypes';
 import backend from '../../backend';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const signUpCompleted = authenticatedUser => ({
     type: actionTypes.SIGN_UP_COMPLETED,
@@ -15,7 +18,7 @@ export const signUp = (user, onSuccess, onErrors, reauthenticationCallback) => d
         onErrors,
         reauthenticationCallback);
 
-const loginCompleted = authenticatedUser => ({
+export const loginCompleted = authenticatedUser => ({
     type: actionTypes.LOGIN_COMPLETED,
     authenticatedUser
 });
@@ -25,6 +28,7 @@ export const login = (userName, password, onSuccess, onErrors, reauthenticationC
         authenticatedUser => {
             dispatch(loginCompleted(authenticatedUser));
             onSuccess();
+            cookies.set('user',authenticatedUser, {path: '/'} );
         },
         onErrors,
         reauthenticationCallback
@@ -35,6 +39,7 @@ export const tryLoginFromServiceToken = reauthenticationCallback => dispatch =>
         authenticatedUser => {
             if (authenticatedUser) {
                 dispatch(loginCompleted(authenticatedUser));
+                cookies.set('user',authenticatedUser, {path: '/'} );
             }
         },
         reauthenticationCallback
@@ -43,6 +48,7 @@ export const tryLoginFromServiceToken = reauthenticationCallback => dispatch =>
 export const logout = () => {
 
     backend.userService.logout();
+    cookies.set('user', undefined, {path: '/'});
 
     return {type: actionTypes.LOGOUT};
 
@@ -106,3 +112,6 @@ export const getAllSchedules = userId => dispatch =>
 
 export const addSchedule = (userId, schedule) => dispatch => 
     backend.userService.addSchedule(userId, schedule, () => dispatch(getAllSchedules(userId)));
+
+export const deleteByScheduleId = (scheduleId, userId) => dispatch =>
+    backend.userService.deleteByScheduleId(scheduleId, () => dispatch(getAllSchedules(userId)));

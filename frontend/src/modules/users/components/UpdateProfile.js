@@ -6,6 +6,7 @@ import {useHistory} from 'react-router-dom';
 import {Errors} from '../../common';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
+import {useIntl} from 'react-intl';
 
 const UpdateProfile = () => {
 
@@ -18,6 +19,7 @@ const UpdateProfile = () => {
     const [position, setPosition]  = useState(user.position);
     const [state, setState]  = useState(user.state);
     const [backendErrors, setBackendErrors] = useState(null);
+    const intl = useIntl();
     let form;
 
     const handleSubmit = event => {
@@ -118,12 +120,12 @@ const UpdateProfile = () => {
                                 <FormattedMessage id="project.global.fields.state"/>
                             </label>
                             <div className="col-md-4">
-                                <select class="form-select" value={state} onChange={e => setState(e.target.value)}>
+                                <select className="form-select" value={state} onChange={e => setState(e.target.value)}>
                                     <option value="true">
-                                        True
+                                        {intl.formatMessage({id: "project.global.fields.state.true"})}
                                     </option>
                                     <option value="false">
-                                        False
+                                        {intl.formatMessage({id: "project.global.fields.state.false"})}
                                     </option>
                                 </select>
                             </div>

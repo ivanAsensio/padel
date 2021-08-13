@@ -73,5 +73,9 @@ export const addSchedule = (userId, schedule, onSuccess) => {
 }
 
 export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date, onSuccess) => {
-    appFetch(`users/filteredUsers?minLevel=${minimunLevel}&maxLevel=${maximunLevel}&millis=${date}`, config('GET'), onSuccess);
+    appFetch(`/users/filteredUsers?minLevel=${minimunLevel}&maxLevel=${maximunLevel}&millis=${date}`, config('GET'), onSuccess);
+}
+
+export const deleteByScheduleId = (scheduleId, onSuccess) => {
+    appFetch(`/users/deleteSchedules`, config('POST', {scheduleId: scheduleId}), onSuccess);
 }

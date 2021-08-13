@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {FormattedMessage} from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as selectors from '../selectors';
 import * as actions from '../actions';
 import {Errors} from '../../common';
@@ -8,16 +8,22 @@ import {Errors} from '../../common';
 const ScheduleList = (user) => {
 
     const schedules = useSelector(selectors.getAllSchedules);
-
     const [day, setDay] = useState("Monday");
     const [initHour, setInitHour] = useState('');
     const [finalHour, setFinalHour] = useState('');
     const [backendErrors, setBackendErrors] = useState(null);
     const [showAdd, setShowAdd] = useState(false);
+    const dispatch = useDispatch();
 
     let form;
 
-    const handleAdd = () => {
+    const obtainMinutes = (hour) => {
+        const hourSplitted = hour.split(':');
+        return Number(hourSplitted[0]) * 60 + Number(hourSplitted[1]);
+    }
+
+    const handleAdd = (event) => {
+        event.preventDefault();
         setShowAdd(true);
     }
 
@@ -28,10 +34,10 @@ const ScheduleList = (user) => {
             
             const schedule = {
                 day: day,
-                initHour: initHour,
-                finalHour: finalHour
+                initHour: obtainMinutes(initHour),
+                finalHour: obtainMinutes(finalHour)
             }
-            actions.addSchedule(user.user.id, schedule);
+            dispatch(actions.addSchedule(user.user.id, schedule));
             
         } else {
 
@@ -51,11 +57,18 @@ const ScheduleList = (user) => {
         return s;
     }
 
+    const handleDelete = (event, schedule) => {
+        event.preventDefault();
+        dispatch(actions.deleteByScheduleId(schedule.scheduleId, user.user.id));
+    }
+
     return (
 
         <div>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-            <button type="button" onClick={handleAdd}>Añadir</button>
+            <form onSubmit={(e) => handleAdd(e)}>
+                <button type="submit">Añadir</button>
+            </form>
             {schedules != null ? 
 
                 <div>
@@ -83,7 +96,7 @@ const ScheduleList = (user) => {
                             </thead>
         
                             <tbody>
-                                {schedules.map(schedule => 
+                                {schedules.map((schedule) => 
                                     <tr key={schedule.scheduleId}>
                                         <td>
                                             <label className="col-md-6 col-form-label">
@@ -92,13 +105,20 @@ const ScheduleList = (user) => {
                                         </td>
                                         <td>
                                             <label className="col-md-6 col-form-label">
-                                                {padLeadingZeros(schedule.initHour/60, 2)}:{padLeadingZeros(schedule.initHour % 60, 2)}
+                                                {padLeadingZeros(Math.trunc(schedule.initHour/60), 2)}:{padLeadingZeros(schedule.initHour % 60, 2)}
                                             </label>
                                         </td>
                                         <td>
                                             <label className="col-md-6 col-form-label">
-                                                {padLeadingZeros(schedule.finalHour/60, 2)}:{padLeadingZeros(schedule.finalHour % 60, 2)}
+                                                {padLeadingZeros(Math.trunc(schedule.finalHour/60), 2)}:{padLeadingZeros(schedule.finalHour % 60, 2)}
                                             </label>
+                                        </td>
+                                        <td>
+                                            <form onSubmit={e => handleDelete(e, schedule)}>
+                                                <button type="submit" className="btn btn-danger">
+                                                    <FormattedMessage id="project.global.buttons.delete"/> 
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 )}
@@ -110,34 +130,34 @@ const ScheduleList = (user) => {
                 : <table className="table table-striped table-hover"></table>}
                 {showAdd ? 
                 <div>
+                    <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
+                        <FormattedMessage id="project.global.day.monday">
+                            {(message) => <option value="MONDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.tuesday">
+                            {(message) => <option value="TUESDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.wednesday">
+                            {(message) => <option value="WEDNESDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.thursday">
+                            {(message) => <option value="THURSDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.friday">
+                            {(message) => <option value="FRIDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.saturday">
+                            {(message) => <option value="SATURDAY">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage id="project.global.day.sunday">
+                            {(message) => <option value="SUNDAY">{message}</option>}
+                        </FormattedMessage>
+                    </select>
+                    <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} placeholder="InitHour"/>
+                    <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} placeholder="FinalHour"/>
                     <form ref={node => form = node}
                         className="needs-validation" noValidate 
                         onSubmit={e => handleSubmit(e)}>
-                        <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
-                            <FormattedMessage id="project.global.day.monday">
-                                {(message) => <option value="Monday">{message}</option>}
-                            </FormattedMessage>
-                            <FormattedMessage id="project.global.day.tuesday">
-                                {(message) => <option value="Tuesday">{message}</option>}
-                            </FormattedMessage>
-                            v<FormattedMessage id="project.global.day.wednesday">
-                                {(message) => <option value="Wednesday">{message}</option>}
-                            </FormattedMessage>
-                            <FormattedMessage id="project.global.day.thursday">
-                                {(message) => <option value="Thrusday">{message}</option>}
-                            </FormattedMessage>
-                            <FormattedMessage id="project.global.day.friday">
-                                {(message) => <option value="Friday">{message}</option>}
-                            </FormattedMessage>
-                            <FormattedMessage id="project.global.day.saturday">
-                                {(message) => <option value="Saturday">{message}</option>}
-                            </FormattedMessage>
-                            <FormattedMessage id="project.global.day.sunday">
-                                {(message) => <option value="Sunday">{message}</option>}
-                            </FormattedMessage>
-                        </select>
-                        <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} placeholder="InitHour"/>
-                        <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} placeholder="FinalHour"/>
                         <button type="submit">Añadir horario</button>
                     </form>
                 </div>

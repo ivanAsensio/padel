@@ -33,7 +33,7 @@ const UserListResult = () => {
                     enabled: users.criteria.page >= 1,
                     onClick: () => dispatch(actions.previousGetUsersResultPage(users.criteria))}}
                 next={{
-                    enabled: users.users.items.existMoreItems,
+                    enabled: users.users.existMoreItems,
                     onClick: () => dispatch(actions.nextGetUsersResultPage(users.criteria))}}/>
         </div>
 
