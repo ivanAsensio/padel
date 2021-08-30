@@ -6,11 +6,22 @@ export const getGamesByUserIdCompleted = (gamesUser) => ({
     gamesUser
 });
 
-export const getGamesByUserId = (criteria, userId) => dispatch =>
+export const getGamesByUserId = (criteria, userId) => dispatch => {
+    dispatch(clearGameUser());
     backend.gameService.getGamesByUserId(criteria, userId, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
+}
+    
+export const getGamesByUserIdPending = (userId) => dispatch => {
+    dispatch(clearGameUser());
+    backend.gameService.getGamesByUserIdPending(userId, games => dispatch(getGamesByUserIdCompleted({games}))); 
+}
+    
+export const clearGameUser = () => ({
+    type: actionTypes.CLEAR_GAMEUSER
+})
 
 export const previousGetGamesResultPage = (criteria, userId, userRole) => 
-    userRole ? getGamesByUserId({page: criteria.page-1}, userId) : getFinishedGames({page: criteria.page-1});
+    userRole ? getGamesByUserId({...criteria, page: criteria.page-1}, userId) : getFinishedGames({...criteria, page: criteria.page-1});
 
 export const nextGetGamesResultPage = (criteria, userId, userRole) => 
     userRole ? getGamesByUserId({page: criteria.page+1}, userId) : getFinishedGames({page: criteria.page+1});
@@ -32,12 +43,19 @@ export const addToGame = (body, onSuccess, onErrors) => {
     backend.gameService.addToGame(body, onSuccess, onErrors);
 }
 
-export const getFinishedGames = (criteria) => dispatch =>
+export const addToTeam = (body, onSuccess, onErrors) => {
+    backend.gameService.addToTeam(body, onSuccess, onErrors);
+}
+
+export const getFinishedGames = (criteria) => dispatch => {
+    dispatch(clearGameUser());
     backend.gameService.getFinishedGames(criteria, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
+}
 
-
-export const getPublishedGames = (criteria) => dispatch =>
+export const getPublishedGames = (criteria) => dispatch => {
+    dispatch(clearGameUser());
     backend.gameService.getPublishedGames(criteria, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
+}
 
 export const getGamesByDateCompleted = (gamesDate) => ({
     type: actionTypes.GET_GAMES_BY_DATE_COMPLETED,

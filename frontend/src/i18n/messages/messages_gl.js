@@ -91,11 +91,19 @@ export default {
 
     'project.games.addGame.title': 'Engadir partida',
 
-    'project.games.finishedGamesList.title': 'Lista de partidas finalizadas',
+    'project.games.finishedGamesList.title': 'Lista de partidas',
 
     'project.fields.addPlayerToGame.title': 'Apúntome',
 
     'project.games.filteredGames.title': 'Calendario',
-    'project.games.dateFilteredGames.title': 'Calendario'
+    'project.games.dateFilteredGames.title': 'Calendario',
+
+    'project.fields.addPlayerToGame.guest': 'Engadir invitado',
+
+    'project.games.pendingGames.title': 'Partidas pendentes',
+
+    'project.games.GamesList.title': 'Lista de partidas',
+
+    'project.userList.filter': 'Filtrar'
     
 }

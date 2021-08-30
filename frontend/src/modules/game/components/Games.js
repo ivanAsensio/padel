@@ -9,11 +9,10 @@ const Games = ({games}) => (
     games != null ? 
 
     <table className="table table-striped table-hover">
-
         <thead>
             <tr>
                 <th scope="col">
-                    <FormattedMessage id='project.games.finishedGamesList.title'/>
+                    <FormattedMessage id='project.games.GamesList.title'/>
                 </th>
             </tr>
         </thead>

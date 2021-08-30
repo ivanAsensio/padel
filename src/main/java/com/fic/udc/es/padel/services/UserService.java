@@ -32,7 +32,7 @@ public interface UserService {
 	
 	User getUserById(Long id) throws InstanceNotFoundException;
 	
-	Block<User> getAllUsers(int page, int size);
+	Block<User> getAllUsers(int page, int size, String login, Float minLevel, Float maxLevel);
 	
 	List<User> findUserByLevelAndDate(float minLevel, float maxLevel, LocalDateTime date);
 	

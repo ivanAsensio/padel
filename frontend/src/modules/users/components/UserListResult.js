@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,6 +11,22 @@ const UserListResult = () => {
 
     const users = useSelector(selectors.getAllUsers);
     const dispatch = useDispatch();
+    const [login, setLogin] = useState("");
+    const [minLevel, setMinLevel] = useState("");
+    const [maxLevel, setMaxLevel] = useState("");
+    let form;
+
+    const handleSubmit = event => {
+
+        event.preventDefault();
+        if (form.checkValidity()) {
+            dispatch(actions.getAllUsers(
+                {page: 0, login: login, minLevel: Number(minLevel), maxLevel: Number(maxLevel)}
+            ));
+            
+        }
+
+    }
 
     if (!users) {
         return null;
@@ -27,6 +43,48 @@ const UserListResult = () => {
     return (
 
         <div>
+                <div className="card bg-light border-dark ">
+                    <div className="card-body">
+                        <form ref={node => form = node}
+                            className="needs-validation d-flex"
+                            onSubmit={e => handleSubmit(e)}>
+                            <div className="form-group p-2">
+                                <label htmlFor="login" className="col-form-label">
+                                    <FormattedMessage id="project.global.fields.userName"/>
+                                </label>
+                                <input type="text" id="login" className="form-control"
+                                    value={login}
+                                    onChange={e => setLogin(e.target.value)}
+                                    autoFocus/>
+                            </div>
+                            <div className="form-group p-2">
+                                <label htmlFor="minLevel" className="col-form-label">
+                                    <FormattedMessage id="project.global.fields.minimunLevel"/>
+                                </label>
+                                <input type="number" id="minLevel" className="form-control"
+                                    value={minLevel}
+                                    onChange={e => setMinLevel(e.target.value)}
+                                    autoFocus/>
+                            </div>
+                            <div className="form-group p-2">
+                                <label htmlFor="maxLevel" className="col-form-label">
+                                    <FormattedMessage id="project.global.fields.maximunLevel"/>
+                                </label>
+                                <input type="text" id="maxLevel" className="form-control"
+                                    value={maxLevel}
+                                    onChange={e => setMaxLevel(e.target.value)}
+                                    autoFocus/>
+                            </div>
+                            <div className="form-group p-2">
+                                <div className="offset-md-3 col-md-2">
+                                    <button type="submit" className="btn btn-primary">
+                                        <FormattedMessage id="project.userList.filter"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             <Users users={users.users.items}/>
             <Pager 
                 back={{

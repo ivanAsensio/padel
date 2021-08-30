@@ -51,8 +51,19 @@ export const changePassword = (id, oldPassword, newPassword, onSuccess,
         config('POST', {oldPassword, newPassword}),
         onSuccess, onErrors);
 
-export const getAllUsers = ({page}, onSuccess) =>
-    appFetch(`/users/users?page=${page}`, config('GET'), onSuccess);
+export const getAllUsers = ({page, login, minLevel, maxLevel}, onSuccess) => {
+    var params = `?page=${page}`;
+    if(login){
+        params += `&login=${login}`
+    }
+    if(minLevel){
+        params += `&minLevel=${minLevel}`
+    }
+    if(maxLevel){
+        params += `&maxLevel=${maxLevel}`
+    }
+    appFetch(`/users/users` + params, config('GET'), onSuccess);
+}
 
 export const findUserById = (id, onSuccess) => {
     appFetch(`/users/${id}`, config('GET'), onSuccess);

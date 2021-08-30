@@ -91,12 +91,20 @@ export default {
 
     'project.games.addGame.title': 'Add game',
 
-    'project.games.finishedGamesList.title': 'Finished games list',
+    'project.games.finishedGamesList.title': 'Game list',
 
     'project.fields.addPlayerToGame.title': 'Sign up to game',
 
     'project.games.filteredGames.title': 'Calendar',
-    'project.games.dateFilteredGames.title': 'Calendar'
+    'project.games.dateFilteredGames.title': 'Calendar',
+
+    'project.fields.addPlayerToGame.guest': 'Add guest',
+
+    'project.games.pendingGames.title': 'Pending games',
+
+    'project.games.GamesList.title': 'Game List',
+
+    'project.userList.filter': 'Filter'
 
     
 }

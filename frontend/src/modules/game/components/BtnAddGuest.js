@@ -5,10 +5,10 @@ import {useDispatch} from 'react-redux';
 import * as actions from '../actions';
 
 
-const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
+const BtnAddGuest = ({gameId, setBackendErrors}) => {
 
     let form;
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleAddGame = event => {
 
@@ -17,20 +17,13 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
         if (form.checkValidity()) {
             
             actions.addToGame(
-                {userId: Number(userId),
-                gameId: Number(gameId)},
-                () => dispatch(actions.findGameById(gameId)),
+                {gameId: Number(gameId)},
+                () => {
+                    dispatch(actions.findGameById(gameId));
+                    
+                },
                 errors => setBackendErrors(errors)
-            );
-
-            if(typeGame === 'Pro'){
-                actions.addToTeam(
-                    {userId: Number(userId),
-                    teamId: Number(teamId)},
-                    () => dispatch(actions.findGameById(gameId)),
-                    errors => setBackendErrors(errors)
-                );
-            }
+            )
             
         } else {
 
@@ -48,7 +41,7 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
             <div className="form-group row">
                 <div className="offset-md-3 col-md-2">
                     <button type="submit" className="btn btn-primary">
-                        <FormattedMessage id="project.fields.addPlayerToGame.title"/>
+                        <FormattedMessage id="project.fields.addPlayerToGame.guest"/>
                     </button>
                 </div>
             </div>
@@ -56,10 +49,8 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
     );
 };
 
-BtnAddPlayer.propTypes = {
-    gameId: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
-    typeGame: PropTypes.string.isRequired
+BtnAddGuest.propTypes = {
+    gameId: PropTypes.string.isRequired
 }
 
-export default BtnAddPlayer;
+export default BtnAddGuest;

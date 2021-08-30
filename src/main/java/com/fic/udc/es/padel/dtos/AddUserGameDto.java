@@ -28,7 +28,6 @@ public class AddUserGameDto {
 		this.gameId = gameId;
 	}
 
-	@NotNull(groups={AllValidations.class})
 	public Long getUserId() {
 		return userId;
 	}

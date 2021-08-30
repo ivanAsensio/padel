@@ -14,11 +14,14 @@ public interface GameDao extends PagingAndSortingRepository<Game, Long>{
 	
 	Slice<Game> findByGameUsersUserIdOrderByInitDateDesc(Long userId, Pageable pageable);
 	
+	@Query("select g from Game g where ?1 member of g.gameUsers and ?2 < g.initDate order by g.initDate desc")
+	List<Game> findGamesUserPending(User user, LocalDateTime date);
+	
 	@Query("select g from Game g where ?1 < g.initDate and ?2 between g.minimunLevel and g.maximunLevel order by g.initDate desc")
 	Slice<Game> findAllWithDateAndLevel(LocalDateTime date, float level, Pageable pageable);
 	
-	@Query("select g from Game g where g.initDate < ?1 order by g.initDate desc")
-	Slice<Game> findAllWithDateFinished(LocalDateTime date, Pageable pageable);
+	@Query("select g from Game g where (?1=null OR g.initDate > ?1) and (?2=null OR g.finalDate < ?2) and (?3=null OR ?3 member of g.gameUsers) order by g.initDate desc")
+	Slice<Game> findAllWithDateFinished(LocalDateTime initDate, LocalDateTime finalDate, User user, Pageable pageable);
 	
 	@Query("select g from Game g where g.initDate > ?1 order by g.initDate desc")
 	Slice<Game> findAllWithDatePublished(LocalDateTime date, Pageable pageable);

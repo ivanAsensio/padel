@@ -32,7 +32,6 @@ const {locale, messages} = initReactIntl();
 ReactDOM.render(
   <Provider store={store}>
       <IntlProvider locale={locale} messages={messages}>
-          <meta charset="utf-8"/>
           <App/>
       </IntlProvider>
   </Provider>, 

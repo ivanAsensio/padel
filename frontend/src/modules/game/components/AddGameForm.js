@@ -144,6 +144,8 @@ const AddGameForm = () => {
                                     <input type="text" id="initDate" className="form-control"
                                         defaultValue={initDate}
                                         onBlur={e => setInitDate(e.target.value)}
+                                        placeHolder="HH:MM"
+                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                         autoFocus
                                         required/>
                                     <div className="invalid-feedback">
@@ -159,6 +161,8 @@ const AddGameForm = () => {
                                     <input type="text" id="finalDate" className="form-control"
                                         defaultValue={finalDate}
                                         onBlur={e => setFinalDate(e.target.value)}
+                                        placeHolder="HH:MM"
+                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                         autoFocus
                                         required/>
                                     <div className="invalid-feedback">

@@ -3,9 +3,10 @@ import Select from 'react-select';
 import * as actions from '../actions';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { BtnAddGuest } from '..';
 
 
-const UsersSelectGame = ({users, gameId, setBackendErrors}) => {
+const UsersSelectGame = ({users, gameId, teamId, typeGame, setBackendErrors}) => {
    
     const options = users.length !== 0 ? 
     users.map((user) => {return ({
@@ -44,6 +45,9 @@ const UsersSelectGame = ({users, gameId, setBackendErrors}) => {
                 <Select options={options}
                 onChange={(event) => handleClick(event.value)}/>
             : null}
+            {typeGame === 'Amateur' && <div className="p-2">
+                <BtnAddGuest gameId={gameId} teamId={teamId} setBackendErrors={setBackendErrors} typeGame={typeGame}/>
+            </div>}
        </div>
     );
 

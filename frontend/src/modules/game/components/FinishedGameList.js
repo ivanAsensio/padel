@@ -10,7 +10,7 @@ const FinishedGameList = () => {
 
     useEffect(() => {
         dispatch(actions.getFinishedGames({page: 0}));
-        history.push('/games/gamesUserList-result');
+        history.push('/games/finishedGamesUserList-result');
     });
 
     return null;

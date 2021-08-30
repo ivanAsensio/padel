@@ -38,6 +38,12 @@ const Header = () => {
                     </li>
 
                     <li className="nav-item">                  
+                        <Link className="nav-link" to="/games/gamesUserListPending">
+                            {user && <FormattedMessage id="project.games.pendingGames.title"/>}
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">                  
                         <Link className="nav-link" to="/games/gameCalendarDate">
                             {!user && <FormattedMessage id="project.games.dateFilteredGames.title"/>}
                         </Link>

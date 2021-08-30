@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/games/deleteGame/*").permitAll()
 			.antMatchers("/games/removeFromGame").permitAll()
 			.antMatchers("/games/user/*").permitAll()
+			.antMatchers("/games/users/*/*").permitAll()
 			.anyRequest().hasRole("USER");
 
 	}

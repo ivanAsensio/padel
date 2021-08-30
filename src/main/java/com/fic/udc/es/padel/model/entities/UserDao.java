@@ -19,7 +19,8 @@ public interface UserDao extends PagingAndSortingRepository<User, Long>{
 	
 	public boolean existsByLogin(String name);
 	
-	Page<User> findAll(Pageable pageable);
+	@Query("select u from User u where (?1=null OR u.login LIKE %?1%) and (?2=null OR u.level > ?2) and (?3=null OR u.level < ?3)")
+	Page<User> findAll(String login, Float minLevel, Float maxLevel, Pageable pageable);
 	
 	@Query("select distinct u from User u JOIN u.schedules s where u.level between ?1 and ?2 and ?3 between s.initHour and s.finalHour and ?4 = s.day order by u.login")
 	List<User> findUserByLevelAndSchedules(float minLevel, float maxLevel, int date, DayOfWeek day);

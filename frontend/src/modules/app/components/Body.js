@@ -8,7 +8,7 @@ import users from '../../users';
 import AppGlobalComponents from './AppGlobalComponents';
 import Home from './Home';
 import { FieldListResult, FieldList, AddField, UpdateField } from '../../field';
-import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate, CalendarGamesFiltered, AddGameForm, ScoreGame } from '../../game';
+import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate, CalendarGamesFiltered, AddGameForm, ScoreGame, UserGamePendingListResult, UserGamePendingList, FinishedGameListResult } from '../../game';
 import FinishedGameList from '../../game/components/FinishedGameList';
 import PublishedGameList from '../../game/components/PublishedGameList';
 import AddGame from '../../game/components/AddGame';
@@ -40,8 +40,11 @@ const Body = () => {
                 {!userRole && loggedIn && <Route exact path="/fields/updateField"><UpdateField/></Route>}
                 {userRole && loggedIn && <Route exact path="/games/gamesUserList"><GameUserList/></Route>}
                 {!userRole && loggedIn && <Route exact path="/games/finishedGamesList"><FinishedGameList/></Route>}
+                {!userRole && loggedIn && <Route exact path="/games/finishedGamesUserList-result"><FinishedGameListResult/></Route>}
                 {userRole && loggedIn && <Route exact path="/games/publishedGamesList"><PublishedGameList/></Route>}
                 {loggedIn && <Route exact path="/games/gamesUserList-result"><GameUserListResult/></Route>}
+                {loggedIn && <Route exact path="/games/gamesUserListPending"><UserGamePendingList/></Route>}
+                {loggedIn && <Route exact path="/games/gamesUserListPending-result"><UserGamePendingListResult/></Route>}
                 {loggedIn && <Route exact path="/users/change-password"><ChangePassword/></Route>}
                 {loggedIn && <Route exact path="/users/logout"><Logout/></Route>}
                 {loggedIn && <Route exact path="/users/detailsProfile"><DetailsProfile user={user}/></Route>}

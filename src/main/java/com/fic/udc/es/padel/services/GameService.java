@@ -20,7 +20,7 @@ public interface GameService {
 	
 	public Block<Game> findGamesByUserId(Long userId, int page, int size);
 	
-	public Block<Game> findAllFinishedGames(int page, int size);
+	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate);
 	
 	public Block<Game> findAllPublishedGames(int page, int size);
 	
@@ -43,5 +43,7 @@ public interface GameService {
 	void scoreGame(Long gameId, Set<PadelSet> sets) throws InstanceNotFoundException, GameTypeException;
 
 	List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate);
+	
+	List<Game> findGameByUserAndDatePublished(Long userId, LocalDateTime date) throws InstanceNotFoundException;
 	
 }

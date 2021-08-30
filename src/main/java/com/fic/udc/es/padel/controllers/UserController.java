@@ -14,6 +14,7 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -204,8 +205,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page){
-		Block<User> users = userService.getAllUsers(page, 10);
+	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page, @RequestParam(required = false) String login,
+			@RequestParam(required = false) Float minLevel, @RequestParam(required = false) Float maxLevel){
+		Block<User> users = userService.getAllUsers(page, 10, login, minLevel, maxLevel);
 		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());	
 	}
 	

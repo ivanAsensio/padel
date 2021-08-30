@@ -28,7 +28,6 @@ public interface AllValidations {}
 		this.teamId = teamId;
 	}
 
-	@NotNull(groups={AllValidations.class})
 	public Long getUserId() {
 		return userId;
 	}

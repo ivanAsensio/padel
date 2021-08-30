@@ -2,7 +2,7 @@ package com.fic.udc.es.padel.controllers;
 
 import static com.fic.udc.es.padel.dtos.GameConversor.toGameDetails;
 
-import java.time.DayOfWeek;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -38,7 +38,11 @@ import com.fic.udc.es.padel.dtos.GameDetailsDto;
 import com.fic.udc.es.padel.dtos.SetDto;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
+import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Team;
+import com.fic.udc.es.padel.model.entities.User;
+import com.fic.udc.es.padel.model.entities.UserDao;
+import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
 import com.fic.udc.es.padel.model.exceptions.GameTypeException;
@@ -72,6 +76,9 @@ public class GameController {
 	
 	@Autowired
 	private TeamService teamService;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private SetService setService;
@@ -143,14 +150,20 @@ public class GameController {
 	
 	@PostMapping("/addPlayerToGame")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void addPlayerToGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
-		gameService.addPlayerToGame(params.getGameId(), params.getUserId());
+	public void addPlayerToGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
+		Long userId = params.getUserId();
+		if(userId == null) {
+			User user = addNewUser();
+			userId = user.getUserId();
+			params.setUserId(userId);
+		}
+		gameService.addPlayerToGame(params.getGameId(), userId);
 	}
 	
 	@PostMapping("/addPlayerToTeam")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void addPlayerToTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
-		gameService.addPlayerToTeam(params.getTeamId(), params.getUserId());
+	public void addPlayerToTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
+		gameService.addPlayerToGame(params.getTeamId(), params.getUserId());
 	}
 	
 	@GetMapping("/{id}")
@@ -167,9 +180,20 @@ public class GameController {
 	}
 	
 	@GetMapping("/findFinishedGames")
-	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page){
+	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page, @RequestParam(required=false) String login, @RequestParam(required=false) Long millisInitDate, @RequestParam(required=false) Long millisFinalDate){
+		LocalDateTime initDate = null;
+		LocalDateTime finalDate = null;
+		if(millisInitDate != null) {
+			initDate =
+				    LocalDateTime.ofInstant(Instant.ofEpochMilli(millisInitDate), ZoneId.systemDefault());
+		}
+		if(millisFinalDate != null) {
+			finalDate =
+				    LocalDateTime.ofInstant(Instant.ofEpochMilli(millisFinalDate), ZoneId.systemDefault());
+		}
+		
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
-		Block<Game> games = gameService.findAllFinishedGames(page, 10);
+		Block<Game> games = gameService.findAllFinishedGames(page, 10, login, initDate, finalDate);
 		for(Game game: games.getItems()) {
 			if(game.getGameType() == "Pro") {
 				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
@@ -278,5 +302,36 @@ public class GameController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleleFromTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto removeUserDto) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
 		gameService.removePlayerToTeam(removeUserDto.getTeamId(), removeUserDto.getUserId());
+	}
+	
+	@GetMapping("/users/{userId}/pendingGames")
+	public List<GameDetailsDto> getPendingGames(@PathVariable Long userId) throws InstanceNotFoundException{
+		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
+		List<Game> games = gameService.findGameByUserAndDatePublished(userId, LocalDateTime.now());
+		for(Game game: games) {
+			if(game.getGameType() == "Pro") {
+				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
+				gameDetailsDtoList.add(details);
+			}else {
+				GameDetailsDto details = toGameDetails(game, new HashSet<>(), new HashSet<>());
+				gameDetailsDtoList.add(details);
+			}
+		}
+		return gameDetailsDtoList;
+	}
+	
+	private User addNewUser() throws DuplicateInstanceException {
+		User user = new User();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String login = "guest" + timestamp.getNanos();
+		user.setLogin(login);
+		user.setLastname1(null);
+		user.setLastname2(null);
+		user.setLevel(0);
+		user.setName(login);
+		user.setRole(RoleEnum.USER);
+		user.setPassword("hiddenSecret");
+		User userObtained = userDao.save(user);
+		return userObtained;
 	}
 }

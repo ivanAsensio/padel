@@ -6,10 +6,14 @@ import {Link} from 'react-router-dom';
 const UserLink = ({id, login, level}) => {
 
     return (
-        <Link to={`/users/user-details/${id}`}>
-            <h4>{login}</h4>
-            <h4>{level}</h4>
-        </Link>
+        <div className="d-flex">
+            <Link className="p-2" to={`/users/user-details/${id}`}>
+                <h4>{login}</h4>
+            </Link>
+            <div className="ml-auto p-2">
+                <h4>{level}</h4>
+            </div>
+        </div>
     );
 
 }

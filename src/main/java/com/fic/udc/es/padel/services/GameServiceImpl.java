@@ -82,10 +82,19 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Block<Game> findAllFinishedGames(int page, int size) {
+	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate) {
+		Optional<User> user = null;
+		Slice<Game> games = null;
+		if(login != null) {
+			user = userDao.findByLogin(login);
+			if(!user.isPresent()) {
+				return new Block<>(new ArrayList<>(), false);
+			}
+			games = gameDao.findAllWithDateFinished(initDate, finalDate, user.get(), PageRequest.of(page, size));
+		}else {
+			games = gameDao.findAllWithDateFinished(initDate, finalDate, null, PageRequest.of(page, size));
 
-		Slice<Game> games = gameDao.findAllWithDateFinished(LocalDateTime.now(), PageRequest.of(page, size));
-
+		}
 		return new Block<>(games.getContent(), games.hasNext());
 	}
 	
@@ -132,7 +141,6 @@ public class GameServiceImpl implements GameService {
 		}
 		gameObtained.getGameUsers().add(user.get());
 		gameDao.save(gameObtained);
-		
 	}
 	
 	@Override
@@ -338,6 +346,15 @@ public class GameServiceImpl implements GameService {
 		teamObtained.getTeamUsers().remove(user.get());
 		teamDao.save(teamObtained);
 		
+	}
+
+	@Override
+	public List<Game> findGameByUserAndDatePublished(Long userId, LocalDateTime date) throws InstanceNotFoundException {
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		return gameDao.findGamesUserPending(user.get(), date);
 	}
 
 }

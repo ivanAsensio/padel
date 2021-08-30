@@ -145,8 +145,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Block<User> getAllUsers(int page, int size) {
-		Page<User> users = userDao.findAll(PageRequest.of(page, size));
+	public Block<User> getAllUsers(int page, int size, String login, Float minLevel, Float maxLevel) {
+		Page<User> users = userDao.findAll(login, minLevel, maxLevel, PageRequest.of(page, size));
 		return new Block<>(users.getContent(), users.hasNext());
 	}
 

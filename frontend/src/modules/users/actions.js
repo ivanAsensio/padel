@@ -75,14 +75,14 @@ export const getAllUsersCompleted = (users) => ({
     users
 });
 
-export const getAllUsers = criteria => dispatch =>
+export const getAllUsers = criteria => dispatch => 
     backend.userService.getAllUsers(criteria, users => dispatch(getAllUsersCompleted({criteria, users})));
 
 export const previousGetUsersResultPage = criteria => 
-    getAllUsers({page: criteria.page-1});
+    getAllUsers({...criteria, page: criteria.page-1});
 
 export const nextGetUsersResultPage = criteria => 
-    getAllUsers({page: criteria.page+1});
+    getAllUsers({...criteria, page: criteria.page+1});
 
 const findUserByIdCompleted = userObtained => ({
     type: actionTypes.FIND_USER_BY_ID_COMPLETED,

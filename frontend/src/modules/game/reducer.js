@@ -14,6 +14,9 @@ const gamesUser = (state = initialState.gamesUser, action) => {
 
     switch (action.type) {
 
+        case actionTypes.CLEAR_GAMEUSER:
+            return initialState.gamesUser;
+
         case actionTypes.GET_GAMES_BY_USER_ID_COMPLETED:
             return action.gamesUser;
 

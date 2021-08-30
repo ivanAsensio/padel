@@ -8,7 +8,7 @@ import {Errors} from '../../common';
 const ScheduleList = (user) => {
 
     const schedules = useSelector(selectors.getAllSchedules);
-    const [day, setDay] = useState("Monday");
+    const [day, setDay] = useState("MONDAY");
     const [initHour, setInitHour] = useState('');
     const [finalHour, setFinalHour] = useState('');
     const [backendErrors, setBackendErrors] = useState(null);
@@ -48,7 +48,7 @@ const ScheduleList = (user) => {
     };
 
     const onChangeSelect = (value) => {
-        setDay(value);
+        setDay(value.toUpperCase());
     };
 
     const padLeadingZeros = (num, size)  => {
@@ -130,34 +130,34 @@ const ScheduleList = (user) => {
                 : <table className="table table-striped table-hover"></table>}
                 {showAdd ? 
                 <div>
-                    <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
-                        <FormattedMessage id="project.global.day.monday">
-                            {(message) => <option value="MONDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.tuesday">
-                            {(message) => <option value="TUESDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.wednesday">
-                            {(message) => <option value="WEDNESDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.thursday">
-                            {(message) => <option value="THURSDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.friday">
-                            {(message) => <option value="FRIDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.saturday">
-                            {(message) => <option value="SATURDAY">{message}</option>}
-                        </FormattedMessage>
-                        <FormattedMessage id="project.global.day.sunday">
-                            {(message) => <option value="SUNDAY">{message}</option>}
-                        </FormattedMessage>
-                    </select>
-                    <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} placeholder="InitHour"/>
-                    <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} placeholder="FinalHour"/>
                     <form ref={node => form = node}
                         className="needs-validation" noValidate 
                         onSubmit={e => handleSubmit(e)}>
+                        <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
+                            <FormattedMessage id="project.global.day.monday">
+                                {(message) => <option value="MONDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.tuesday">
+                                {(message) => <option value="TUESDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.wednesday">
+                                {(message) => <option value="WEDNESDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.thursday">
+                                {(message) => <option value="THURSDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.friday">
+                                {(message) => <option value="FRIDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.saturday">
+                                {(message) => <option value="SATURDAY">{message}</option>}
+                            </FormattedMessage>
+                            <FormattedMessage id="project.global.day.sunday">
+                                {(message) => <option value="SUNDAY">{message}</option>}
+                            </FormattedMessage>
+                        </select>
+                        <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:HH"/>
+                        <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:MM"/>
                         <button type="submit">Añadir horario</button>
                     </form>
                 </div>
