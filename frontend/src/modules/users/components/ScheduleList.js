@@ -66,8 +66,11 @@ const ScheduleList = (user) => {
 
         <div>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-            <form onSubmit={(e) => handleAdd(e)}>
-                <button type="submit">Añadir</button>
+            <br></br>
+            <h2 className="text-center"><FormattedMessage id='project.scheduleList.title'/></h2>
+            <br></br>
+            <form className="float-right" onSubmit={(e) => handleAdd(e)}>
+                <button type="submit"><FormattedMessage id='project.scheduleList.addSchedule'/></button>
             </form>
             {schedules != null ? 
 

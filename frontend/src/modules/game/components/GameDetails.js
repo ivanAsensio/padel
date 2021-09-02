@@ -73,7 +73,7 @@ const GameDetails = () => {
     }
 
     const showAddButton = (gameObtained && !userOnUserList) ? ((new Date(gameObtained.millisInitDate)) > today) : false
-        
+
     return (
         <div>
             <BackLink></BackLink>
@@ -82,30 +82,30 @@ const GameDetails = () => {
                     <div className="d-flex">
                         <div className="col-md-10 p-2">
                             <div className="row">
-                                <h1 htmlFor="date" className="col-sm-10">
+                                <h3 htmlFor="date" className="col-sm-10">
                                     <FormattedDate value={initDate} key={initDate.getTime()}/>
                                     &nbsp;<FormattedTime value={initDate} />
                                     - <FormattedDate value={finalDate} key={finalDate.getTime()}/>
                                     &nbsp;<FormattedTime value={finalDate} />
-                                </h1>
+                                </h3>
                             </div>
                             <div className="row">
-                                <h1 htmlFor="level" className="col-sm-10">
+                                <h3 htmlFor="level" className="col-sm-10">
                                     <FormattedMessage id="project.global.fields.minimunLevel"/>
                                     :&nbsp;{gameObtained.minimunLevel} - {gameObtained.maximunLevel}
-                                </h1>
+                                </h3>
                             </div>
                             <div className="row">
-                                <h1 htmlFor="typeGame" className="col-sm-10">
+                                <h3 htmlFor="typeGame" className="col-sm-10">
                                     <FormattedMessage id="project.global.fields.typeGame"/>
                                     :&nbsp;{gameObtained.typeGame}
-                                </h1>
+                                </h3>
                             </div>
                             {gameObtained.sets.length !== 0 &&
                             <div className="row text-center">
-                                <h1 htmlFor="Sets" className="col-sm-10">
+                                <h3 htmlFor="Sets" className="col-sm-10">
                                     {gameObtained.sets.map(set => <h3>{set.result}&nbsp;</h3>)}
-                                </h1>
+                                </h3>
                             </div>    
                             }
                         </div>
@@ -132,18 +132,18 @@ const GameDetails = () => {
                         <table className="table">
                             <thead>
                                     <tr>
-                                        <th scope="col">{gameObtained.teams[0].name}</th>
-                                        <th scope="col">{gameObtained.teams[1].name}</th>
+                                        <th scope="col" className="col-md-6">{gameObtained.teams[0].name}</th>
+                                        <th scope="col" className="col-md-6">{gameObtained.teams[1].name}</th>
                                         
                                     </tr>
                             </thead>
                             <tbody>
                                     <tr>
                                         <td>{gameObtained.teams[0].users[0] ?
-                                            <div className="d-flex justify-content-center">
-                                                <UserLink id={gameObtained.teams[0].users[0].id} login={gameObtained.teams[0].users[0].login} level={gameObtained.teams[0].users[0].level}/>
+                                            <div className="d-flex">
+                                                <UserLink className="p-2 mr-auto" id={gameObtained.teams[0].users[0].id} user={gameObtained.teams[0].users[0]}/>
                                                 {(userRole  || gameObtained.teams[0].users[0].id === user.id) &&
-                                                    <form className="p-2" onSubmit={e => {
+                                                    <form className="p-2 ml-auto" onSubmit={e => {
                                                         handleDelete(e, gameObtained.teams[0].users[0].id);
                                                         handleDeleteFromTeam(e, gameObtained.teams[0].users[0].id, gameObtained.teams[0].id);
                                                     }}>
@@ -153,11 +153,12 @@ const GameDetails = () => {
                                                     </form>
                                                 } 
                                             </div> 
-                                            : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} gameId={id} users={usersGameFiltered} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>) : <FormattedMessage id="project.global.field.empty"/>
+                                            : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
                                         }</td>
                                         <td>{gameObtained.teams[1].users[0] ? 
                                             <div className="d-flex justify-content-center">
-                                                <UserLink id={gameObtained.teams[1].users[0].id} login={gameObtained.teams[1].users[0].login} level={gameObtained.teams[1].users[0].level}/>
+                                                <UserLink className="p-2" id={gameObtained.teams[1].users[0].id} user={gameObtained.teams[1].users[0]}/>
                                                 {(userRole  || gameObtained.teams[1].users[0].id === user.id) &&
                                                     <form className="p-2" onSubmit={e => {
                                                             handleDelete(e, gameObtained.teams[1].users[0].id);
@@ -169,13 +170,14 @@ const GameDetails = () => {
                                                     </form>
                                                 }
                                             </div>
-                                            : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>) : <FormattedMessage id="project.global.field.empty"/>}
+                                            : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
                                         </td>   
                                     </tr>
                                     <tr>
                                         <td>{gameObtained.teams[0].users[1] ? 
                                         <div className="d-flex justify-content-center">
-                                            <UserLink id={gameObtained.teams[0].users[1].id} login={gameObtained.teams[0].users[1].login} level={gameObtained.teams[0].users[1].level}/>
+                                            <UserLink className="p-2"id={gameObtained.teams[0].users[1].id} user={gameObtained.teams[0].users[1]}/>
                                             {(userRole  || gameObtained.teams[0].users[1].id === user.id) &&
                                                 <form className="p-2" onSubmit={e => {
                                                         handleDelete(e, gameObtained.teams[0].users[1].id);
@@ -187,12 +189,13 @@ const GameDetails = () => {
                                                 </form>
                                             }
                                         </div>
-                                            : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>) : <FormattedMessage id="project.global.field.empty"/>}
+                                            : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                            showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
                                         </td>
                                         <td>{
                                             gameObtained.teams[1].users[1] ? 
                                             <div className="d-flex justify-content-center">
-                                                <UserLink id={gameObtained.teams[1].users[1].id} login={gameObtained.teams[1].users[1].login} level={gameObtained.teams[1].users[1].level}/> 
+                                                <UserLink className="p-2" id={gameObtained.teams[1].users[1].id} user={gameObtained.teams[1].users[1]}/> 
                                                 {(userRole  || gameObtained.teams[1].users[1].id === user.id) &&
                                                     <form className="p-2" onSubmit={e => {
                                                             handleDelete(e, gameObtained.teams[1].users[1].id);
@@ -204,7 +207,8 @@ const GameDetails = () => {
                                                     </form>
                                                 }                                             
                                             </div>
-                                                : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>) : <FormattedMessage id="project.global.field.empty"/>
+                                                : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
                                             }
                                         </td>   
                                     </tr>
@@ -213,14 +217,14 @@ const GameDetails = () => {
 
                         :
                         <div className="container">
-                            <div className="d-flex">
-                                <div className="mr-auto p-2 w-25">
-                                    <div className="card bg-light mb-6">
+                            <div className="d-flex col-md-12">
+                                <div className="mr-auto p-2 col-md-6">
+                                    <div className="card bg-light">
                                         <div className="card-body">
                                             <p className="card-text">
                                                 {gameObtained.users[0] ? 
                                                 <div className="d-flex justify-content-center">
-                                                    <UserLink id={gameObtained.users[0].id} login={gameObtained.users[0].login} level={gameObtained.users[0].level}/>
+                                                    <UserLink className="p-2" id={gameObtained.users[0].id} user={gameObtained.users[0]}/>
                                                     {(userRole  || gameObtained.users[0].id === user.id) &&
                                                     <form className="p-2" onSubmit={e => handleDelete(e, gameObtained.users[0].id)}>
                                                         <button type="submit" className="btn btn-danger">
@@ -228,18 +232,20 @@ const GameDetails = () => {
                                                         </button>
                                                     </form>} 
                                                 </div>
-                                                : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>): <FormattedMessage id="project.global.field.empty"/>}
+                                                : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
+                                                }
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-2 w-25">
+                                <div className="p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
                                             <p className="card-text">
                                                 {gameObtained.users[1] ? 
                                                 <div className="d-flex justify-content-center">
-                                                    <UserLink id={gameObtained.users[1].id} login={gameObtained.users[1].login} level={gameObtained.users[1].level}/>
+                                                    <UserLink className="p-2" id={gameObtained.users[1].id} user={gameObtained.users[1]}/>
                                                     {(userRole  || gameObtained.users[1].id === user.id) &&
                                                     <form className="p-2" onSubmit={e => handleDelete(e, gameObtained.users[1].id)}>
                                                         <button type="submit" className="btn btn-danger">
@@ -248,20 +254,21 @@ const GameDetails = () => {
                                                     </form>}
                                                 </div>
                                             
-                                            : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>): <FormattedMessage id="project.global.field.empty"/>}
+                                            : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="d-flex">
-                                <div className="mr-auto p-2 w-25">
+                                <div className="mr-auto p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
                                             <p className="card-text">
                                                 {gameObtained.users[2] ? 
                                                 <div className="d-flex justify-content-center">
-                                                    <UserLink id={gameObtained.users[2].id} login={gameObtained.users[2].login} level={gameObtained.users[2].level}/>
+                                                    <UserLink className="p-2" id={gameObtained.users[2].id} user={gameObtained.users[2]}/>
                                                     {(userRole  || gameObtained.users[2].id === user.id) &&
                                                     <form className="p-2" onSubmit={e => handleDelete(e, gameObtained.users[2].id)}>
                                                         <button type="submit" className="btn btn-danger">
@@ -269,18 +276,19 @@ const GameDetails = () => {
                                                         </button>
                                                     </form>}
                                                 </div>
-                                                : showAddButton ? (userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>) : <FormattedMessage id="project.global.field.empty"/>}
+                                                : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-2 w-25">
+                                <div className="p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
                                             <p className="card-text">
                                                 {gameObtained.users[3] ? 
                                                 <div className="d-flex justify-content-center">
-                                                    <UserLink className="col-md-3" id={gameObtained.users[3].id} login={gameObtained.users[3].login} level={gameObtained.users[3].level}/>
+                                                    <UserLink className="col-md-3 p-2" id={gameObtained.users[3].id} user={gameObtained.users[3]}/>
                                                     {(userRole  || gameObtained.users[3].id === user.id) &&
                                                     <form className="col-md-3 p-2" onSubmit={e => handleDelete(e, gameObtained.users[3].id)}>
                                                         <button type="submit" className="btn btn-danger">
@@ -288,7 +296,8 @@ const GameDetails = () => {
                                                         </button>
                                                     </form>}
                                                 </div>
-                                                : showAddButton ? (userRole ? <UsersSelectGame users={usersGameFiltered} gameId={id} typeGame={gameObtained.typeGame} setBackendErrors={setBackendErrors}/> : <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>): <FormattedMessage id="project.global.field.empty"/>}
+                                                : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
+                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>

@@ -38,6 +38,14 @@ const UsersSelectGame = ({users, gameId, teamId, typeGame, setBackendErrors}) =>
             () => dispatch(actions.findGameById(gameId)),
             errors => setBackendErrors(errors)
         );
+        if(typeGame === 'Pro'){
+            actions.addToTeam(
+                {userId: Number(value),
+                teamId: Number(teamId)},
+                () => dispatch(actions.findGameById(gameId)),
+                errors => setBackendErrors(errors)
+            );
+        }
     }
     return (
         <div>

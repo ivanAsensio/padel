@@ -104,7 +104,10 @@ export default {
 
     'project.games.GamesList.title': 'Game List',
 
-    'project.userList.filter': 'Filter'
+    'project.userList.filter': 'Filter',
+
+    'project.scheduleList.title': 'Schedule list',
+    'project.scheduleList.addSchedule': 'Add schedule'
 
     
 }

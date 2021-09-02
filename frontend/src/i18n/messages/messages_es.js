@@ -104,6 +104,9 @@ export default {
 
     'project.games.GamesList.title': 'Lista de partidas',
 
-    'project.userList.filter': 'Filtrar'
+    'project.userList.filter': 'Filtrar',
+
+    'project.scheduleList.title': 'Lista de horarios',
+    'project.scheduleList.addSchedule': 'Añadir horario'
     
 }

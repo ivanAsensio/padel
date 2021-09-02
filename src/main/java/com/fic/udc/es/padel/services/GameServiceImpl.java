@@ -126,10 +126,6 @@ public class GameServiceImpl implements GameService {
 		if(!user.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.user", userId);
 		}
-		LocalDateTime date = game.get().getInitDate();
-		if(date.isBefore(LocalDateTime.now())) {
-			throw new FinishedGameException();
-		}
 		Game gameObtained = game.get();
 		if(gameObtained.getGameUsers().size() > 3) {
 			throw new NoSpaceException();
@@ -153,10 +149,6 @@ public class GameServiceImpl implements GameService {
 		Optional<User> user = userDao.findById(userId);
 		if(!user.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.user", userId);
-		}
-		LocalDateTime date = game.get().getInitDate();
-		if(date.isBefore(LocalDateTime.now())) {
-			throw new FinishedGameException();
 		}
 		Game gameObtained = game.get();
 		for(User gameUser : gameObtained.getGameUsers()) {
@@ -301,10 +293,6 @@ public class GameServiceImpl implements GameService {
 		if(!user.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.user", userId);
 		}
-		LocalDateTime date = team.get().getGame().getInitDate();
-		if(date.isBefore(LocalDateTime.now())) {
-			throw new FinishedGameException();
-		}
 		Team teamObtained = team.get();
 		if(teamObtained.getTeamUsers().size() > 1) {
 			throw new NoSpaceException();
@@ -328,10 +316,6 @@ public class GameServiceImpl implements GameService {
 		Optional<User> user = userDao.findById(userId);
 		if(!user.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.user", userId);
-		}
-		LocalDateTime date = team.get().getGame().getInitDate();
-		if(date.isBefore(LocalDateTime.now())) {
-			throw new FinishedGameException();
 		}
 		Team teamObtained = team.get();
 		for(User gameUser : teamObtained.getTeamUsers()) {

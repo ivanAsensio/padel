@@ -163,7 +163,7 @@ public class GameController {
 	@PostMapping("/addPlayerToTeam")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void addPlayerToTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
-		gameService.addPlayerToGame(params.getTeamId(), params.getUserId());
+		gameService.addPlayerToTeam(params.getTeamId(), params.getUserId());
 	}
 	
 	@GetMapping("/{id}")
