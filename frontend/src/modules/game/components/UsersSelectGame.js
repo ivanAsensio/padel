@@ -30,14 +30,7 @@ const UsersSelectGame = ({users, gameId, teamId, typeGame, setBackendErrors}) =>
     const dispatch = useDispatch();
 
     const handleClick = (value) => {
-        actions.addToGame(
-            {
-                userId: Number(value),
-                gameId: Number(gameId)
-            },
-            () => dispatch(actions.findGameById(gameId)),
-            errors => setBackendErrors(errors)
-        );
+
         if(typeGame === 'Pro'){
             actions.addToTeam(
                 {userId: Number(value),
@@ -46,6 +39,15 @@ const UsersSelectGame = ({users, gameId, teamId, typeGame, setBackendErrors}) =>
                 errors => setBackendErrors(errors)
             );
         }
+
+        actions.addToGame(
+            {
+                userId: Number(value),
+                gameId: Number(gameId)
+            },
+            () => dispatch(actions.findGameById(gameId)),
+            errors => setBackendErrors(errors)
+        );
     }
     return (
         <div>

@@ -20,32 +20,72 @@ const SignUp = () => {
     const [position, setPosition]  = useState('');
     const [backendErrors, setBackendErrors] = useState(null);
     const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
+    const [image, setImage] = useState(null);
     let form;
     let confirmPasswordInput;
 
-    const handleSubmit = event => {
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+            if ((encoded.length % 4) > 0) {
+              encoded += '='.repeat(4 - (encoded.length % 4));
+            }
+            resolve(encoded);
+          };
+          reader.onerror = error => reject(error);
+        });
+      }
+
+    const handleSubmit = (event) => {
 
         event.preventDefault();
 
+        console.log(image);
+        //getBase64(image).then((str) => console.log(typeof str));
         if (form.checkValidity() && checkConfirmPassword()) {
-            
-            dispatch(actions.signUp(
-                {login: userName.trim(),
-                password: password,
-                name: firstName.trim(),
-                lastName1: lastName.trim(),
-                lastName2: lastName2.trim(),
-                level: level.trim(),
-                position: position.trim()},
-                () => history.push('/'),
-                errors => setBackendErrors(errors),
-                () => {
-                    history.push('/users/login');
-                    dispatch(actions.logout());
-                }
-            ));
-            
 
+            if(image){
+                getBase64(image).then((imageEncoded) => dispatch(actions.signUp(
+                    {
+                        login: userName.trim(),
+                        password: password,
+                        name: firstName.trim(),
+                        lastName1: lastName.trim(),
+                        lastName2: lastName2.trim(),
+                        level: level.trim(),
+                        position: position.trim(),
+                        image: image
+                    },
+                    () => history.push('/'),
+                    errors => setBackendErrors(errors),
+                    () => {
+                        history.push('/users/login');
+                        dispatch(actions.logout());
+                    }
+                )));
+            }else{
+                dispatch(actions.signUp(
+                    {
+                        login: userName.trim(),
+                        password: password,
+                        name: firstName.trim(),
+                        lastName1: lastName.trim(),
+                        lastName2: lastName2.trim(),
+                        level: level.trim(),
+                        position: position.trim(),
+                        image: null
+                    },
+                    () => history.push('/'),
+                    errors => setBackendErrors(errors),
+                    () => {
+                        history.push('/users/login');
+                        dispatch(actions.logout());
+                    }
+                ));
+            }
         } else {
 
             setBackendErrors(null);
@@ -200,6 +240,19 @@ const SignUp = () => {
                                     value={position}
                                     onChange={e => setPosition(e.target.value)}
                                     required/>
+                                <div className="invalid-feedback">
+                                    <FormattedMessage id='project.global.validator.required'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <label htmlFor="image" className="col-md-3 col-form-label">
+                                <FormattedMessage id="project.global.fields.image"/>
+                            </label>
+                            <div className="col-md-4">
+                                <input type="file" alt="" id="image" className="form-control"
+                                    onChange={e => setImage(e.target.files[0])}
+                                    />
                                 <div className="invalid-feedback">
                                     <FormattedMessage id='project.global.validator.required'/>
                                 </div>

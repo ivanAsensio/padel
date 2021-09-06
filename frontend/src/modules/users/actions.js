@@ -91,7 +91,10 @@ const findUserByIdCompleted = userObtained => ({
 
 export const findUserById = id => dispatch => {
     backend.userService.findUserById(id,
-        user => dispatch(findUserByIdCompleted(user)));
+        user => {
+            dispatch(findUserByIdCompleted(user));
+            dispatch(getAllSchedules(id));
+        });
 }
 
 export const clearUserObtained = () => ({

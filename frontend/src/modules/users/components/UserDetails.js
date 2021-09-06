@@ -8,6 +8,7 @@ import * as selectors from '../selectors';
 import * as actions from '../actions';
 import {Errors} from '../../common';
 import {BackLink} from '../../common';
+import ScheduleList from './ScheduleList';
 
 const UserDetails = () => {
 
@@ -16,6 +17,8 @@ const UserDetails = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [backendErrors, setBackendErrors] = useState(null);
+    const schedules = useSelector(selectors.getAllSchedules);
+
     const {id} = useParams();
     let form;
 
@@ -49,67 +52,73 @@ const UserDetails = () => {
     }
         
     return (
-        <form ref={node => form = node} className="needs-validation" noValidate onSubmit={e => handleSubmit(e)}>
+        <div>
             <BackLink></BackLink>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-            <div className="container bootstrap snippet ">
-                <div className="row">
-                    <h1 htmlFor="login" className="col-sm-10">
-                        {userObtained.login && userObtained.login}
-                    </h1>
-                </div>
-                <div className="row">
-                    <div className="text-center">
-                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" className="avatar img-circle img-thumbnail" alt="avatar"></img>
+                <div className="container bootstrap snippet d-flex">
+                    <div className="p-2">
+                        <div className="row">     
+                            <div className="col-md-12 d-flex">
+                                <label className="p-2 font-weight-bold">
+                                    <h1 className=" font-weight-bold">{userObtained.login && userObtained.login}</h1>
+                                </label>
+                                <form ref={node => form = node} className="needs-validation p-2 ml-auto" noValidate onSubmit={e => handleSubmit(e)}>                             
+                                    <button type="submit" className="btn btn-primary">
+                                        <FormattedMessage id="project.global.buttons.changeLevel"/> 
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <div className="row">
+                            <div className="text-center">
+                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" className="avatar img-circle img-thumbnail" alt="avatar"></img>
+                            </div>
+                            <div className="tab-content">
+                                <div htmlFor="name" className="col-xs-6">
+                                    <label htmlFor="name" className="col-md-12 col-form-label">
+                                        <label className="font-weight-bold"><FormattedMessage id="project.global.fields.firstName"/></label>
+                                        :{userObtained.name && userObtained.name}
+                                    </label>
+                                </div>
+                                <div htmlFor="lastName">
+                                    <label htmlFor="lastName" className="col-md-12 col-form-label">
+                                        <label className="font-weight-bold"><FormattedMessage id="project.global.fields.lastNames"/></label>
+                                        :{userObtained.lastName1 && userObtained.lastName2 && userObtained.lastName1.concat(' ', userObtained.lastName2)}
+                                    </label>
+                                </div>
+                                <div htmlFor="level" className="col-xs-6">
+                                    <label htmlFor="level" className="col-md-12 col-form-label">
+                                        <label className="font-weight-bold"><FormattedMessage id="project.global.fields.level"/></label>
+                                        :{userObtained.level && userObtained.level}
+                                    </label>
+                                </div>
+                                <div htmlFor="position" className="col-xs-6">
+                                    <label htmlFor="position" className="col-md-12 col-form-label">
+                                        <label className="font-weight-bold"><FormattedMessage id="project.global.fields.position"/></label>
+                                        :{userObtained.position && userObtained.position}
+                                    </label>
+                                </div>
+                                <div htmlFor="state" className="col-xs-6">
+                                    <label htmlFor="state" className="col-md-12 col-form-label">
+                                        <label className="font-weight-bold"><FormattedMessage id="project.global.fields.state"/></label>  
+                                        :{
+                                            userObtained.state ? 
+                                                <FormattedMessage id="project.global.fields.state.true"/>  
+                                            :   <FormattedMessage id="project.global.fields.state.false"/>  
+                                        }                       
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="tab-content">
-                        <div htmlFor="name" className="col-xs-6">
-                            <label htmlFor="name" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.firstName"/>
-                                :{userObtained.name && userObtained.name}
-                            </label>
-                        </div>
-                        <div htmlFor="lastName">
-                            <label htmlFor="lastName" className="col-md-12 col-form-label">
-                                <FormattedMessage id="project.global.fields.lastName"/>
-                                :{userObtained.lastName1 && userObtained.lastName2 && userObtained.lastName1.concat(' ', userObtained.lastName2)}
-                            </label>
-                        </div>
-                        <div htmlFor="level" className="col-xs-6">
-                            <label htmlFor="level" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.level"/>
-                                :{userObtained.level && userObtained.level}
-                            </label>
-                        </div>
-                        <div htmlFor="position" className="col-xs-6">
-                            <label htmlFor="position" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.position"/>
-                                :{userObtained.position && userObtained.position}
-                            </label>
-                        </div>
-                        <div htmlFor="state" className="col-xs-6">
-                            <label htmlFor="state" className="col-md-3 col-form-label">
-                                <FormattedMessage id="project.global.fields.state"/>    
-                                :{
-                                    userObtained.state ? 
-                                        <FormattedMessage id="project.global.fields.state.true"/>  
-                                    :   <FormattedMessage id="project.global.fields.state.false"/>  
-                                }                       
-                            </label>
-                        </div>
+                    <div className="ml-auto p-2">
+                        <ScheduleList schedules={schedules} user={userObtained}></ScheduleList>
                     </div>
                 </div>
-            </div>
-            <div className="d-flex justify-content-end">
-                <div className="form-group row">
-                    <div className="offset-md-6 col-md-4">
-                        <button type="submit" className="btn btn-primary">
-                            <FormattedMessage id="project.global.buttons.changeLevel"/> 
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+                
+        </div>
        
     );
 

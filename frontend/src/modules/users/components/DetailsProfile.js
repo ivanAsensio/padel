@@ -20,7 +20,7 @@ const DetailsProfile = (user) => {
         <div className="container bootstrap snippet d-flex">
             <div className="p-2">
                 <div className="row">
-                    <h1 htmlFor="login" className="col-sm-10">
+                    <h1 htmlFor="login" className="col-sm-10 font-weight-bold">
                         {userObtained.login && userObtained.login}
                     </h1>
                 </div>
@@ -32,39 +32,40 @@ const DetailsProfile = (user) => {
                 <div className="row">
                     <div className="tab-content">
                         <div htmlFor="name" className="col-xs-6">
-                            <label htmlFor="name" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.firstName"/>
-                                :{userObtained.name&& userObtained.name}
+                            <label htmlFor="name" className="col-md-12 col-form-label">
+                                <label className="font-weight-bold"><FormattedMessage id="project.global.fields.firstName"/></label>
+                                :&nbsp;
+                                <label >{userObtained.name&& userObtained.name}</label>
                             </label>
                         </div>
                         <div htmlFor="lastName">
                             <label htmlFor="lastName" className="col-md-12 col-form-label">
-                                <FormattedMessage id="project.global.fields.lastName"/>
-                                :{userObtained.lastName1 && userObtained.lastName2 && userObtained.lastName1.concat(' ', userObtained.lastName2)}
+                                <label className="font-weight-bold"><FormattedMessage id="project.global.fields.lastNames"/></label>
+                                :&nbsp;{userObtained.lastName1 && userObtained.lastName2 && userObtained.lastName1.concat(' ', userObtained.lastName2)}
                             </label>
                         </div>
                         <div htmlFor="level" className="col-xs-6">
-                            <label htmlFor="level" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.level"/>
-                                :{userObtained.level && userObtained.level}
+                            <label htmlFor="level" className="col-md-12 col-form-label">
+                            <label className="font-weight-bold"><FormattedMessage id="project.global.fields.level"/></label>
+                                :&nbsp;{userObtained.level && userObtained.level}
                             </label>
                         </div>
                         <div htmlFor="role" className="col-xs-6">
-                            <label htmlFor="role" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.role"/>
-                                :{userObtained.role && userObtained.role}
+                            <label htmlFor="role" className="col-md-12 col-form-label">
+                                <label className="font-weight-bold"><FormattedMessage id="project.global.fields.firstName"/></label>
+                                :&nbsp;{userObtained.role && userObtained.role}
                             </label>
                         </div>
                         <div htmlFor="position" className="col-xs-6">
-                            <label htmlFor="position" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.position"/>
-                                :{userObtained.position && userObtained.position}
+                            <label htmlFor="position" className="col-md-12 col-form-label">
+                            <label className="font-weight-bold"><FormattedMessage id="project.global.fields.position"/></label>
+                                :&nbsp;{userObtained.position && userObtained.position}
                             </label>
                         </div>
                         <div htmlFor="state" className="col-xs-6">
-                            <label htmlFor="state" className="col-md-3 col-form-label">
-                                <FormattedMessage id="project.global.fields.state"/>    
-                                :{
+                            <label htmlFor="state" className="col-md-12 col-form-label">
+                                <label className="font-weight-bold"><FormattedMessage id="project.global.fields.state"/></label>  
+                                :&nbsp;{
                                     userObtained.state ? 
                                         <FormattedMessage id="project.global.fields.state.true"/>  
                                     :   <FormattedMessage id="project.global.fields.state.false"/>  

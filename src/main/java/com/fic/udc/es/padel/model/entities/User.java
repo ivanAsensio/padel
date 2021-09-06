@@ -24,6 +24,7 @@ public class User {
 	private float level;
 	private String position;
 	private RoleEnum role;
+	private String image;
 	private Set<Team> teams = new HashSet<>();
 	private Set<Schedule> schedules = new HashSet<>();
 
@@ -32,7 +33,7 @@ public class User {
 	}
 	
 	public User(Long userId, String name, String lastname1, String lastname2, String login, boolean state,
-			String password, float level, String position) {
+			String password, float level, String position, String image) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -106,6 +107,14 @@ public class User {
 	}
 	public void setRole(RoleEnum role) {
 		this.role = role;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@ManyToMany(mappedBy = "teamUsers")

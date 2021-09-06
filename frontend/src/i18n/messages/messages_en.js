@@ -44,6 +44,7 @@ export default {
     'project.global.fields.numberSet': 'Set number',
     'project.global.fields.firstResult': 'Team 1',
     'project.global.fields.secondResult': 'Team 2',
+    'project.global.fields.image': 'Image',
     'project.global.field.empty': 'Empty',
     'project.games.scoreGame.addSet.title': 'Add set',
     'project.global.fields.addScore': 'Add score',

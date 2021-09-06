@@ -16,13 +16,6 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
 
         if (form.checkValidity()) {
             
-            actions.addToGame(
-                {userId: Number(userId),
-                gameId: Number(gameId)},
-                () => dispatch(actions.findGameById(gameId)),
-                errors => setBackendErrors(errors)
-            );
-
             if(typeGame === 'Pro'){
                 actions.addToTeam(
                     {userId: Number(userId),
@@ -31,6 +24,13 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
                     errors => setBackendErrors(errors)
                 );
             }
+
+            actions.addToGame(
+                {userId: Number(userId),
+                gameId: Number(gameId)},
+                () => dispatch(actions.findGameById(gameId)),
+                errors => setBackendErrors(errors)
+            );
             
         } else {
 

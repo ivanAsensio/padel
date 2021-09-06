@@ -18,7 +18,7 @@ public class UserConversor {
 	
 	public final static UserDto toUserDto(User user) {
 		return new UserDto(user.getUserId(), user.getLogin(), user.getPassword(), user.getName(), user.getLastname1(), user.getLastname2(), user.getLevel(),
-			user.getRole().toString(), user.getPosition(), user.isState(), user.getSchedules());
+			user.getRole().toString(), user.getPosition(), user.isState(), user.getSchedules(), user.getImage());
 	}
 	
 	public final static UserDetailsDto toUserDetailsDto(User user) {
@@ -29,7 +29,7 @@ public class UserConversor {
 	public final static User toUser(UserDto userDto) {
 		
 		return new User(userDto.getId(),userDto.getName(),userDto.getLastName1(),userDto.getLastName2(),userDto.getLogin(),
-				userDto.isState(), userDto.getPassword(), userDto.getLevel(),userDto.getPosition());
+				userDto.isState(), userDto.getPassword(), userDto.getLevel(),userDto.getPosition(), userDto.getImage());
 	}
 	
 	public final static AuthenticatedUserDto toAuthenticatedUserDto(String serviceToken, User user) {

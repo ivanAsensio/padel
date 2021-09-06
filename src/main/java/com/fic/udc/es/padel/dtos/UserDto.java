@@ -24,13 +24,14 @@ public class UserDto {
 	private String role;
 	private String position;
 	private boolean state;
+	private String image;
 	private Set<Schedule> schedules = new HashSet<>();
 
 	public UserDto() {}
 
 
 	public UserDto(Long id, String login, String password, String name, String lastName1, String lastName2, float level,
-			String role, String position, boolean state, Set<Schedule> schedules) {
+			String role, String position, boolean state, Set<Schedule> schedules, String image) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -42,6 +43,7 @@ public class UserDto {
 		this.role = role;
 		this.position = position;
 		this.state = state;
+		this.image = image;
 		//this.schedules = schedules;
 	}
 
@@ -136,6 +138,15 @@ public class UserDto {
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 

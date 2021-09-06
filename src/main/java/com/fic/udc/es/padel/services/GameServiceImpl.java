@@ -297,7 +297,8 @@ public class GameServiceImpl implements GameService {
 		if(teamObtained.getTeamUsers().size() > 1) {
 			throw new NoSpaceException();
 		}
-		for(User gameUser : teamObtained.getTeamUsers()) {
+		
+		for(User gameUser : teamObtained.getGame().getGameUsers()) {
 			if(gameUser.getUserId() == userId) {
 				throw new UserAlreadyAddedException();
 			}

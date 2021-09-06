@@ -18,12 +18,11 @@ import {
 import * as selectors from '../selectors';
 import * as selectorsField from '../../field/selectors';
 import { useSelector } from 'react-redux';
-import { grey, blueGrey, orange, deepOrange, amber, deepPurple } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 
 
 const GameCalendar = () => {
 
-    const colors = [grey, blueGrey, orange, deepOrange, amber, deepPurple];
     const games = useSelector(selectors.getGamesDate);
     const fields = useSelector(selectorsField.getAllFields);
     const gamesObtained = games ? games.map((game) => 
@@ -41,10 +40,10 @@ const GameCalendar = () => {
     const resources = [{
         fieldName: 'fields',
         title: 'Fields',
-        instances: fields ? fields.map((field, index) => Object.assign(field, {
+        instances: fields ? fields.map((field) => Object.assign(field, {
           text: field.name,
           id: field.fieldId,
-          color : colors[index]
+          color : grey
         })) : [{text: 'No Field'}],
         allowMultiple: true,
       }];
@@ -59,15 +58,17 @@ const GameCalendar = () => {
     <Appointments.Appointment
         {...restProps}
     >
-        {<div className="text-center">
-        <div>
-            <div>
-              <h5><FormattedMessage id="project.global.fields.level"/>:{data.minimunLevel}-{data.maximunLevel}</h5>
-              <Link className="float-right" to={`/games/game-details/${data.id}`}>
-                <h6 className="text-success"><FormattedMessage id="project.global.fields.showDetails"/>-></h6>
-              </Link>
+        {<div className="w-100">
+          <div className="text-center d-flex align-content-center flex-wrap">
+              <div>
+                {data.users && data.users.length === 4 && <label className="bg-danger">COMPLETED</label>}
+                <h6>{data.minimunLevel}-{data.maximunLevel}</h6>
+                <Link className="float-right" to={`/games/game-details/${data.id}`}>
+                  <h6 className="text-primary float-right"><FormattedMessage id="project.global.fields.showDetails"/>-></h6>
+                </Link>
+              </div>
+                  
             </div>
-        </div>
         </div>}
     </Appointments.Appointment>
     );
@@ -90,6 +91,7 @@ const GameCalendar = () => {
               startDayHour={10}
               endDayHour={23}
               intervalCount={1}
+              cellDuration={30}
             />
             <Toolbar />
             <DateNavigator />

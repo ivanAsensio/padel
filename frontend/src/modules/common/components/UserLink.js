@@ -17,12 +17,14 @@ const UserLink = ({id, user}) => {
         return fullName;
     }
     return (
-        <div className="d-flex">
-            <div className="mr-auto p-2">
+        <div>
+            <div className="float-left">
                 <Link to={`/users/user-details/${id}`}>
-                    <h4>{obtainFullName(user.name, user.lastName1, user.lastName2)}</h4>
+                    <h4>{user.login}</h4>
                 </Link>
-                <FormattedMessage id="project.global.fields.level"/>: {user.level}
+                <label>{obtainFullName(user.name, user.lastName1, user.lastName2)}</label>
+                <br></br>
+                <label><FormattedMessage id="project.global.fields.level"/>: {user.level}</label>
                 <div>
                     <FormattedMessage id="project.global.fields.position"/>: {user.position}
                 </div>

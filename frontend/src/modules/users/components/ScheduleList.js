@@ -67,10 +67,10 @@ const ScheduleList = (user) => {
         <div>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
             <br></br>
-            <h2 className="text-center"><FormattedMessage id='project.scheduleList.title'/></h2>
+            <h2 className="text-center font-weight-bold"><FormattedMessage id='project.scheduleList.title'/></h2>
             <br></br>
-            <form className="float-right" onSubmit={(e) => handleAdd(e)}>
-                <button type="submit"><FormattedMessage id='project.scheduleList.addSchedule'/></button>
+            <form className="btn" onSubmit={(e) => handleAdd(e)}>
+                <button type="submit float-right"><FormattedMessage id='project.scheduleList.addSchedule'/></button>
             </form>
             {schedules != null ? 
 
@@ -83,9 +83,9 @@ const ScheduleList = (user) => {
                         </div>
                     : 
                     undefined}
-                        <table className="table table-striped table-hover">
+                        <table className="table table-striped table-hover font-weight-bold">
                             <thead>
-                                <tr>
+                                <tr className="text-center">
                                     <th scope="col">
                                         <FormattedMessage id='project.global.fields.day'/>
                                     </th>
