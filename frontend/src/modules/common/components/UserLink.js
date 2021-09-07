@@ -17,8 +17,11 @@ const UserLink = ({id, user}) => {
         return fullName;
     }
     return (
-        <div>
-            <div className="float-left">
+        <div className="d-flex">
+            <div className="p-2">
+                <img src={user && user.image ? user.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle" alt="avatar"></img>
+            </div>
+            <div className="p-2">
                 <Link to={`/users/user-details/${id}`}>
                     <h4>{user.login}</h4>
                 </Link>

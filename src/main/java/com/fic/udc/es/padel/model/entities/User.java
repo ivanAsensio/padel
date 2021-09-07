@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,8 @@ public class User {
 	private float level;
 	private String position;
 	private RoleEnum role;
+	
+	@Column(length = Integer.MAX_VALUE)
 	private String image;
 	private Set<Team> teams = new HashSet<>();
 	private Set<Schedule> schedules = new HashSet<>();
@@ -44,6 +47,7 @@ public class User {
 		this.password = password;
 		this.level = level;
 		this.position = position;
+		this.image = image;
 	}
 
 	@Id

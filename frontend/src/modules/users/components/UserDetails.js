@@ -73,7 +73,7 @@ const UserDetails = () => {
                         <br></br>
                         <div className="row">
                             <div className="text-center">
-                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" className="avatar img-circle img-thumbnail" alt="avatar"></img>
+                                <img src={userObtained && userObtained.image ? userObtained.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle img-fluid" alt="avatar"></img>
                             </div>
                             <div className="tab-content">
                                 <div htmlFor="name" className="col-xs-6">

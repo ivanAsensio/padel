@@ -133,10 +133,7 @@ const ScheduleList = (user) => {
                 : <table className="table table-striped table-hover"></table>}
                 {showAdd ? 
                 <div>
-                    <form ref={node => form = node}
-                        className="needs-validation" noValidate 
-                        onSubmit={e => handleSubmit(e)}>
-                        <select defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
+                        <select className="form-group row" defaultValue={day} onChange={e => onChangeSelect(e.target.value)}>
                             <FormattedMessage id="project.global.day.monday">
                                 {(message) => <option value="MONDAY">{message}</option>}
                             </FormattedMessage>
@@ -159,10 +156,13 @@ const ScheduleList = (user) => {
                                 {(message) => <option value="SUNDAY">{message}</option>}
                             </FormattedMessage>
                         </select>
-                        <input id="initHour" type="text" onChange={e => setInitHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:HH"/>
-                        <input id="finalHour" type="text" onChange={e => setFinalHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:MM"/>
-                        <button type="submit">Añadir horario</button>
-                    </form>
+                        <input id="initHour" className="form-group row" type="text" onChange={e => setInitHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:HH"/>
+                        <input id="finalHour" className="form-group row" type="text" onChange={e => setFinalHour(e.target.value)} pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" placeholder="HH:MM"/>
+                        <form ref={node => form = node}
+                        className="needs-validation" noValidate 
+                        onSubmit={e => handleSubmit(e)}>
+                            <button type="submit">Añadir horario</button>
+                        </form>
                 </div>
                 : undefined}
             </div>

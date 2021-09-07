@@ -29,11 +29,8 @@ const SignUp = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => {
-            let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
-            if ((encoded.length % 4) > 0) {
-              encoded += '='.repeat(4 - (encoded.length % 4));
-            }
-            resolve(encoded);
+            
+            resolve(reader.result);
           };
           reader.onerror = error => reject(error);
         });
@@ -43,8 +40,7 @@ const SignUp = () => {
 
         event.preventDefault();
 
-        console.log(image);
-        //getBase64(image).then((str) => console.log(typeof str));
+        getBase64(image).then((str) => console.log(str));
         if (form.checkValidity() && checkConfirmPassword()) {
 
             if(image){
@@ -57,7 +53,7 @@ const SignUp = () => {
                         lastName2: lastName2.trim(),
                         level: level.trim(),
                         position: position.trim(),
-                        image: image
+                        image: imageEncoded
                     },
                     () => history.push('/'),
                     errors => setBackendErrors(errors),
@@ -274,3 +270,4 @@ const SignUp = () => {
 }
 
 export default SignUp;
+

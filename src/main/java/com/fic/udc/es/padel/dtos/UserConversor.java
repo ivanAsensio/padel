@@ -23,7 +23,7 @@ public class UserConversor {
 	
 	public final static UserDetailsDto toUserDetailsDto(User user) {
 		return new UserDetailsDto(user.getUserId(), user.getLogin(), user.getName(), user.getLastname1(), user.getLastname2(), user.getLevel(),
-			 user.getPosition(), toScheduleSetDtos(user.getSchedules()));
+			 user.getPosition(), toScheduleSetDtos(user.getSchedules()), user.getImage());
 	}
 	
 	public final static User toUser(UserDto userDto) {
