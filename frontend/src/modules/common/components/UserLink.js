@@ -15,13 +15,15 @@ const UserLink = ({id, user}) => {
             fullName = fullName + " " + lastName2;
         }
         return fullName;
-    }
+    };
+    const style = {};
+    style["min-width"] = "120px";
     return (
         <div className="d-flex">
-            <div className="p-2">
-                <img src={user && user.image ? user.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle" alt="avatar"></img>
+            <div className="p-2 col-md-5">
+                <img src={user && user.image ? user.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle w-25" style={style} alt="avatar"></img>
             </div>
-            <div className="p-2">
+            <div className="p-2 col-7">
                 <Link to={`/users/user-details/${id}`}>
                     <h4>{user.login}</h4>
                 </Link>

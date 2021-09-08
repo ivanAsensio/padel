@@ -26,7 +26,7 @@ const DetailsProfile = (user) => {
                 </div>
                 <div className="row d-flex">
                     <div className="text-center p-2 col-md-5">
-                        <img src={user && user.user.image ? user.user.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle" alt="avatar"></img>
+                        <img src={user && user.user.image ? user.user.image : "http://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="rounded-circle img-fluid" alt="avatar"></img>
                     </div>
                     <div className="p-2 col-md-7">
                         <div className="tab-content">
