@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User updateProfile(Long id, String firstName, String lastName1, 
 			String lastName2, boolean state, String position, float level, 
-			Set<Schedule> schedules) throws InstanceNotFoundException {
+			Set<Schedule> schedules, String image) throws InstanceNotFoundException {
 		
 		User user = permissionChecker.checkUser(id);
 		
@@ -89,6 +89,9 @@ public class UserServiceImpl implements UserService{
 		user.setLevel(level);
 		user.setPosition(position);
 		user.setState(state);
+		if(image != null) {
+			user.setImage(image);
+		}
 		List<Schedule> schedulesObtained = scheduleDao.findByUser(user);
 		if(schedulesObtained.size() != 0) {
 			for(Schedule schedule : schedulesObtained) {

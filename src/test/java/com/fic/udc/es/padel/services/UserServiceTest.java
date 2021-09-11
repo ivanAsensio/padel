@@ -122,7 +122,7 @@ public class UserServiceTest {
 		
 		userService.updateProfile(user.getUserId(), 'X' + user.getName(),'X' + user.getLastname1(), 
 				'X'+ user.getLastname2(), true, "Position", Float.valueOf(2), 
-				schedules);
+				schedules, null);
 		
 		User updatedUser = userService.loginFromId(user.getUserId());
 		
@@ -135,7 +135,7 @@ public class UserServiceTest {
 		Set<Schedule> schedules = new HashSet<>();
 		assertThrows(InstanceNotFoundException.class, () ->
 			userService.updateProfile(NON_EXISTENT_ID, "X", "X", "X", true, "X", 
-					Float.valueOf(0), schedules));
+					Float.valueOf(0), schedules, null));
 	}
 	
 	@Test

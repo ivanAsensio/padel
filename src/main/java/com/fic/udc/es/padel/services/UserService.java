@@ -23,7 +23,7 @@ public interface UserService {
 	
 	User updateProfile(Long id, String firstName, String lastName1, 
 			String lastName2, boolean state, String position, float level, 
-			Set<Schedule> schedules) throws InstanceNotFoundException;
+			Set<Schedule> schedules, String image) throws InstanceNotFoundException;
 	
 	void changePassword(Long id, String oldPassword, String newPassword)
 			throws InstanceNotFoundException, IncorrectPasswordException;

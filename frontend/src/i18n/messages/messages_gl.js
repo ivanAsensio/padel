@@ -66,6 +66,7 @@ export default {
     'project.global.validator.required': 'Este campo é obrigatorio',
     'project.global.validator.email': 'Mal formato para o email',
     'project.global.validator.passwordsDoNotMatch': 'As contrasinais no son as mesmas',
+    'project.global.validator.maxSizeFile': 'Maximo tamaño do ficheiro: 17 Kb',
 
     'project.users.ChangePassword.title': 'Cambiar contrasinal',
     'project.users.ChangePassword.fields.oldPassword': 'Antiga contrasinal',

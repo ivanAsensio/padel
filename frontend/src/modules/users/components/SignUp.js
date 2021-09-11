@@ -23,6 +23,7 @@ const SignUp = () => {
     const [image, setImage] = useState(null);
     let form;
     let confirmPasswordInput;
+    let imageInput;
 
     function getBase64(file) {
         return new Promise((resolve, reject) => {
@@ -34,14 +35,23 @@ const SignUp = () => {
           };
           reader.onerror = error => reject(error);
         });
-      }
+    }
+
+    const checkImageSize = (image) => {
+        if(image){
+            if(image.size > 20000){
+                imageInput.setCustomValidity('error');
+                return false;
+            }
+        }
+        return true;
+    }
 
     const handleSubmit = (event) => {
 
         event.preventDefault();
 
-        getBase64(image).then((str) => console.log(str));
-        if (form.checkValidity() && checkConfirmPassword()) {
+        if (form.checkValidity() && checkConfirmPassword() && checkImageSize(image)) {
 
             if(image){
                 getBase64(image).then((imageEncoded) => dispatch(actions.signUp(
@@ -248,11 +258,15 @@ const SignUp = () => {
                             <div className="col-md-4">
                                 <input type="file" alt="" id="image" className="form-control"
                                     onChange={e => setImage(e.target.files[0])}
+                                    ref={node => imageInput = node}
                                     />
                                 <div className="invalid-feedback">
                                     <FormattedMessage id='project.global.validator.required'/>
                                 </div>
                             </div>
+                            <label className="col-md-3 col-form-label">
+                                <FormattedMessage id='project.global.validator.maxSizeFile'/>
+                            </label>
                         </div>
                         <div className="form-group row">
                             <div className="offset-md-3 col-md-2">

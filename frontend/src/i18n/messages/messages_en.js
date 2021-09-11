@@ -66,6 +66,7 @@ export default {
     'project.global.validator.required': 'This field is necessary',
     'project.global.validator.email': 'Bad format on email',
     'project.global.validator.passwordsDoNotMatch': 'Password doesn´t match',
+    'project.global.validator.maxSizeFile': 'Maximun size of file: 17 Kb',
 
     'project.users.ChangePassword.title': 'Change password',
     'project.users.ChangePassword.fields.oldPassword': 'Old password',
