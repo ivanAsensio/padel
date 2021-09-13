@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +39,7 @@ import com.fic.udc.es.padel.dtos.GameDetailsDto;
 import com.fic.udc.es.padel.dtos.SetDto;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
+import com.fic.udc.es.padel.model.entities.ProfessionalGame;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Team;
 import com.fic.udc.es.padel.model.entities.User;
@@ -174,7 +176,6 @@ public class GameController {
 		if(game.getGameType().equals("Pro")) {
 			sets = setService.getSetsByGameId(id);
 			teams = teamService.findTeamByGameId(id);
-			game.setGameUsers(new HashSet<>());
 		}
 		return toGameDetails(game, sets, teams);
 	}
@@ -284,6 +285,13 @@ public class GameController {
 	public void scoreGame(@PathVariable Long id, @Validated({SetDto.AllValidations.class}) @RequestBody List<SetDto> sets) throws InstanceNotFoundException, GameTypeException{
 		Set<PadelSet> setsObtained = GameConversor.toSets(sets);
 		gameService.scoreGame(id, setsObtained);
+	}
+	
+	@PostMapping("/deleteScoreGame/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateScoreGame(@PathVariable Long id) throws InstanceNotFoundException, GameTypeException{
+		gameService.getGameById(id);
+		setService.deleteScore(id);
 	}
 	
 	@PostMapping("/deleteGame/{id}")

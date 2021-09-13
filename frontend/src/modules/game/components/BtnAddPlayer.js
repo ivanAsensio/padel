@@ -45,8 +45,8 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
     <form ref={node => form = node}
         className="needs-validation" noValidate 
         onSubmit={e => handleAddGame(e)}>
-            <div className="form-group row">
-                <div className="offset-md-3 col-md-2">
+            <div className="form-group">
+                <div className="offset-md-3 col-md-6">
                     <button type="submit" className="btn btn-primary">
                         <FormattedMessage id="project.fields.addPlayerToGame.title"/>
                     </button>

@@ -66,6 +66,20 @@ const GameDetails = () => {
             () => history.push("/"));
     }
 
+    const handleDeleteScoreGame = (event) => {
+        event.preventDefault();
+
+        actions.deleteScoreGame(
+            Number(id),
+            () => dispatch(actions.findGameById(id)));
+    }
+
+    if(gameObtained && gameObtained.teams){
+        if(gameObtained.teams[0].name !== "Team 1"){
+            gameObtained.teams = gameObtained.teams.reverse();
+        }
+    }
+
     if (!gameObtained) {
         return null;
     }else{
@@ -102,10 +116,15 @@ const GameDetails = () => {
                                 </h3>
                             </div>
                             {gameObtained.sets.length !== 0 &&
-                            <div className="row text-center">
-                                <h3 htmlFor="Sets" className="col-sm-10">
+                            <div className="text-center d-flex">
+                                <h3 htmlFor="Sets" className="col-sm-10 p-2">
                                     {gameObtained.sets.map(set => <h3>{set.result}&nbsp;</h3>)}
                                 </h3>
+                                {gameObtained && gameObtained.sets && gameObtained.sets.length !== 0 && <form className="p-2" onSubmit={e => handleDeleteScoreGame(e)}>
+                                    <button type="submit" className="btn btn-danger">
+                                        <FormattedMessage id="project.global.buttons.deleteScore"/> 
+                                    </button>
+                                </form>}
                             </div>    
                             }
                         </div>
@@ -132,8 +151,16 @@ const GameDetails = () => {
                         <table className="table">
                             <thead>
                                     <tr>
-                                        <th scope="col" className="col-md-6">{gameObtained.teams[0].name}</th>
-                                        <th scope="col" className="col-md-6">{gameObtained.teams[1].name}</th>
+                                        <th scope="col" className="col-md-6">  
+                                            <div>
+                                                <label>{gameObtained.teams[0].name}</label>
+                                                {showAddButton && <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>}
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="col-md-6">
+                                            <label>{gameObtained.teams[1].name}</label>
+                                            {showAddButton && <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>}
+                                        </th>
                                         
                                     </tr>
                             </thead>
@@ -154,7 +181,7 @@ const GameDetails = () => {
                                                 } 
                                             </div> 
                                             : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
+                                                <FormattedMessage id="project.global.field.empty"/>
                                         }</td>
                                         <td>{gameObtained.teams[1].users[0] ? 
                                             <div className="d-flex justify-content-center">
@@ -171,7 +198,7 @@ const GameDetails = () => {
                                                 }
                                             </div>
                                             : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
+                                                <FormattedMessage id="project.global.field.empty"/>}
                                         </td>   
                                     </tr>
                                     <tr>
@@ -190,7 +217,7 @@ const GameDetails = () => {
                                             }
                                         </div>
                                             : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[0].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                            showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[0].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
+                                                <FormattedMessage id="project.global.field.empty"/>}
                                         </td>
                                         <td>{
                                             gameObtained.teams[1].users[1] ? 
@@ -208,7 +235,7 @@ const GameDetails = () => {
                                                 }                                             
                                             </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} teamId={gameObtained.teams[1].id} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} teamId={gameObtained.teams[1].id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
+                                                    <FormattedMessage id="project.global.field.empty"/>
                                             }
                                         </td>   
                                     </tr>
@@ -217,6 +244,7 @@ const GameDetails = () => {
 
                         :
                         <div className="container">
+                            {showAddButton && <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/>}
                             <div className="d-flex col-md-12">
                                 <div className="mr-auto p-2 col-md-6">
                                     <div className="card bg-light">
@@ -233,7 +261,7 @@ const GameDetails = () => {
                                                     </form>} 
                                                 </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>
+                                                    <FormattedMessage id="project.global.field.empty"/>
                                                 }
                                             </p>
                                         </div>
@@ -255,7 +283,7 @@ const GameDetails = () => {
                                                 </div>
                                             
                                             : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
+                                                    <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>
@@ -277,7 +305,7 @@ const GameDetails = () => {
                                                     </form>}
                                                 </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
+                                                <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>
@@ -297,7 +325,7 @@ const GameDetails = () => {
                                                     </form>}
                                                 </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
-                                                    showAddButton ? <BtnAddPlayer userId={user.id} gameId={id} setBackendErrors={setBackendErrors} typeGame={gameObtained.typeGame}/> : <FormattedMessage id="project.global.field.empty"/>}
+                                                    <FormattedMessage id="project.global.field.empty"/>}
                                             </p>
                                         </div>
                                     </div>

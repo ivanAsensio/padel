@@ -53,6 +53,13 @@ export const deleteGame = (userId, onSuccess) =>
         }
     ), onSuccess);
 
+export const deleteScoreGame = (gameId, onSuccess) =>
+    appFetch(`/games/deleteScoreGame/${gameId}`, config('POST', 
+        {
+            gameId: gameId
+        }
+    ), onSuccess);
+
 export const deleteFromGame = (userId, gameId, onSuccess) =>
     appFetch(`/games/removeFromGame`, config('POST', 
         {

@@ -94,6 +94,9 @@ export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date) => dis
 export const deleteGame = (id, onSuccess) => 
     backend.gameService.deleteGame(id, onSuccess);
 
+export const deleteScoreGame = (id, onSuccess) => 
+    backend.gameService.deleteScoreGame(id, onSuccess);
+
 export const deleteFromGame = (userId, gameId, onSuccess) => 
     backend.gameService.deleteFromGame(userId, gameId, onSuccess);
 

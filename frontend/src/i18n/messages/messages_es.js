@@ -14,6 +14,7 @@ export default {
     'project.global.buttons.changeLevel': 'Cambiar nivel',
     'project.global.buttons.update': 'Actualizar',
     'project.global.buttons.delete': 'Eliminar',
+    'project.global.buttons.deleteScore': 'Eliminar puntuación',
     'project.global.buttons.changeState': 'Cambiar estado',
 
     'project.global.exceptions.NetworkError': 'Error de red',
@@ -77,7 +78,7 @@ export default {
 
     'project.users.UpdateProfile.title': 'Actualizar perfil',
 
-    'project.users.SignUp.title': 'Registrarse',
+    'project.users.SignUp.title': 'Registrar nuevo usuario',
 
     'project.users.userList.title': 'Lista de usuarios',
 
@@ -91,7 +92,7 @@ export default {
 
     'project.games.gamesUserList.title': 'Mi lista de partidas',
 
-    'project.games.addGame.title': 'Añadir partida',
+    'project.games.addGame.title': 'Crear partida',
 
     'project.games.finishedGamesList.title': 'Lista de partidas',
 

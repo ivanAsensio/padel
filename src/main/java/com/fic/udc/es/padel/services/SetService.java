@@ -8,4 +8,6 @@ public interface SetService {
 	
 	Set<PadelSet> getSetsByGameId(Long id);
 
+	void deleteScore(Long gameId);
+
 }

@@ -14,6 +14,7 @@ export default {
     'project.global.buttons.changeLevel': 'Change level',
     'project.global.buttons.update': 'Update',
     'project.global.buttons.delete': 'Delete',
+    'project.global.buttons.deleteScore': 'Delete score',
     'project.global.buttons.changeState': 'Change state',
 
     'project.global.exceptions.NetworkError': 'Network error',
@@ -75,7 +76,7 @@ export default {
 
     'project.users.Login.title': 'Login',
 
-    'project.users.SignUp.title': 'Sign up',
+    'project.users.SignUp.title': 'Sign up new user',
 
     'project.users.SignUp.fields.confirmPassword': 'Confirm password',
 
@@ -91,7 +92,7 @@ export default {
 
     'project.games.gamesUserList.title': 'My game list',
 
-    'project.games.addGame.title': 'Add game',
+    'project.games.addGame.title': 'Create game',
 
     'project.games.finishedGamesList.title': 'Game list',
 

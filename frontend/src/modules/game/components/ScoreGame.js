@@ -13,8 +13,8 @@ const ScoreGame = () => {
     const game = useSelector(selectors.getGameObtained);
     const sets = useSelector(selectors.getSets);
     const [numberSet, setNumberSet] = useState(1);
-    const [firstResult, setFirstResult] = useState(null);
-    const [secondResult, setSecondResult] = useState(null);
+    const [firstResult, setFirstResult] = useState("");
+    const [secondResult, setSecondResult] = useState("");
     const dispatch = useDispatch();
     let form;
 
