@@ -130,9 +130,6 @@ const Header = () => {
                             <Link className="dropdown-item" to={`/users/user-details/${id}`}>
                                 <FormattedMessage id="project.app.Header.detailsProfile"/>
                             </Link>
-                            <Link className="dropdown-item" to="/users/update-profile">
-                                <FormattedMessage id="project.users.UpdateProfile.title"/>
-                            </Link>
                             <Link className="dropdown-item" to="/users/change-password">
                                 <FormattedMessage id="project.users.ChangePassword.title"/>
                             </Link>
