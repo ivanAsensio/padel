@@ -92,15 +92,6 @@ public class UserServiceImpl implements UserService{
 		if(image != null) {
 			user.setImage(image);
 		}
-		List<Schedule> schedulesObtained = scheduleDao.findByUser(user);
-		if(schedulesObtained.size() != 0) {
-			for(Schedule schedule : schedulesObtained) {
-				scheduleDao.delete(schedule);
-			}
-		}
-		for(Schedule schedule : schedules) {
-			scheduleDao.save(schedule);
-		}
 		
 		return user;
 

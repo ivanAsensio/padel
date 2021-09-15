@@ -62,7 +62,7 @@ export const updateProfileCompleted = user => ({
 export const updateProfile = (user, onSuccess, onErrors) => dispatch =>
     backend.userService.updateProfile(user, 
         user => {
-            dispatch(updateProfileCompleted(user));
+            //dispatch(updateProfileCompleted(user));
             onSuccess();
         },
         onErrors);
@@ -84,7 +84,7 @@ export const previousGetUsersResultPage = criteria =>
 export const nextGetUsersResultPage = criteria => 
     getAllUsers({...criteria, page: criteria.page+1});
 
-const findUserByIdCompleted = userObtained => ({
+export const findUserByIdCompleted = userObtained => ({
     type: actionTypes.FIND_USER_BY_ID_COMPLETED,
     userObtained
 });

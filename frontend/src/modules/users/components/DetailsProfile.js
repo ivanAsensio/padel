@@ -12,6 +12,7 @@ const DetailsProfile = (user) => {
 
     useEffect(() => {
         dispatch(actions.getAllSchedules(user.user.id));
+        dispatch(actions.findUserByIdCompleted(user.user));
     }, []);
 
     const userObtained = user ? user.user : undefined;

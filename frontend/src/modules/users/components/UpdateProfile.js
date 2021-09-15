@@ -8,16 +8,17 @@ import * as actions from '../actions';
 import * as selectors from '../selectors';
 import {useIntl} from 'react-intl';
 
+
 const UpdateProfile = () => {
 
-    const user = useSelector(selectors.getUser);
+    const user = useSelector(selectors.getUserObtained);
     const dispatch = useDispatch();
     const history = useHistory();
-    const [name, setName] = useState(user.name);
-    const [lastName1, setLastName1]  = useState(user.lastName1);
-    const [lastName2, setLastName2]  = useState(user.lastName2);
-    const [position, setPosition]  = useState(user.position);
-    const [state, setState]  = useState(user.state);
+    const [name, setName] = useState(!user ? undefined : user.name);
+    const [lastName1, setLastName1]  = useState(!user ? undefined : user.lastName1);
+    const [lastName2, setLastName2]  = useState(!user ? undefined : user.lastName2);
+    const [position, setPosition]  = useState(!user ? undefined : user.position);
+    const [state, setState]  = useState(!user ? undefined : user.state);
     const [backendErrors, setBackendErrors] = useState(null);
     const [image, setImage] = useState(null);
     const intl = useIntl();
@@ -62,7 +63,7 @@ const UpdateProfile = () => {
                     state: state,   
                     image: imageEncoded            
                 },
-                    () => history.push('/'),
+                    () => history.push(`/users/user-details/${user.id}`),
                     errors => setBackendErrors(errors))));
             }else{
                 dispatch(actions.updateProfile(
@@ -73,7 +74,7 @@ const UpdateProfile = () => {
                     position: position.trim(),
                     state: state           
                 },
-                    () => history.push('/'),
+                    () => history.push(`/users/user-details/${user.id}`),
                     errors => setBackendErrors(errors)))
             }
 

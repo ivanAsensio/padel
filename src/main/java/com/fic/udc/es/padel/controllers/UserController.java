@@ -160,10 +160,6 @@ public class UserController {
 	public UserDto updateProfile(@RequestAttribute Long userId, @PathVariable Long id,
 		@Validated({UserDto.UpdateValidations.class}) @RequestBody UserDto userDto) 
 		throws InstanceNotFoundException, PermissionException {
-				
-		if (!id.equals(userId)) {
-			throw new PermissionException();
-		}
 		
 		return toUserDto(userService.updateProfile(id, userDto.getName(), userDto.getLastName1(), 
 				userDto.getLastName2(), userDto.isState(), userDto.getPosition(), userDto.getLevel(), 

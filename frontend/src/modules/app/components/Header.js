@@ -8,6 +8,7 @@ import users from '../../users';
 const Header = () => {
 
     const login = useSelector(users.selectors.getLogin);
+    const id = useSelector(users.selectors.getUser).id;
     const user = useSelector(users.selectors.getUserRole) === "USER";
 
     return (
@@ -126,7 +127,7 @@ const Header = () => {
                             {login}
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
-                            <Link className="dropdown-item" to="/users/detailsProfile">
+                            <Link className="dropdown-item" to={`/users/user-details/${id}`}>
                                 <FormattedMessage id="project.app.Header.detailsProfile"/>
                             </Link>
                             <Link className="dropdown-item" to="/users/update-profile">
