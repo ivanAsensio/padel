@@ -29,61 +29,94 @@ const Header = () => {
                 
                 {login ? 
 
-                <ul className="navbar-nav">
+                <ul className="navbar-nav text-center">
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/gameCalendarFiltered">
-                            {user && <FormattedMessage id="project.games.filteredGames.title"/>}
-                        </Link>
+                    <li className="nav-item dropdown">
+
+                        <a className="dropdown-toggle nav-link" href="/"
+                            data-toggle="dropdown">
+                            <span className="fas"></span>&nbsp;
+                            <FormattedMessage id="project.header.gameManagement"/>
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            {user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/gameCalendarFiltered">
+                                    <FormattedMessage id="project.games.filteredGames.title"/>
+                                </Link>
+                            </li>}
+
+                            {user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/gamesUserListPending">
+                                    <FormattedMessage id="project.games.pendingGames.title"/>
+                                </Link>
+                            </li>}
+
+                            {!user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/gameCalendarDate">
+                                    <FormattedMessage id="project.games.dateFilteredGames.title"/>
+                                </Link>
+                            </li>}
+
+                            {!user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/addGameLink">
+                                    <FormattedMessage id="project.games.addGame.title"/>
+                                </Link>
+                            </li>}
+
+                            {user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/gamesUserList">
+                                    <FormattedMessage id="project.games.gamesUserList.title"/>
+                                </Link>
+                            </li>}
+
+                            {!user && <li className="nav-item">                  
+                                <Link className="nav-link" to="/games/finishedGamesList">
+                                    <FormattedMessage id="project.games.finishedGamesList.title"/>
+                                </Link>
+                            </li>}
+                        </div>
+
                     </li>
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/gamesUserListPending">
-                            {user && <FormattedMessage id="project.games.pendingGames.title"/>}
-                        </Link>
-                    </li>
+                    {!user && <li className="nav-item dropdown">
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/gameCalendarDate">
-                            {!user && <FormattedMessage id="project.games.dateFilteredGames.title"/>}
-                        </Link>
-                    </li>
+                        <a className="dropdown-toggle nav-link" href="/"
+                            data-toggle="dropdown">
+                            <span className="fas"></span>&nbsp;
+                            <FormattedMessage id="project.header.fieldManagement"/>
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            <li className="nav-item">                  
+                                <Link className="nav-link" to="/fields/fieldList">
+                                    <FormattedMessage id="project.field.fieldList.title"/>
+                                </Link>
+                            </li>
+                        </div>
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/users/signup">
-                            {!user && <FormattedMessage id="project.users.SignUp.title"/>}
-                        </Link>
-                    </li>
+                    </li>}
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/fields/fieldList">
-                            {!user && <FormattedMessage id="project.field.fieldList.title"/>}
-                        </Link>
-                    </li>
+                    {!user && <li className="nav-item dropdown">
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/addGameLink">
-                            {!user && <FormattedMessage id="project.games.addGame.title"/>}
-                        </Link>
-                    </li>
+                        <a className="dropdown-toggle nav-link" href="/"
+                            data-toggle="dropdown">
+                            <span className="fas"></span>&nbsp;
+                            <FormattedMessage id="project.header.userManagement"/>
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            <li className="nav-item">                  
+                                <Link className="nav-link" to="/users/signup">
+                                    <FormattedMessage id="project.users.SignUp.title"/>
+                                </Link>
+                            </li>
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/users/userList">
-                            {!user && <FormattedMessage id="project.users.userList.title"/>}
-                        </Link>
-                    </li>
+                            <li className="nav-item">                  
+                                <Link className="nav-link" to="/users/userList">
+                                    <FormattedMessage id="project.users.userList.title"/>
+                                </Link>
+                            </li>
+                        </div>
 
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/gamesUserList">
-                            {user && <FormattedMessage id="project.games.gamesUserList.title"/>}
-                        </Link>
-                    </li>
-
-                    <li className="nav-item">                  
-                        <Link className="nav-link" to="/games/finishedGamesList">
-                            {!user && <FormattedMessage id="project.games.finishedGamesList.title"/>}
-                        </Link>
-                    </li>
+                    </li>}
                 
                     <li className="nav-item dropdown">
 

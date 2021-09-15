@@ -109,8 +109,12 @@ export default {
 
     'project.userList.filter': 'Filter',
 
-    'project.scheduleList.title': 'Schedule list',
-    'project.scheduleList.addSchedule': 'Add schedule'
+    'project.scheduleList.title': 'Schedule available list',
+    'project.scheduleList.addSchedule': 'Add schedule',
+
+    'project.header.userManagement': 'User management',
+    'project.header.fieldManagement': 'Field management',
+    'project.header.gameManagement': 'Game management'
 
     
 }

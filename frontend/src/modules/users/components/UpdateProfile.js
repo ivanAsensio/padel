@@ -49,6 +49,7 @@ const UpdateProfile = () => {
     const handleSubmit = event => {
 
         event.preventDefault();
+        imageInput.setCustomValidity('');
 
         if (form.checkValidity() && checkImageSize(image)) {
             if(image){
@@ -174,7 +175,7 @@ const UpdateProfile = () => {
                             <div className="col-md-4">
                                 <input type="file" alt="" id="image" className="form-control"
                                     onChange={e => setImage(e.target.files[0])}
-                                    ref={node => imageInput = node}
+                                    ref={node => imageInput = node} accept="image/*"
                                     />
                                 <div className="invalid-feedback">
                                     <FormattedMessage id='project.global.validator.required'/>

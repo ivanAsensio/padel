@@ -109,7 +109,11 @@ export default {
 
     'project.userList.filter': 'Filtrar',
 
-    'project.scheduleList.title': 'Lista de horarios',
-    'project.scheduleList.addSchedule': 'Engadir horario'
+    'project.scheduleList.title': 'Lista de horarios de disponibilidade',
+    'project.scheduleList.addSchedule': 'Engadir horario',
+
+    'project.header.userManagement': 'Xestión de usuarios',
+    'project.header.fieldManagement': 'Xestión de pistas',
+    'project.header.gameManagement': 'Xestión de partidas'
     
 }

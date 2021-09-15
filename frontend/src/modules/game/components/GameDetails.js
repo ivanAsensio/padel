@@ -74,7 +74,7 @@ const GameDetails = () => {
             () => dispatch(actions.findGameById(id)));
     }
 
-    if(gameObtained && gameObtained.teams){
+    if(gameObtained && gameObtained.teams && gameObtained.teams.length !== 0){
         if(gameObtained.teams[0].name !== "Team 1"){
             gameObtained.teams = gameObtained.teams.reverse();
         }
