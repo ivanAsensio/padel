@@ -8,7 +8,7 @@ import users from '../../users';
 const Header = () => {
 
     const login = useSelector(users.selectors.getLogin);
-    const id = useSelector(users.selectors.getUser).id;
+    const id = useSelector(users.selectors.getUser)?.id;
     const user = useSelector(users.selectors.getUserRole) === "USER";
 
     return (
@@ -40,41 +40,41 @@ const Header = () => {
                             <FormattedMessage id="project.header.gameManagement"/>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
-                            {user && <li className="nav-item">                  
+                            {user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/gameCalendarFiltered">
                                     <FormattedMessage id="project.games.filteredGames.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
 
-                            {user && <li className="nav-item">                  
+                            {user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/gamesUserListPending">
                                     <FormattedMessage id="project.games.pendingGames.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
 
-                            {!user && <li className="nav-item">                  
+                            {!user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/gameCalendarDate">
                                     <FormattedMessage id="project.games.dateFilteredGames.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
 
-                            {!user && <li className="nav-item">                  
+                            {!user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/addGameLink">
                                     <FormattedMessage id="project.games.addGame.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
 
-                            {user && <li className="nav-item">                  
+                            {user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/gamesUserList">
                                     <FormattedMessage id="project.games.gamesUserList.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
 
-                            {!user && <li className="nav-item">                  
+                            {!user && <div className="nav-item">                  
                                 <Link className="nav-link" to="/games/finishedGamesList">
                                     <FormattedMessage id="project.games.finishedGamesList.title"/>
                                 </Link>
-                            </li>}
+                            </div>}
                         </div>
 
                     </li>
@@ -87,11 +87,11 @@ const Header = () => {
                             <FormattedMessage id="project.header.fieldManagement"/>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
-                            <li className="nav-item">                  
+                            <div className="nav-item">                  
                                 <Link className="nav-link" to="/fields/fieldList">
                                     <FormattedMessage id="project.field.fieldList.title"/>
                                 </Link>
-                            </li>
+                            </div>
                         </div>
 
                     </li>}
@@ -104,17 +104,17 @@ const Header = () => {
                             <FormattedMessage id="project.header.userManagement"/>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
-                            <li className="nav-item">                  
+                            <div className="nav-item">                  
                                 <Link className="nav-link" to="/users/signup">
                                     <FormattedMessage id="project.users.SignUp.title"/>
                                 </Link>
-                            </li>
+                            </div>
 
-                            <li className="nav-item">                  
+                            <div className="nav-item">                  
                                 <Link className="nav-link" to="/users/userList">
                                     <FormattedMessage id="project.users.userList.title"/>
                                 </Link>
-                            </li>
+                            </div>
                         </div>
 
                     </li>}

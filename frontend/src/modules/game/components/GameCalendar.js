@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {FormattedMessage} from 'react-intl';
 import Paper from '@material-ui/core/Paper';
 import {
   ViewState, GroupingState, IntegratedGrouping
@@ -25,6 +24,15 @@ const GameCalendar = () => {
 
     const games = useSelector(selectors.getGamesDate);
     const fields = useSelector(selectorsField.getAllFields);
+
+    const obtainHour = (initMillis, finalMillis) => {
+      const initDate = new Date(initMillis);
+      const initMins = ('0'+ initDate.getMinutes()).slice(-2);
+      const finalDate = new Date(finalMillis);
+      const finalMins = ('0'+ finalDate.getMinutes()).slice(-2);
+      return initDate.getHours() + ":" + initMins + "-" + finalDate.getHours() + ":" + finalMins;
+    }
+
     const gamesObtained = games ? games.map((game) => 
       Object.assign(game, {
         id: game.gameId,
@@ -58,18 +66,18 @@ const GameCalendar = () => {
     <Appointments.Appointment
         {...restProps}
     >
-        {<div className="w-100">
-          <div className="text-center d-flex align-content-center flex-wrap">
+        {
+          <Link to={`/games/game-details/${data.id}`}>
+            <div className="text-center align-content-center flex-wrap">
               <div>
+                <label>{data.minimunLevel}-{data.maximunLevel}</label>&nbsp;&nbsp;   
+                <label>{obtainHour(data.millisInitDate, data.millisFinalDate)}</label>
                 {data.users && data.users.length === 4 && <label className="bg-danger">COMPLETED</label>}
-                <h6>{data.minimunLevel}-{data.maximunLevel}</h6>
-                <Link className="float-right" to={`/games/game-details/${data.id}`}>
-                  <h6 className="text-primary float-right"><FormattedMessage id="project.global.fields.showDetails"/>-></h6>
-                </Link>
               </div>
                   
             </div>
-        </div>}
+          </Link>
+        }
     </Appointments.Appointment>
     );
 

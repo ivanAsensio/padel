@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch} from 'react-redux';
 import * as actions from '../actions';
@@ -55,11 +54,5 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
     </form>
     );
 };
-
-BtnAddPlayer.propTypes = {
-    gameId: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
-    typeGame: PropTypes.string.isRequired
-}
 
 export default BtnAddPlayer;

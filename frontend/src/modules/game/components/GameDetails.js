@@ -86,7 +86,7 @@ const GameDetails = () => {
         userOnUserList = gameObtained.users.filter((userObtained) => userObtained.id === user.id).length !== 0;
     }
 
-    const showAddButton = (gameObtained && !userOnUserList) ? ((new Date(gameObtained.millisInitDate)) > today) : false
+    const showAddButton = (!userRole && gameObtained && !userOnUserList) ? ((new Date(gameObtained.millisInitDate)) > today) : false
 
     return (
         <div>
@@ -249,7 +249,7 @@ const GameDetails = () => {
                                 <div className="mr-auto p-2 col-md-6">
                                     <div className="card bg-light">
                                         <div className="card-body">
-                                            <p className="card-text">
+                                            <div className="card-text">
                                                 {gameObtained.users[0] ? 
                                                 <div className="d-flex justify-content-center">
                                                     <UserLink className="p-2" id={gameObtained.users[0].id} user={gameObtained.users[0]}/>
@@ -263,14 +263,14 @@ const GameDetails = () => {
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
                                                     <FormattedMessage id="project.global.field.empty"/>
                                                 }
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
-                                            <p className="card-text">
+                                            <div className="card-text">
                                                 {gameObtained.users[1] ? 
                                                 <div className="d-flex justify-content-center">
                                                     <UserLink className="p-2" id={gameObtained.users[1].id} user={gameObtained.users[1]}/>
@@ -284,7 +284,7 @@ const GameDetails = () => {
                                             
                                             : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
                                                     <FormattedMessage id="project.global.field.empty"/>}
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -293,7 +293,7 @@ const GameDetails = () => {
                                 <div className="mr-auto p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
-                                            <p className="card-text">
+                                            <div className="card-text">
                                                 {gameObtained.users[2] ? 
                                                 <div className="d-flex justify-content-center">
                                                     <UserLink className="p-2" id={gameObtained.users[2].id} user={gameObtained.users[2]}/>
@@ -306,14 +306,14 @@ const GameDetails = () => {
                                                 </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
                                                 <FormattedMessage id="project.global.field.empty"/>}
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="p-2 col-md-6">
                                     <div className="card bg-light mb-6">
                                         <div className="card-body">
-                                            <p className="card-text">
+                                            <div className="card-text">
                                                 {gameObtained.users[3] ? 
                                                 <div className="d-flex justify-content-center">
                                                     <UserLink className="col-md-3 p-2" id={gameObtained.users[3].id} user={gameObtained.users[3]}/>
@@ -326,7 +326,7 @@ const GameDetails = () => {
                                                 </div>
                                                 : userRole ? <UsersSelectGame typeGame={gameObtained.typeGame} users={usersGameFiltered} gameId={id} setBackendErrors={setBackendErrors}/> :
                                                     <FormattedMessage id="project.global.field.empty"/>}
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

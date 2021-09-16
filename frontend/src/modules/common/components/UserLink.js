@@ -17,7 +17,7 @@ const UserLink = ({id, user}) => {
         return fullName;
     };
     const style = {};
-    style["min-width"] = "120px";
+    style["minWidth"] = "120px";
     return (
         <div className="d-flex">
             <div className="p-2 col-md-5">
