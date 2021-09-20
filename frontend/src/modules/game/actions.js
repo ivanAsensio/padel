@@ -71,6 +71,12 @@ export const getGamesFiltered = (initDate, finalDate, level, userId) => dispatch
 export const addGame = (game, onSuccess, onErrors) => dispatch =>
     backend.gameService.addGame(game, onSuccess, onErrors);
 
+export const updateGame = (game, onSuccess, onErrors) => dispatch =>
+    backend.gameService.updateGame(game, game => {
+        onSuccess();
+        dispatch(findGameByIdCompleted(game));
+    }, onErrors);
+
 export const addSetCompleted = (sets) => ({
     type: actionTypes.ADD_SET_COMPLETED,
     sets

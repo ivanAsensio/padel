@@ -18,7 +18,6 @@ const Body = () => {
     const loggedIn = useSelector(users.selectors.isLoggedIn);
     const userRole = useSelector(users.selectors.getUserRole) === "USER";
     const user = useSelector(users.selectors.getUser);
-
     
    return (
 

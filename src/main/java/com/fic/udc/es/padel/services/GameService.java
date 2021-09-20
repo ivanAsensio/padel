@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
+import com.fic.udc.es.padel.dtos.UpdateGameDto.AllValidations;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
@@ -45,5 +48,8 @@ public interface GameService {
 	List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate);
 	
 	List<Game> findGameByUserAndDatePublished(Long userId, LocalDateTime date) throws InstanceNotFoundException;
+
+	public void updateGame(Long gameId, LocalDateTime initDate,
+			LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId) throws InstanceNotFoundException;
 	
 }

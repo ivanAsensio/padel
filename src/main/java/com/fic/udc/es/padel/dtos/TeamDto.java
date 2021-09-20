@@ -7,17 +7,19 @@ public class TeamDto {
 	
 	private Long id;
 	private String name;
+	private String resultMatch;
 	private List<UserDto> users = new ArrayList<>();
 	
 	public TeamDto() {
 		super();
 	}
 
-	public TeamDto(Long id, String name, List<UserDto> users) {
+	public TeamDto(Long id, String name, List<UserDto> users, String resultMatch) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.users = users;
+		this.resultMatch = resultMatch;
 	}
 
 	public Long getId() {
@@ -43,7 +45,13 @@ public class TeamDto {
 	public void setUsers(List<UserDto> users) {
 		this.users = users;
 	}
-	
-	
+
+	public String getResultMatch() {
+		return resultMatch;
+	}
+
+	public void setResultMatch(String resultMatch) {
+		this.resultMatch = resultMatch;
+	}
 
 }

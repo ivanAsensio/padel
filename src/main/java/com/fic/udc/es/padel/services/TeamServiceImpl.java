@@ -21,4 +21,14 @@ public class TeamServiceImpl implements TeamService{
 		return teamDao.findTeamByGameGameId(id);
 	}
 
+	@Override
+	public void deleteResultMatch(Long gameId) {
+		Set<Team> teams = teamDao.findTeamByGameGameId(gameId);
+		for(Team team: teams) {
+			team.setResultMatch(null);
+			teamDao.save(team);
+		}
+		
+	}
+
 }

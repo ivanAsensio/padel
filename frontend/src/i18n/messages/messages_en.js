@@ -49,6 +49,8 @@ export default {
     'project.global.field.empty': 'Empty',
     'project.games.scoreGame.addSet.title': 'Add set',
     'project.global.fields.addScore': 'Add score',
+    'project.global.resultMatch.win': 'Victory',
+    'project.global.resultMatch.defeat': 'Defeat',
 
     'project.global.Login.title': 'Login',
 

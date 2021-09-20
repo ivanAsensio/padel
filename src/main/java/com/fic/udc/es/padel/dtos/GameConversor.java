@@ -34,7 +34,7 @@ public class GameConversor {
 	}
 	
 	public final static TeamDto toTeamDto(Team team) {
-		return new TeamDto(team.getTeamId(), team.getName(), toUserDtos(new ArrayList<>(team.getTeamUsers())));
+		return new TeamDto(team.getTeamId(), team.getName(), toUserDtos(new ArrayList<>(team.getTeamUsers())), team.getResultMatch());
 	}
 	
 	public final static Set<SetDto> toSetDtos(Set<PadelSet> sets){

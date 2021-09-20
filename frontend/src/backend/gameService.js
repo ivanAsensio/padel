@@ -41,7 +41,10 @@ export const getGamesFiltered = (initDate, finalDate, level, userId, onSuccess) 
     appFetch(`/games/findGamesFiltered?initMillis=${initDate}&finalMillis=${finalDate}&level=${level}&userId=${userId}`, config('GET'), onSuccess);
     
 export const addGame = (game, onSuccess, onErrors) =>
-    appFetch(`/games/addGame`, config('POST', game), onSuccess, onErrors);    
+    appFetch(`/games/addGame`, config('POST', game), onSuccess, onErrors); 
+    
+export const updateGame = (game, onSuccess, onErrors) =>
+    appFetch(`/games/updateGame`, config('PUT', game), onSuccess, onErrors);  
 
 export const addSetList = (sets, gameId, onSuccess) =>
     appFetch(`/games/scoreGame/${gameId}`, config('POST', sets), onSuccess);

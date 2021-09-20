@@ -231,6 +231,8 @@ public class GameServiceImpl implements GameService {
 					winnerTeam1 = true;
 				}
 					
+			} else {
+				index++;
 			}
 		}
 		if(winnerTeam1 != null) {
@@ -340,6 +342,26 @@ public class GameServiceImpl implements GameService {
 			throw new InstanceNotFoundException("project.entities.user", userId);
 		}
 		return gameDao.findGamesUserPending(user.get(), date);
+	}
+
+	@Override
+	public void updateGame(Long gameId, LocalDateTime initDate, LocalDateTime finalDate, float minimunLevel,
+			float maximunLevel, Long fieldId) throws InstanceNotFoundException {
+		Optional<Game> game = gameDao.findById(gameId);
+		if(!game.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.game", gameId);
+		}
+		Optional<Field> field = fieldDao.findById(fieldId);
+		if(!field.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.field", fieldId);
+		}
+		Game gameObtained = game.get();
+		gameObtained.setInitDate(initDate);
+		gameObtained.setFinalDate(finalDate);
+		gameObtained.setField(field.get());
+		gameObtained.setMinimunLevel(minimunLevel);
+		gameObtained.setMaximunLevel(maximunLevel);
+		gameDao.save(gameObtained);
 	}
 
 }

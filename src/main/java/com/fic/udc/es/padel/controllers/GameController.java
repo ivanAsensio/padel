@@ -37,9 +37,9 @@ import com.fic.udc.es.padel.dtos.DeleteUserDto;
 import com.fic.udc.es.padel.dtos.GameConversor;
 import com.fic.udc.es.padel.dtos.GameDetailsDto;
 import com.fic.udc.es.padel.dtos.SetDto;
+import com.fic.udc.es.padel.dtos.UpdateGameDto;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
-import com.fic.udc.es.padel.model.entities.ProfessionalGame;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Team;
 import com.fic.udc.es.padel.model.entities.User;
@@ -148,6 +148,24 @@ public class GameController {
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(params.getMillisFinalDate()), ZoneId.systemDefault());
 		return gameService.createGame(initDate, finalDate, params.getMinimunLevel(), params.getMaximunLevel(), 
 				params.getFieldId(), params.getTypeGame());
+	}
+	
+	@PutMapping("/updateGame")
+	public GameDetailsDto updateGame(@Validated({AddGameDto.AllValidations.class}) @RequestBody UpdateGameDto params) throws InstanceNotFoundException, FieldTakenException {
+		LocalDateTime initDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(params.getMillisInitDate()), ZoneId.systemDefault());
+		LocalDateTime finalDate =
+			    LocalDateTime.ofInstant(Instant.ofEpochMilli(params.getMillisFinalDate()), ZoneId.systemDefault());
+		gameService.updateGame(params.getGameId(), initDate, finalDate, params.getMinimunLevel(), params.getMaximunLevel(), 
+				params.getFieldId());		
+		Game game = gameService.getGameById(params.getGameId());
+		Set<PadelSet> sets = new HashSet<>();
+		Set<Team> teams = new HashSet<>();
+		if(game.getGameType().equals("Pro")) {
+			sets = setService.getSetsByGameId(params.getGameId());
+			teams = teamService.findTeamByGameId(params.getGameId());
+		}
+		return toGameDetails(game, sets, teams);
 	}
 	
 	@PostMapping("/addPlayerToGame")
@@ -292,6 +310,7 @@ public class GameController {
 	public void updateScoreGame(@PathVariable Long id) throws InstanceNotFoundException, GameTypeException{
 		gameService.getGameById(id);
 		setService.deleteScore(id);
+		teamService.deleteResultMatch(id);
 	}
 	
 	@PostMapping("/deleteGame/{id}")
