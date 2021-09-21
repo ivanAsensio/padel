@@ -20,5 +20,6 @@ export {default as UsersSelectGame} from './components/UsersSelectGame';
 export {default as UserGamePendingList} from './components/UserGamePendingList';
 export {default as UserGamePendingListResult} from './components/UserGamePendingListResult';
 export {default as FinishedGameListResult} from './components/FinishedGameListResult';
+export {default as UpdateGame} from './components/UpdateGame';
 
 export default {actions, actionTypes, reducer, selectors};

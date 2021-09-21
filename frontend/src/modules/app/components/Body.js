@@ -8,7 +8,7 @@ import users from '../../users';
 import AppGlobalComponents from './AppGlobalComponents';
 import Home from './Home';
 import { FieldListResult, FieldList, AddField, UpdateField } from '../../field';
-import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate, CalendarGamesFiltered, AddGameForm, ScoreGame, UserGamePendingListResult, UserGamePendingList, FinishedGameListResult } from '../../game';
+import { GameUserList, GameUserListResult, GameDetails, GameCalendar, CalendarGamesDate, CalendarGamesFiltered, AddGameForm, ScoreGame, UserGamePendingListResult, UserGamePendingList, FinishedGameListResult, UpdateGame } from '../../game';
 import FinishedGameList from '../../game/components/FinishedGameList';
 import PublishedGameList from '../../game/components/PublishedGameList';
 import AddGame from '../../game/components/AddGame';
@@ -55,6 +55,7 @@ const Body = () => {
                 {loggedIn && <Route exact path="/games/addGameLink"><AddGame/></Route>} 
                 {loggedIn && <Route exact path="/games/addGame"><AddGameForm/></Route>} 
                 {!userRole && loggedIn && <Route exact path="/games/scoreGame"><ScoreGame/></Route>}
+                {!userRole && loggedIn && <Route exact path="/games/updateGame"><UpdateGame/></Route>}
                 <Route><Home/></Route>
             </Switch>
         </div>

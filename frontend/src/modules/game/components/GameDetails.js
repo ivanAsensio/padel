@@ -9,7 +9,6 @@ import {Errors, UserLink} from '../../common';
 import BtnAddPlayer from './BtnAddPlayer';
 import {BackLink} from '../../common';
 import {FormattedDate, FormattedTime} from 'react-intl';
-import Modal from 'react-bootstrap/Modal';
 import users from '../../users';
 import {Link} from 'react-router-dom';
 import field from '../../field';
@@ -19,33 +18,18 @@ import {useHistory} from 'react-router-dom';
 
 const GameDetails = () => {
 
-    const obtainStringFromHour = (date) => {
-        return date.getHours() + ':' + date.getMinutes();
-    }
-
     const gameObtained = useSelector(selectors.getGameObtained);
-    const fields = useSelector(field.selectors.getAllFields);
     const usersGameFiltered = useSelector(selectors.getUsersGameFiltered);
     const user = useSelector(users.selectors.getUser);
     const userRole = useSelector(users.selectors.getUserRole) === "ADMIN";
     const history = useHistory();
     const dispatch = useDispatch();
-    const initDateObtained = gameObtained ? new Date(gameObtained.millisInitDate) : undefined;
-    const finalDateObtained = gameObtained ? new Date(gameObtained.millisFinalDate) : undefined;
     const [backendErrors, setBackendErrors] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [minimunLevel, setMinimunLevel] = useState(gameObtained ? gameObtained.minimunLevel : undefined);
-    const [maximunLevel, setMaximunLevel] = useState(gameObtained ? gameObtained.maximunLevel : undefined);
-    const [date, setDate] = useState(gameObtained ? gameObtained.millisInitDate : undefined);
-    const [initDate, setInitDate] = useState(gameObtained ? obtainStringFromHour(initDateObtained) : undefined);
-    const [finalDate, setFinalDate] = useState(gameObtained ? obtainStringFromHour(finalDateObtained) : undefined);
-    const [fieldValue, setFieldValue] = useState(null);
     const {id} = useParams();
     const initDateString = gameObtained ? new Date(gameObtained.millisInitDate) : null;
     const finalDateString = gameObtained ? new Date(gameObtained.millisFinalDate) : null;
     const today = new Date();
     var userOnUserList = false;
-    let form;
 
     useEffect(() => {
 
@@ -57,18 +41,6 @@ const GameDetails = () => {
         }
 
     }, [id, dispatch]);
-
-    const addTimeToDate = (date, hour) => {
-        const hourData = hour.trim().split(':');
-        date.setHours(0);
-        date.setHours(date.getHours() + hourData[0]);
-        date.setMinutes(date.getMinutes() + hourData[1]);
-        return date;
-    }
-
-    const onChangeSelectField = (value) => {
-        setFieldValue(value);
-    };
 
     const handleDelete = (event, userId) => {
         event.preventDefault();
@@ -102,43 +74,6 @@ const GameDetails = () => {
         actions.deleteScoreGame(
             Number(id),
             () => dispatch(actions.findGameById(id)));
-    }
-
-    const handleUpdate = event => {
-
-        event.preventDefault();
-
-        if (form.checkValidity()) {
-
-            const dateBodyInit = new Date(date);
-            const dateBodyFinal = new Date(date);
-            const initDateBody = addTimeToDate(dateBodyInit, initDate);
-            const finalDateBody = addTimeToDate(dateBodyFinal, finalDate);
-            setShowModal(false);
-
-            dispatch(actions.updateGame(
-                {
-                    gameId: Number(id),
-                    millisInitDate: Number(initDateBody.getTime()),
-                    millisFinalDate: Number(finalDateBody.getTime()),
-                    minimunLevel: Number(minimunLevel.trim()),
-                    maximunLevel: Number(maximunLevel.trim()),
-                    fieldId: Number(fieldValue ? fieldValue : fields[0].fieldId)
-                },
-                () => {
-                    dispatch(actions.findGameById(id));
-                },
-                errors => setBackendErrors(errors)
-            ));
-            
-
-        } else {
-
-            setBackendErrors(null);
-            form.classList.add('was-validated');
-
-        }
-
     }
 
     if(gameObtained && gameObtained.teams && gameObtained.teams.length !== 0){
@@ -182,6 +117,12 @@ const GameDetails = () => {
                                     :&nbsp;{gameObtained.typeGame}
                                 </h3>
                             </div>
+                            <div className="row">
+                                <h3 htmlFor="field" className="col-sm-10">
+                                    <FormattedMessage id="project.global.fields.fieldName"/>
+                                    :&nbsp;{gameObtained.fieldId}
+                                </h3>
+                            </div>
                             {gameObtained.sets.length !== 0 &&
                             <div className="text-center d-flex">
                                 <label htmlFor="Sets" className="col-sm-10 p-2">
@@ -199,11 +140,11 @@ const GameDetails = () => {
                         <div className="ml-auto p-2">
                             <div>
                                 {userRole &&
-                                    <button type="button" onClick={(e) => setShowModal(true)}>
+                                    <Link to={`/games/updateGame`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
                                             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                         </svg>
-                                    </button>
+                                    </Link>
                                 }
                             </div>
                             <div>{gameObtained.typeGame === "Pro" && gameObtained.sets.length === 0 &&                              
@@ -421,121 +362,6 @@ const GameDetails = () => {
                         </div>
                         }
             </div>
-            {userRole ? <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <form ref={node => form = node}
-                                    className="needs-validation" noValidate 
-                                    onSubmit={e => handleUpdate(e)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title><FormattedMessage id="project.scheduleList.addSchedule"/></Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                    <div className="card-body">
-                        <div className="form-group row">
-                            <label htmlFor="minimunLevel" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.minimunLevel"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="number" id="minimunLevel" className="form-control"
-                                    defaultValue={gameObtained.minimunLevel}
-                                    onChange={e => setMinimunLevel(e.target.value)}
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="maximunLevel" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.maximunLevel"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="number" id="maximunLevel" className="form-control"
-                                    defaultValue={gameObtained.maximunLevel}
-                                    onChange={e => setMaximunLevel(e.target.value)}
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="date" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.day"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="date" id="date" className="form-control"
-                                    defaultValue={new Date(gameObtained.millisInitDate).toISOString().substr(0, 10)}
-                                    onChange={e => setDate(e.target.value)}
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="initDate" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.initDate"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="text" id="initDate" className="form-control"
-                                    defaultValue={obtainStringFromHour(initDateObtained)}
-                                    onChange={e => setInitDate(e.target.value)}
-                                    placeHolder="HH:MM"
-                                    pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="finalDate" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.finalDate"/>
-                            </label>
-                            <div className="col-md-6">
-                                <input type="text" id="finalDate" className="form-control"
-                                    defaultValue={obtainStringFromHour(finalDateObtained)}
-                                    onChange={e => setFinalDate(e.target.value)}
-                                    placeHolder="HH:MM"
-                                    pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
-                                    autoFocus
-                                    required/>
-                                <div className="invalid-feedback">
-                                    <FormattedMessage id='project.global.validator.required'/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label htmlFor="fieldName" className="col-md-6 col-form-label">
-                                <FormattedMessage id="project.global.fields.fieldName"/>
-                            </label>
-                            <select defaultValue={gameObtained.fieldId} onChange={e => onChangeSelectField(e.target.value)}>
-                                {fields ?
-                                    fields.map((field) => {
-                                        return (
-                                            <option key={field.fieldId} value={field.fieldId}>{field.fieldId}</option>
-                                        )
-                                    })
-                                : undefined}
-                            </select>
-                        </div>
-                </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="form-group row">
-                        <div className="offset-md-6 col-md-2">
-                            <button type="submit" className="btn btn-primary">
-                                <FormattedMessage id="project.games.addGame.title"/>
-                            </button>
-                        </div>
-                    </div>
-                </Modal.Footer>
-            </form>
-        </Modal> : undefined}
        </div>
     );
 

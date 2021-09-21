@@ -116,6 +116,8 @@ export default {
 
     'project.header.userManagement': 'Xestión de usuarios',
     'project.header.fieldManagement': 'Xestión de pistas',
-    'project.header.gameManagement': 'Xestión de partidas'
+    'project.header.gameManagement': 'Xestión de partidas',
+
+    'project.games.updateGame.title': 'Actualizar pista'
     
 }

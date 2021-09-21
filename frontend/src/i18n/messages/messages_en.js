@@ -116,7 +116,9 @@ export default {
 
     'project.header.userManagement': 'User management',
     'project.header.fieldManagement': 'Field management',
-    'project.header.gameManagement': 'Game management'
+    'project.header.gameManagement': 'Game management',
+
+    'project.games.updateGame.title': 'Update game'
 
     
 }

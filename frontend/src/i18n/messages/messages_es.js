@@ -117,6 +117,8 @@ export default {
 
     'project.header.userManagement': 'Gestión de usuarios',
     'project.header.fieldManagement': 'Gestión de pistas',
-    'project.header.gameManagement': 'Gestión de partidas'
+    'project.header.gameManagement': 'Gestión de partidas',
+
+    'project.games.updateGame.title': 'Actualizar partida'
     
 }
