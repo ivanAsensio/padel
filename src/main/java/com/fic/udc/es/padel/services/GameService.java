@@ -21,7 +21,7 @@ public interface GameService {
 	
 	public Game getGameById(Long id) throws InstanceNotFoundException;
 	
-	public Block<Game> findGamesByUserId(Long userId, int page, int size);
+	public Block<Game> findGamesByUserId(Long userId, int page, int size) throws InstanceNotFoundException;
 	
 	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate);
 	
@@ -50,6 +50,6 @@ public interface GameService {
 	List<Game> findGameByUserAndDatePublished(Long userId, LocalDateTime date) throws InstanceNotFoundException;
 
 	public void updateGame(Long gameId, LocalDateTime initDate,
-			LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId) throws InstanceNotFoundException;
+			LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId) throws InstanceNotFoundException, FieldTakenException;
 	
 }

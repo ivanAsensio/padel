@@ -242,7 +242,7 @@ public class GameController {
 	}
 	
 	@GetMapping("/user/{id}")
-	public BlockDto<GameDetailsDto> getGamesByUserId(@PathVariable Long id, @RequestParam(defaultValue="0") int page) {
+	public BlockDto<GameDetailsDto> getGamesByUserId(@PathVariable Long id, @RequestParam(defaultValue="0") int page) throws InstanceNotFoundException {
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		Block<Game> games = gameService.findGamesByUserId(id, page, 10);
 		for(Game game: games.getItems()) {

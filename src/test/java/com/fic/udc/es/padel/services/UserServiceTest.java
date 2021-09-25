@@ -9,6 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -25,6 +27,7 @@ import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 @SpringBootTest
 @ActiveProfiles("test")
 @SpringJUnitConfig
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestPropertySource(locations="classpath:application-test.properties")
 @Transactional
 public class UserServiceTest {
@@ -148,7 +151,7 @@ public class UserServiceTest {
 		
 		userService.signUp(user);
 		userService.changePassword(user.getUserId(), oldPassword, newPassword);
-		userService.login(user.getName(), newPassword);
+		userService.login(user.getLogin(), newPassword);
 		
 	}
 	

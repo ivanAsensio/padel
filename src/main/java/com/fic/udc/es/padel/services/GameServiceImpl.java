@@ -74,8 +74,14 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Block<Game> findGamesByUserId(Long userId, int page, int size) {
+	public Block<Game> findGamesByUserId(Long userId, int page, int size) throws InstanceNotFoundException {
 
+		Optional<User> user = userDao.findById(userId);
+
+		if (!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		
 		Slice<Game> games = gameDao.findByGameUsersUserIdOrderByInitDateDesc(userId, PageRequest.of(page, size));
 
 		return new Block<>(games.getContent(), games.hasNext());
@@ -172,8 +178,8 @@ public class GameServiceImpl implements GameService {
 		if(!field.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.field", fieldId);
 		}
-		Optional<Game> game = gameDao.findGameByDateAndCampo(initDate, finalDate, field.get().getFieldId());
-		if(game.isPresent()) {
+		List<Game> games = gameDao.findGameByDateAndField(initDate, finalDate, field.get().getFieldId());
+		if(games.size() > 0) {
 			throw new FieldTakenException();
 		}
 		if(gameType == 0) {
@@ -346,7 +352,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public void updateGame(Long gameId, LocalDateTime initDate, LocalDateTime finalDate, float minimunLevel,
-			float maximunLevel, Long fieldId) throws InstanceNotFoundException {
+			float maximunLevel, Long fieldId) throws InstanceNotFoundException, FieldTakenException {
 		Optional<Game> game = gameDao.findById(gameId);
 		if(!game.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.game", gameId);
@@ -354,6 +360,12 @@ public class GameServiceImpl implements GameService {
 		Optional<Field> field = fieldDao.findById(fieldId);
 		if(!field.isPresent()) {
 			throw new InstanceNotFoundException("project.entities.field", fieldId);
+		}
+		List<Game> posibleGames = gameDao.findGameByDateAndField(initDate, finalDate, field.get().getFieldId());
+		if(posibleGames.size() > 0) {
+			if((posibleGames.size() == 1 && posibleGames.get(0).getGameId() != gameId) || (posibleGames.size() > 1)) {
+				throw new FieldTakenException();
+			}
 		}
 		Game gameObtained = game.get();
 		gameObtained.setInitDate(initDate);

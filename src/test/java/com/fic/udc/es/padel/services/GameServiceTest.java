@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -34,6 +34,7 @@ import com.fic.udc.es.padel.model.exceptions.UserNotFoundException;
 @SpringBootTest
 @ActiveProfiles("test")
 @SpringJUnitConfig
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestPropertySource(locations="classpath:application-test.properties")
 @Transactional
 public class GameServiceTest {
@@ -160,15 +161,6 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	public void addPlayerToGameFinishedGameTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
-		Field field = createField();
-		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.minusMinutes(30), minimunLevel, maximunLevel, 
-				field.getFieldId(), gameType);
-		User user = getUser("login");
-		assertThrows(FinishedGameException.class,()-> gameService.addPlayerToGame(game.getGameId(), user.getUserId()));
-	}
-	
-	@Test
 	public void addPlayerToGameUserAlreadyAddedTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
 		Field field = createField();
 		Game game = gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
@@ -213,14 +205,15 @@ public class GameServiceTest {
 	@Test
 	public void findGameByDateTest() throws InstanceNotFoundException, FieldTakenException {
 		Field field = createField();
+		Field field2 = createField();
 		gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
 		gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
 		gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
-				field.getFieldId(), gameType);
+				field2.getFieldId(), gameType);
 		gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
-				field.getFieldId(), gameType);
+				field2.getFieldId(), gameType);
 		List<Game> games = gameService.findGameByDate(initDate, finalDate.plusHours(1));
 		assertEquals(games.size(), 2);
 	}
@@ -267,13 +260,13 @@ public class GameServiceTest {
 		Field field = createField();
 		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
-		assertThrows(UserNotFoundException.class, () -> gameService.removePlayerToGame(game.getGameId(), Long.valueOf(-1)));
+		assertThrows(InstanceNotFoundException.class, () -> gameService.removePlayerToGame(game.getGameId(), Long.valueOf(-1)));
 	}
 	
 	@Test
 	public void removePlayerFromGameInstanceNotFoundGameTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, UserNotFoundException {
 		User user = getUser("login");
-		assertThrows(UserNotFoundException.class, () -> gameService.removePlayerToGame(Long.valueOf(-1), user.getUserId()));
+		assertThrows(InstanceNotFoundException.class, () -> gameService.removePlayerToGame(Long.valueOf(-1), user.getUserId()));
 	}
 	
 	@Test
@@ -297,6 +290,32 @@ public class GameServiceTest {
 		List<Game> gamesObtained = gameService.findByLevelAndScheduleAndDate(user.getUserId(), LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));
 		assertEquals(1, gamesObtained.size());
 	}
+	
+	@Test
+	public void updateGameTest() throws InstanceNotFoundException, FieldTakenException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), gameType);
+		gameService.updateGame(game.getGameId(), game.getInitDate(), game.getFinalDate(), 1, 2, field.getFieldId());
+		Game gameObtained = gameService.getGameById(game.getGameId());
+		assertEquals(1, gameObtained.getMinimunLevel());
+		assertEquals(2, gameObtained.getMaximunLevel());
+	}
+	
+	@Test
+	public void updateGameFieldTakenTest() throws InstanceNotFoundException, FieldTakenException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), gameType);
+		Game game2 = gameService.createGame(finalDate.plusMinutes(31), finalDate.plusMinutes(36), minimunLevel, maximunLevel, 
+				field.getFieldId(), gameType);
+		assertThrows(FieldTakenException.class, () -> gameService.updateGame(game.getGameId(), finalDate.plusMinutes(25), finalDate.plusMinutes(35), 1, 2, field.getFieldId()));
+	}
+	
+	
+	
 	
 	
 	

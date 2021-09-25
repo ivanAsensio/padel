@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -21,6 +23,7 @@ import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 @ActiveProfiles("test")
 @SpringJUnitConfig
 @Rollback
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestPropertySource(locations="classpath:application-test.properties")
 @Transactional
 public class FieldServiceTest {
@@ -63,7 +66,7 @@ public class FieldServiceTest {
 		Field field = fieldService.addField("Field 1");
 		fieldService.updateField(field.getFieldId(), "Field 2");
 		Field fieldObtained = fieldService.findAllFields().get(0);
-		assertEquals(fieldObtained.equals("Field 2"), true);
+		assertEquals(fieldObtained.getName().equals("Field 2"), true);
 	}
 	
 	@Test
