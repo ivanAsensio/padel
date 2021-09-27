@@ -120,7 +120,7 @@ const GameDetails = () => {
                             <div className="row">
                                 <h3 htmlFor="field" className="col-sm-10">
                                     <FormattedMessage id="project.global.fields.fieldName"/>
-                                    :&nbsp;{gameObtained.fieldId}
+                                    :&nbsp;{gameObtained.fieldName}
                                 </h3>
                             </div>
                             {gameObtained.sets.length !== 0 &&

@@ -31,8 +31,8 @@ export const getFinishedGames = ({page, login,  millisInitDate,  millisFinalDate
     appFetch(`/games/findFinishedGames` + params, config('GET'), onSuccess); 
 }
 
-export const getPublishedGames = ({page}, onSuccess) =>
-    appFetch(`/games/findPublishedGames?page=${page}`, config('GET'), onSuccess);
+export const getPublishedGames = ({page}, {initDateMillis, finalDateMillis}, onSuccess) =>
+    appFetch(`/games/findPublishedGames?page=${page}&initDateMillis=${initDateMillis}&finalDateMillis=${finalDateMillis}`, config('GET'), onSuccess);
 
 export const getGamesByDate = (initDate, finalDate, onSuccess) =>
     appFetch(`/games/findGameByDate?initMillis=${initDate}&finalMillis=${finalDate}`, config('GET'), onSuccess);

@@ -15,6 +15,7 @@ public class GameDetailsDto {
 	private float minimunLevel;
 	private float maximunLevel;
 	private Long fieldId;
+	private String fieldName;
 	private String typeGame;
 	private List<UserDto> users = new ArrayList<>();
 	private Set<SetDto> sets = new HashSet<>();
@@ -25,7 +26,7 @@ public class GameDetailsDto {
 	}
 
 	public GameDetailsDto(Long gameId, Long millisInitDate, Long millisFinalDate, float minimunLevel, float maximunLevel,
-			Long fieldId, String typeGame, List<UserDto> users, Set<SetDto> sets, Set<TeamDto> teams) {
+			Long fieldId, String typeGame, List<UserDto> users, Set<SetDto> sets, Set<TeamDto> teams, String fieldName) {
 		super();
 		this.gameId = gameId;
 		this.millisInitDate = millisInitDate;
@@ -37,6 +38,7 @@ public class GameDetailsDto {
 		this.users = users;
 		this.sets = sets;
 		this.teams = teams;
+		this.fieldName = fieldName;
 	}
 
 	public Long getGameId() {
@@ -119,7 +121,13 @@ public class GameDetailsDto {
 	public void setTeams(Set<TeamDto> teams) {
 		this.teams = teams;
 	}
-	
-	
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
 
 }

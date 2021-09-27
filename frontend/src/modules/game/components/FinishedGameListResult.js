@@ -96,7 +96,7 @@ const FinishedGameListResult = () => {
                             autoFocus/>
                         <input type="text" id="maxHour" className="form-control"
                             value={maxHour}
-                            placeoholder="HH:MM"
+                            placeholder="HH:MM"
                             pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                             onChange={e => setMaxHour(e.target.value)}
                             autoFocus/>

@@ -16,7 +16,7 @@ const CalendarGamesDate = () => {
 
 
     useEffect(() => {
-        dispatch(actions.getGamesByDate(Number(initDate.getTime()),Number(finalDate.getTime())));
+        dispatch(actions.getGamesByDate(Number(initDate.getTime()), Number(finalDate.getTime())));
         dispatch(actionsField.getAllFields());
         history.push('/games/gameCalendar');
 

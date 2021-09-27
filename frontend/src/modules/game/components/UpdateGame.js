@@ -178,7 +178,7 @@ const UpdateGame = () => {
                                 {fields ?
                                     fields.map((field) => {
                                         return (
-                                            <option key={field.fieldId} value={field.fieldId}>{field.fieldId}</option>
+                                            <option key={field.fieldId} value={field.fieldId}>{field.name}</option>
                                         )
                                     })
                                 : undefined}

@@ -1,31 +1,21 @@
 import React from 'react';
 import Select from 'react-select';
 import * as actions from '../actions';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BtnAddGuest } from '..';
+import * as selectors from '../selectors';
 
 
-const UsersSelectGame = ({users, gameId, teamId, typeGame, setBackendErrors}) => {
+const UsersSelectGame = ({gameId, teamId, typeGame, setBackendErrors}) => {
    
-    const options = users.length !== 0 ? 
-    users.map((user) => {return ({
+    const usersGameFiltered = useSelector(selectors.getUsersGameFiltered);
+    const options = usersGameFiltered.length !== 0 ? 
+    usersGameFiltered.map((user) => {return ({
         value: user.id,
         label: user.login + " " + user.level
     })})
-    : [{
-            value: 1,
-            label: "login 3.5" 
-        },
-        {
-            value: 2,
-            label: "admin 2.5" 
-        },
-        {
-            value: 3,
-            label: "Julio99 3.5" 
-        },
-    ];
+    : [];
 
     const dispatch = useDispatch();
 

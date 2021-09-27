@@ -22,7 +22,7 @@ public class GameConversor {
 
 		return new GameDetailsDto(game.getGameId(), initZdt.toInstant().toEpochMilli(), 
 				finalZdt.toInstant().toEpochMilli(), game.getMinimunLevel(), game.getMaximunLevel(),
-				game.getField().getFieldId(), game.getGameType(), toUserDtos(new ArrayList<>(game.getGameUsers())), toSetDtos(sets), toTeamDtos(teams));
+				game.getField().getFieldId(), game.getGameType(), toUserDtos(new ArrayList<>(game.getGameUsers())), toSetDtos(sets), toTeamDtos(teams), game.getField().getName());
 	}
 	
 	public final static Set<TeamDto> toTeamDtos(Set<Team> teams){

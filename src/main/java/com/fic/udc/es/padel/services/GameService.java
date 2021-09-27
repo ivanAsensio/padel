@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
-import com.fic.udc.es.padel.dtos.UpdateGameDto.AllValidations;
 import com.fic.udc.es.padel.model.entities.Game;
 import com.fic.udc.es.padel.model.entities.PadelSet;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;

@@ -16,7 +16,10 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import * as selectors from '../selectors';
 import * as selectorsField from '../../field/selectors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from "../actions";
+import * as actionsField from "../../field/actions";
+import users from '../../users';
 import { grey } from '@material-ui/core/colors';
 
 
@@ -24,6 +27,9 @@ const GameCalendar = () => {
 
     const games = useSelector(selectors.getGamesDate);
     const fields = useSelector(selectorsField.getAllFields);
+    const user = useSelector(users.selectors.getUser);
+    const userRole = useSelector(users.selectors.getUserRole) === "USER";
+    const dispatch = useDispatch();
 
     const obtainHour = (initMillis, finalMillis) => {
       const initDate = new Date(initMillis);
@@ -31,6 +37,23 @@ const GameCalendar = () => {
       const finalDate = new Date(finalMillis);
       const finalMins = ('0'+ finalDate.getMinutes()).slice(-2);
       return initDate.getHours() + ":" + initMins + "-" + finalDate.getHours() + ":" + finalMins;
+    }
+
+    const handleUpdateDate = (newDate) => {
+      var initDate = new Date(newDate);
+      var finalDate = new Date(newDate)
+      initDate.setHours(0);
+      initDate.setMinutes(0);
+      initDate.setSeconds(0);
+      finalDate.setHours(23);
+      finalDate.setMinutes(59);
+      finalDate.setSeconds(59);
+      dispatch(actionsField.getAllFields());
+      if(!userRole){
+        dispatch(actions.getGamesByDate(Number(initDate.getTime()), Number(finalDate.getTime())));
+      }else{
+        dispatch(actions.getGamesFiltered(Number(initDate.getTime()), Number(finalDate.getTime()), Number(user.level), Number(user.id)));
+      }      
     }
 
     const gamesObtained = games ? games.map((game) => 
@@ -89,6 +112,7 @@ const GameCalendar = () => {
           >
             <ViewState
               defaultCurrentDate={dayString}
+              onCurrentDateChange={(e) => handleUpdateDate(e)}
               
             />
             <GroupingState

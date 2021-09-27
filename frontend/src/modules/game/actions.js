@@ -52,9 +52,9 @@ export const getFinishedGames = (criteria) => dispatch => {
     backend.gameService.getFinishedGames(criteria, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
 }
 
-export const getPublishedGames = (criteria) => dispatch => {
+export const getPublishedGames = (criteria, body) => dispatch => {
     dispatch(clearGameUser());
-    backend.gameService.getPublishedGames(criteria, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
+    backend.gameService.getPublishedGames(criteria, body, games => dispatch(getGamesByUserIdCompleted({criteria, games})));
 }
 
 export const getGamesByDateCompleted = (gamesDate) => ({
