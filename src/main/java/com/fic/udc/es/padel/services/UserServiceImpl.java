@@ -177,5 +177,14 @@ public class UserServiceImpl implements UserService{
 		}
 		scheduleDao.delete(schedule.get());	
 	}
+
+	@Override
+	public int getCountGamesByUserIdAndResult(Long userId, String result) throws InstanceNotFoundException {
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		return userDao.getCountGamesUserByResult(userId, result);
+	}
 	
 }

@@ -6,10 +6,6 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fic.udc.es.padel.dtos.UserDto.AllValidations;
-import com.fic.udc.es.padel.dtos.UserDto.UpdateValidations;
-import com.fic.udc.es.padel.model.entities.Schedule;
-
 public class UserDetailsDto {
 	
 public interface AllValidations {}
@@ -25,13 +21,14 @@ public interface AllValidations {}
 	private String position;
 	private String image;
 	private boolean state;
+	private UserStatisticsDto statistics;
 	private Set<ScheduleDto> schedules = new HashSet<>();
 
 	public UserDetailsDto() {}
 
 
 	public UserDetailsDto(Long id, String login, String name, String lastName1, String lastName2, float level,
-			String position, Set<ScheduleDto> schedules, String image, boolean state) {
+			String position, Set<ScheduleDto> schedules, String image, boolean state, UserStatisticsDto statistics) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -43,6 +40,7 @@ public interface AllValidations {}
 		this.image= image;
 		this.schedules = schedules;
 		this.state = state;
+		this.statistics = statistics;
 	}
 
 
@@ -138,6 +136,16 @@ public interface AllValidations {}
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+
+
+	public UserStatisticsDto getStatistics() {
+		return statistics;
+	}
+
+
+	public void setStatistics(UserStatisticsDto statistics) {
+		this.statistics = statistics;
 	}
 
 }

@@ -3,7 +3,10 @@ package com.fic.udc.es.padel.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -16,10 +19,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fic.udc.es.padel.model.entities.Field;
+import com.fic.udc.es.padel.model.entities.Game;
+import com.fic.udc.es.padel.model.entities.GameDao;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Schedule;
+import com.fic.udc.es.padel.model.entities.Team;
+import com.fic.udc.es.padel.model.entities.TeamDao;
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
+import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.IncorrectLoginException;
 import com.fic.udc.es.padel.model.exceptions.IncorrectPasswordException;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
@@ -37,6 +46,18 @@ public class UserServiceTest {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private FieldService fieldService;
+	
+	@Autowired
+	private GameDao gameDao;
+	
+	@Autowired
+	private GameService gameService;
+	
+	@Autowired
+	private TeamDao teamDao;
+	
 	private User createUser(String login) {
 		User user = new User();
 		user.setLogin(login);
@@ -49,6 +70,15 @@ public class UserServiceTest {
 		user.setLastname1("lastName");
 		user.setLastname2("lastName");
 		return user;
+	}
+	
+	private Field createField() {
+		return fieldService.addField("Campo 1");
+	}
+	
+	private Game createGame(Field field) throws InstanceNotFoundException, FieldTakenException{
+		return gameService.createGame(LocalDateTime.now(), LocalDateTime.now(), 
+				0, 0, field.getFieldId(), 1);
 	}
 	
 	@Test
@@ -172,5 +202,53 @@ public class UserServiceTest {
 		assertThrows(IncorrectPasswordException.class, () ->
 			userService.changePassword(user.getUserId(), 'Y' + oldPassword, newPassword));
 		
+	}
+	
+	@Test
+	public void testCountNoGamesWinned() throws DuplicateInstanceException, InstanceNotFoundException {
+		User user = createUser("user");
+		userService.signUp(user);
+		assertEquals(0, userService.getCountGamesByUserIdAndResult(user.getUserId(), "WIN"));
+	}
+	
+	@Test
+	public void testCountNoGamesDefeat() throws DuplicateInstanceException, InstanceNotFoundException {
+		User user = createUser("user");
+		userService.signUp(user);
+		assertEquals(0, userService.getCountGamesByUserIdAndResult(user.getUserId(), "DEFEAT"));		
+	}
+	
+	@Test
+	public void testCountGamesWinned() throws DuplicateInstanceException, InstanceNotFoundException, FieldTakenException {
+		User user = createUser("user");
+		userService.signUp(user);
+		Field field = createField();
+		Game game = createGame(field);
+		Set<Team> teams = teamDao.findTeamByGameGameId(game.getGameId());
+		List<Team> teamsList = new ArrayList<>(teams);
+		Team teamSelected = teamsList.get(0);
+		Set<User> teamUsers = teamSelected.getTeamUsers();
+		teamUsers.add(user);
+		teamSelected.setTeamUsers(teamUsers);
+		teamSelected.setResultMatch("WIN");
+		teamDao.save(teamSelected);
+		assertEquals(1, userService.getCountGamesByUserIdAndResult(user.getUserId(), "WIN"));
+	}
+	
+	@Test
+	public void testCountGamesLossed() throws DuplicateInstanceException, InstanceNotFoundException, FieldTakenException {
+		User user = createUser("user");
+		userService.signUp(user);
+		Field field = createField();
+		Game game = createGame(field);
+		Set<Team> teams = teamDao.findTeamByGameGameId(game.getGameId());
+		List<Team> teamsList = new ArrayList<>(teams);
+		Team teamSelected = teamsList.get(0);
+		Set<User> teamUsers = teamSelected.getTeamUsers();
+		teamUsers.add(user);
+		teamSelected.setTeamUsers(teamUsers);
+		teamSelected.setResultMatch("DEFEAT");
+		teamDao.save(teamSelected);
+		assertEquals(1, userService.getCountGamesByUserIdAndResult(user.getUserId(), "DEFEAT"));
 	}
 }

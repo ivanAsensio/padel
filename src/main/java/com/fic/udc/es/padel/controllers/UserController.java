@@ -14,7 +14,6 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +42,7 @@ import com.fic.udc.es.padel.dtos.ScheduleDto;
 import com.fic.udc.es.padel.dtos.UserConversor;
 import com.fic.udc.es.padel.dtos.UserDetailsDto;
 import com.fic.udc.es.padel.dtos.UserDto;
+import com.fic.udc.es.padel.dtos.UserStatisticsDto;
 import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.exceptions.DuplicateInstanceException;
@@ -172,7 +172,11 @@ public class UserController {
 	public UserDetailsDto getProfile(@PathVariable Long id) 
 		throws InstanceNotFoundException, PermissionException {
 		
-		return toUserDetailsDto(userService.getUserById(id));
+		int gameWinned = userService.getCountGamesByUserIdAndResult(id, "WIN");
+		int gameLossed = userService.getCountGamesByUserIdAndResult(id, "DEFEAT");
+		UserStatisticsDto statistics = new UserStatisticsDto(gameWinned, gameLossed);
+		
+		return toUserDetailsDto(userService.getUserById(id), statistics);
 		
 	}
 	

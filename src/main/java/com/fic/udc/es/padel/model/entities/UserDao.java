@@ -25,4 +25,6 @@ public interface UserDao extends PagingAndSortingRepository<User, Long>{
 	@Query("select distinct u from User u JOIN u.schedules s where u.level between ?1 and ?2 and ?3 between s.initHour and s.finalHour and ?4 = s.day order by u.login")
 	List<User> findUserByLevelAndSchedules(float minLevel, float maxLevel, int date, DayOfWeek day);
 	
+	@Query("select count(u) FROM User u JOIN u.teams t where u.userId = ?1 and t.resultMatch = ?2")
+	int getCountGamesUserByResult(Long userId, String result);
 }

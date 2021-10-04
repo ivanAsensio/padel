@@ -10,7 +10,12 @@ import {BackLink} from '../../common';
 import ScheduleList from './ScheduleList';
 import users from '../../users';
 
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
 const UserDetails = () => {
+
+
 
     const userObtained = useSelector(selectors.getUserObtained);
     const user = useSelector(users.selectors.getUser);
@@ -51,12 +56,19 @@ const UserDetails = () => {
     if (!userObtained) {
         return null;
     }
+
+    const getPorcentage = (statistics) => {
+        const totalGames = statistics.gamesWinned + statistics.gamesLossed;
+        return statistics.gamesWinned * 100 / totalGames;
+    }
+
+    const porcentage = userObtained ? getPorcentage(userObtained.statistics) : undefined;
         
     return (
         <div>
             <BackLink></BackLink>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-                <div className="container bootstrap snippet d-flex">
+                <div className="container d-flex">
                     <div className="p-2">
                         <div className="row">     
                             <div className="col-md-12 d-flex">
@@ -75,6 +87,7 @@ const UserDetails = () => {
                                 </Link>}
                             </div>
                         </div>
+                        
                         <br></br>
                         <br></br>
                         <div className="row d-flex">
@@ -119,8 +132,28 @@ const UserDetails = () => {
                             </div>
                         </div>
                     </div>
+                    
                     <div className="ml-auto p-2 col-md-5">
                         <ScheduleList schedules={schedules} user={userObtained}></ScheduleList>
+                    </div>
+                    
+                </div>
+                <div class="row col-xl-6 col-lg-10 mb-4">
+                    <div class="bg-white rounded-lg shadow d-flex">
+                        <div className="p-2 col-md-6">
+                            <label class="h6 font-weight-bold text-center mb-4"><FormattedMessage id="project.global.fields.winRate"/></label>
+
+                            <CircularProgressbar value={porcentage} text={`${porcentage}%`} />
+                        </div>
+
+                        <div class="row text-center mt-4 p-2 col-md-6">
+                            <div class="col-6 border-right">
+                                <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesWinned}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.wonGames"/></span>
+                            </div>
+                            <div class="col-6">
+                                <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesLossed}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.lossedGames"/></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

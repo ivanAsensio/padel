@@ -21,9 +21,9 @@ public class UserConversor {
 			user.getRole().toString(), user.getPosition(), user.isState(), user.getSchedules(), user.getImage());
 	}
 	
-	public final static UserDetailsDto toUserDetailsDto(User user) {
+	public final static UserDetailsDto toUserDetailsDto(User user, UserStatisticsDto statistics) {
 		return new UserDetailsDto(user.getUserId(), user.getLogin(), user.getName(), user.getLastname1(), user.getLastname2(), user.getLevel(),
-			 user.getPosition(), toScheduleSetDtos(user.getSchedules()), user.getImage(), user.isState());
+			 user.getPosition(), toScheduleSetDtos(user.getSchedules()), user.getImage(), user.isState(), statistics);
 	}
 	
 	public final static User toUser(UserDto userDto) {

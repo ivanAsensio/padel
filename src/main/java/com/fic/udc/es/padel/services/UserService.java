@@ -41,5 +41,7 @@ public interface UserService {
 	void addScheduleByUserId(Schedule schedule, Long userId) throws InstanceNotFoundException;
 	
 	void deleteSchedulebyScheduleId(Long scheduleId) throws InstanceNotFoundException;
+	
+	int getCountGamesByUserIdAndResult(Long userId, String result) throws InstanceNotFoundException;
 
 }
