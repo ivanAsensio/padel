@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BtnAddGuest } from '..';
 import * as selectors from '../selectors';
+import { FormattedMessage } from 'react-intl';
 
 
 const UsersSelectGame = ({gameId, teamId, typeGame, setBackendErrors}) => {
    
-    const usersGameFiltered = useSelector(selectors.getUsersGameFiltered);
+    const usersGameObtained = useSelector(selectors.getUsersGameFiltered);
+    const usersGameFiltered = usersGameObtained ? usersGameObtained.filter(user => user.state === true) : undefined;
     const options = usersGameFiltered.length !== 0 ? 
     usersGameFiltered.map((user) => {return ({
         value: user.id,
@@ -44,7 +46,7 @@ const UsersSelectGame = ({gameId, teamId, typeGame, setBackendErrors}) => {
             {options.length !== 0 ? 
                 <Select options={options}
                 onChange={(event) => handleClick(event.value)}/>
-            : null}
+            : <FormattedMessage id="project.users.getUsersResult.noUsers"/>}
             {typeGame === 'Amateur' && <div className="p-2">
                 <BtnAddGuest gameId={gameId} teamId={teamId} setBackendErrors={setBackendErrors} typeGame={typeGame}/>
             </div>}

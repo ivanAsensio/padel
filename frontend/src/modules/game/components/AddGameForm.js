@@ -11,7 +11,8 @@ import GameCalendar from './GameCalendar';
 
 const AddGameForm = () => {
 
-    const fields = useSelector(field.selectors.getAllFields);
+    const fieldsObtained = useSelector(field.selectors.getAllFields);
+    const fields = fieldsObtained ? fieldsObtained.filter(field => field.state === true) : undefined;
     const dispatch = useDispatch();
     const history = useHistory();
     const [initDate, setInitDate] = useState('');
@@ -52,7 +53,7 @@ const AddGameForm = () => {
                     typeGame: Number(typeGame),
                     fieldId: Number(fieldValue ? fieldValue : fields[0].fieldId)
                 },
-                () => history.push('/'),
+                history,
                 errors => setBackendErrors(errors)
             ));
             

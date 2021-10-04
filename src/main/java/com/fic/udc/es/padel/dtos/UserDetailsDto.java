@@ -24,13 +24,14 @@ public interface AllValidations {}
 	private float level;
 	private String position;
 	private String image;
+	private boolean state;
 	private Set<ScheduleDto> schedules = new HashSet<>();
 
 	public UserDetailsDto() {}
 
 
 	public UserDetailsDto(Long id, String login, String name, String lastName1, String lastName2, float level,
-			String position, Set<ScheduleDto> schedules, String image) {
+			String position, Set<ScheduleDto> schedules, String image, boolean state) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -41,6 +42,7 @@ public interface AllValidations {}
 		this.position = position;
 		this.image= image;
 		this.schedules = schedules;
+		this.state = state;
 	}
 
 
@@ -126,6 +128,16 @@ public interface AllValidations {}
 
 	public void setSchedules(Set<ScheduleDto> schedules) {
 		this.schedules = schedules;
+	}
+
+
+	public boolean isState() {
+		return state;
+	}
+
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 }

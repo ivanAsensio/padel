@@ -78,3 +78,11 @@ export const deleteFromTeam = (userId, teamId, onSuccess) =>
             teamId: teamId
         }
     ), onSuccess);
+
+export const rentField = (gameId, userId, onSuccess) =>
+    appFetch(`/games/rentField`, config('POST', 
+        {
+            gameId: gameId,
+            userId: userId
+        }
+    ), onSuccess);

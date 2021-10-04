@@ -16,6 +16,7 @@ export default {
     'project.global.buttons.delete': 'Eliminar',
     'project.global.buttons.deleteScore': 'Eliminar puntuación',
     'project.global.buttons.changeState': 'Cambiar estado',
+    'project.global.buttons.rentFullField': 'Alquilar pista completa',
 
     'project.global.exceptions.NetworkError': 'Error de red',
 
@@ -85,7 +86,7 @@ export default {
 
     'project.users.userList.title': 'Lista de usuarios',
 
-    'project.users.getUsersResult.noUsers': 'No usuarios encontrados',
+    'project.users.getUsersResult.noUsers': 'Usuarios no encontrados',
 
     'project.users.SignUp.fields.confirmPassword': 'Confirmar contraseña',
 

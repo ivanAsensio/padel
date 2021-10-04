@@ -16,6 +16,7 @@ export default {
     'project.global.buttons.delete': 'Eliminar',
     'project.global.buttons.deleteScore': 'Eliminar puntuación',
     'project.global.buttons.changeState': 'Cambiar estado',
+    'project.global.buttons.rentFullField': 'Alugar pista completa',
 
     'project.global.exceptions.NetworkError': 'Error de rede',
 

@@ -16,6 +16,7 @@ export default {
     'project.global.buttons.delete': 'Delete',
     'project.global.buttons.deleteScore': 'Delete score',
     'project.global.buttons.changeState': 'Change state',
+    'project.global.buttons.rentFullField': 'Rent full field',
 
     'project.global.exceptions.NetworkError': 'Network error',
 
@@ -84,7 +85,7 @@ export default {
 
     'project.users.userList.title': 'User List',
 
-    'project.users.getUsersResult.noUsers': 'No users found',
+    'project.users.getUsersResult.noUsers': 'Users not found',
 
     'project.users.UpdateProfile.title': 'Update user',
 

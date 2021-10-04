@@ -68,8 +68,8 @@ export const getGamesByDate = (initDate, finalDate) => dispatch =>
 export const getGamesFiltered = (initDate, finalDate, level, userId) => dispatch =>
     backend.gameService.getGamesFiltered(initDate, finalDate, level, userId, games => dispatch(getGamesByDateCompleted(games)));
 
-export const addGame = (game, onSuccess, onErrors) => dispatch =>
-    backend.gameService.addGame(game, onSuccess, onErrors);
+export const addGame = (game, history, onErrors) => dispatch =>
+    backend.gameService.addGame(game, (game) => history.push(`/games/game-details/${game.gameId}`), onErrors);
 
 export const updateGame = (game, onSuccess, onErrors) => dispatch =>
     backend.gameService.updateGame(game, game => {
@@ -108,5 +108,8 @@ export const deleteFromGame = (userId, gameId, onSuccess) =>
 
 export const deleteFromTeam = (userId, teamId, onSuccess) => 
     backend.gameService.deleteFromTeam(userId, teamId, onSuccess);
+
+export const rentField = (gameId, userId, onSuccess) =>
+    backend.gameService.rentField(gameId, userId, onSuccess);
     
     

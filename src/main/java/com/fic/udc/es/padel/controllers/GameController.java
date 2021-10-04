@@ -347,6 +347,24 @@ public class GameController {
 		return gameDetailsDtoList;
 	}
 	
+	@PostMapping("/rentField")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void rentFullField(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto addUserDto) throws InstanceNotFoundException, NoSpaceException, DuplicateInstanceException, FinishedGameException, UserAlreadyAddedException {
+		Game game = gameService.getGameById(addUserDto.getGameId());
+		if(game.getGameUsers().size() > 0) {
+			throw new NoSpaceException();
+		}
+		if(addUserDto.getUserId() != null) {
+			gameService.addPlayerToGame(addUserDto.getGameId(), addUserDto.getUserId());
+		}else {
+			gameService.addPlayerToGame(addUserDto.getGameId(), addNewUser().getUserId());
+		}
+		gameService.addPlayerToGame(addUserDto.getGameId(), addNewUser().getUserId());
+		gameService.addPlayerToGame(addUserDto.getGameId(), addNewUser().getUserId());
+		gameService.addPlayerToGame(addUserDto.getGameId(), addNewUser().getUserId());
+
+	}
+	
 	private User addNewUser() throws DuplicateInstanceException {
 		User user = new User();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
