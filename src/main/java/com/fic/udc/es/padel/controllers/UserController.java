@@ -54,6 +54,7 @@ import com.fic.udc.es.padel.rest.common.ErrorsDto;
 import com.fic.udc.es.padel.rest.common.JwtGenerator;
 import com.fic.udc.es.padel.rest.common.JwtInfo;
 import com.fic.udc.es.padel.services.Block;
+import com.fic.udc.es.padel.services.GameService;
 import com.fic.udc.es.padel.services.UserService;
 
 @RestController
@@ -74,6 +75,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private GameService gameService;
 	
 	@ExceptionHandler(IncorrectLoginException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -174,7 +178,8 @@ public class UserController {
 		
 		int gameWinned = userService.getCountGamesByUserIdAndResult(id, "WIN");
 		int gameLossed = userService.getCountGamesByUserIdAndResult(id, "DEFEAT");
-		UserStatisticsDto statistics = new UserStatisticsDto(gameWinned, gameLossed);
+		int gamesPlayed = gameService.getCountAmateurGameUser(id);
+		UserStatisticsDto statistics = new UserStatisticsDto(gameWinned, gameLossed, gamesPlayed);
 		
 		return toUserDetailsDto(userService.getUserById(id), statistics);
 		

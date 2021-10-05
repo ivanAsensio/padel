@@ -50,6 +50,7 @@ export default {
     'project.global.fields.winRate': 'Ratio de victorias',
     'project.global.fields.wonGames': 'Partidas ganadas',
     'project.global.fields.lossedGames': 'Partidas perdidas',
+    'project.global.fields.amateurGamesPlayed': 'Partidas amateur jugadas',
     'project.global.field.empty': 'Vacío',
     'project.games.scoreGame.addSet.title': 'Añadir set',
     'project.global.fields.addScore': 'Añadir puntuación',

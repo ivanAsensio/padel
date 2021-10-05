@@ -49,4 +49,6 @@ public interface GameService {
 	public void updateGame(Long gameId, LocalDateTime initDate,
 			LocalDateTime finalDate, float minimunLevel, float maximunLevel, Long fieldId) throws InstanceNotFoundException, FieldTakenException;
 	
+	int getCountAmateurGameUser(Long userId) throws InstanceNotFoundException;
+	
 }

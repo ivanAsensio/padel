@@ -314,9 +314,26 @@ public class GameServiceTest {
 		assertThrows(FieldTakenException.class, () -> gameService.updateGame(game.getGameId(), finalDate.plusMinutes(25), finalDate.plusMinutes(35), 1, 2, field.getFieldId()));
 	}
 	
+	@Test
+	public void countAmateurGamesUserTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), gameType);
+		gameService.addPlayerToGame(game.getGameId(), user.getUserId());
+		assertEquals(1, gameService.getCountAmateurGameUser(user.getUserId()));
+	}
 	
+	@Test
+	public void countNoAmateurGamesUserTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		User user = getUser("login");
+		assertEquals(0, gameService.getCountAmateurGameUser(user.getUserId()));
+	}
 	
-	
+	@Test
+	public void countAmateurGamesUserInstanceExceptionTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		assertThrows(InstanceNotFoundException.class, () -> gameService.getCountAmateurGameUser(Long.valueOf("-1")));
+	}
 	
 	
 }

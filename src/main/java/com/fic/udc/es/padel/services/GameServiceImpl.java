@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fic.udc.es.padel.model.entities.AmateurGame;
+import com.fic.udc.es.padel.model.entities.AmateurGameDao;
 import com.fic.udc.es.padel.model.entities.Field;
 import com.fic.udc.es.padel.model.entities.FieldDao;
 import com.fic.udc.es.padel.model.entities.Game;
@@ -59,6 +60,9 @@ public class GameServiceImpl implements GameService {
 	
 	@Autowired
 	private ProfessionalGameDao professionalGameDao;
+	
+	@Autowired
+	private AmateurGameDao amateurGameDao;
 
 	@Override
 	public Game getGameById(Long id) throws InstanceNotFoundException {
@@ -374,6 +378,15 @@ public class GameServiceImpl implements GameService {
 		gameObtained.setMinimunLevel(minimunLevel);
 		gameObtained.setMaximunLevel(maximunLevel);
 		gameDao.save(gameObtained);
+	}
+
+	@Override
+	public int getCountAmateurGameUser(Long userId) throws InstanceNotFoundException {
+		Optional<User> user = userDao.findById(userId);
+		if(!user.isPresent()) {
+			throw new InstanceNotFoundException("project.entities.user", userId);
+		}
+		return amateurGameDao.findCountGameUsersByUserId(user.get());
 	}
 
 }

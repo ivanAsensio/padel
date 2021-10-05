@@ -90,7 +90,7 @@ const UpdateProfile = () => {
     return (
         <div>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-            <div className="card bg-light border-dark">
+            <div className="card bg-light border-dark text-capitalize">
                 <h5 className="card-header">
                     <FormattedMessage id="project.users.UpdateProfile.title"/>
                 </h5>

@@ -68,8 +68,8 @@ const UserDetails = () => {
         <div>
             <BackLink></BackLink>
             <Errors errors={backendErrors} onClose={() => setBackendErrors(null)}/>
-                <div className="container d-flex">
-                    <div className="p-2">
+                <div className="container text-capitalize d-flex">
+                    <div className="p-2 col-md-6">
                         <div className="row">     
                             <div className="col-md-12 d-flex">
                                 <label className="p-2 font-weight-bold">
@@ -131,31 +131,37 @@ const UserDetails = () => {
                                 </div>
                             </div>
                         </div>
+                        <div class="row col-xl-12 col-lg-10 mb-4">
+                            <div class="bg-white rounded-lg shadow d-flex">
+                                <div className="p-2 col-md-6">
+                                    <label class="h6 font-weight-bold mb-4"><FormattedMessage id="project.global.fields.winRate"/></label>
+
+                                    <CircularProgressbar value={porcentage} text={`${porcentage}%`} />
+                                </div>
+
+                                <div class="row text-center mt-4 p-2 col-md-6">
+                                    <div className="col-12">
+                                        <div class="h4 font-weight-bold mb-0">{userObtained.statistics.amateurGamesPlayed}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.amateurGamesPlayed"/></span>
+                                    </div>
+                                    <div className="row text-center">
+                                        <div class="col-6 border-right">
+                                            <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesWinned}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.wonGames"/></span>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesLossed}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.lossedGames"/></span>
+                                        </div>
+                                    </div>              
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div className="ml-auto p-2 col-md-5">
+                    <div className="ml-auto p-2 col-md-6">
                         <ScheduleList schedules={schedules} user={userObtained}></ScheduleList>
                     </div>
                     
                 </div>
-                <div class="row col-xl-6 col-lg-10 mb-4">
-                    <div class="bg-white rounded-lg shadow d-flex">
-                        <div className="p-2 col-md-6">
-                            <label class="h6 font-weight-bold text-center mb-4"><FormattedMessage id="project.global.fields.winRate"/></label>
-
-                            <CircularProgressbar value={porcentage} text={`${porcentage}%`} />
-                        </div>
-
-                        <div class="row text-center mt-4 p-2 col-md-6">
-                            <div class="col-6 border-right">
-                                <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesWinned}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.wonGames"/></span>
-                            </div>
-                            <div class="col-6">
-                                <div class="h4 font-weight-bold mb-0">{userObtained.statistics.gamesLossed}</div><span class="small text-gray"><FormattedMessage id="project.global.fields.lossedGames"/></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            
                 
         </div>
        

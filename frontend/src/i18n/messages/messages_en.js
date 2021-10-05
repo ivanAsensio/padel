@@ -50,6 +50,7 @@ export default {
     'project.global.fields.winRate': 'Win rate',
     'project.global.fields.wonGames': 'Won games',
     'project.global.fields.lossedGames': 'Lost games',
+    'project.global.fields.amateurGamesPlayed': 'Amateur games played',
     'project.global.field.empty': 'Empty',
     'project.games.scoreGame.addSet.title': 'Add set',
     'project.global.fields.addScore': 'Add score',
