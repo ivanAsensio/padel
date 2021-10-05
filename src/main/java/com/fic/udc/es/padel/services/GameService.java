@@ -20,7 +20,7 @@ public interface GameService {
 	
 	public Block<Game> findGamesByUserId(Long userId, int page, int size) throws InstanceNotFoundException;
 	
-	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate);
+	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate, String name);
 	
 	public Block<Game> findAllPublishedGames(int page, int size);
 	

@@ -211,8 +211,9 @@ public class UserController {
 	
 	@GetMapping("/users")
 	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page, @RequestParam(required = false) String login,
-			@RequestParam(required = false) Float minLevel, @RequestParam(required = false) Float maxLevel){
-		Block<User> users = userService.getAllUsers(page, 10, login, minLevel, maxLevel);
+			@RequestParam(required = false) Float minLevel, @RequestParam(required = false) Float maxLevel, 
+			@RequestParam(required = false) String name){
+		Block<User> users = userService.getAllUsers(page, 10, login, minLevel, maxLevel, name);
 		return new BlockDto<>(UserConversor.toUserDtos(users.getItems()), users.getExistMoreItems());	
 	}
 	

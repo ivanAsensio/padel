@@ -13,9 +13,12 @@ const App = () => {
     const cookiesObtained = cookies.get('user');
     const dispatch = useDispatch();
 
+    const style = {};
+    style["font-family"] = "unset";
+
     cookiesObtained && cookiesObtained.user && dispatch(actions.loginCompleted(cookiesObtained));
     return (
-        <div>
+        <div style={style}>
             <Router>
                 <Header></Header>
                 <Body></Body>

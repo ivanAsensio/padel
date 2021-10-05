@@ -92,7 +92,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate) {
+	public Block<Game> findAllFinishedGames(int page, int size, String login, LocalDateTime initDate, LocalDateTime finalDate, String name) {
 		Optional<User> user = null;
 		Slice<Game> games = null;
 		if(login != null) {
@@ -100,9 +100,9 @@ public class GameServiceImpl implements GameService {
 			if(!user.isPresent()) {
 				return new Block<>(new ArrayList<>(), false);
 			}
-			games = gameDao.findAllWithDateFinished(initDate, finalDate, user.get(), PageRequest.of(page, size));
+			games = gameDao.findAllWithDateFinished(initDate, finalDate, user.get(), name, PageRequest.of(page, size));
 		}else {
-			games = gameDao.findAllWithDateFinished(initDate, finalDate, null, PageRequest.of(page, size));
+			games = gameDao.findAllWithDateFinished(initDate, finalDate, null, name, PageRequest.of(page, size));
 
 		}
 		return new Block<>(games.getContent(), games.hasNext());

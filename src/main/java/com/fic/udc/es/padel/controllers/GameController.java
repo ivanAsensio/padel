@@ -199,7 +199,8 @@ public class GameController {
 	}
 	
 	@GetMapping("/findFinishedGames")
-	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page, @RequestParam(required=false) String login, @RequestParam(required=false) Long millisInitDate, @RequestParam(required=false) Long millisFinalDate){
+	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page, @RequestParam(required=false) String login, 
+			@RequestParam(required=false) Long millisInitDate, @RequestParam(required=false) Long millisFinalDate, @RequestParam(required=false) String name){
 		LocalDateTime initDate = null;
 		LocalDateTime finalDate = null;
 		if(millisInitDate != null) {
@@ -212,7 +213,7 @@ public class GameController {
 		}
 		
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
-		Block<Game> games = gameService.findAllFinishedGames(page, 10, login, initDate, finalDate);
+		Block<Game> games = gameService.findAllFinishedGames(page, 10, login, initDate, finalDate, name);
 		for(Game game: games.getItems()) {
 			if(game.getGameType() == "Pro") {
 				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));

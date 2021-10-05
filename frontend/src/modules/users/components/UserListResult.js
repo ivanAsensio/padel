@@ -12,6 +12,7 @@ const UserListResult = () => {
     const users = useSelector(selectors.getAllUsers);
     const dispatch = useDispatch();
     const [login, setLogin] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [minLevel, setMinLevel] = useState("");
     const [maxLevel, setMaxLevel] = useState("");
     let form;
@@ -21,7 +22,13 @@ const UserListResult = () => {
         event.preventDefault();
         if (form.checkValidity()) {
             dispatch(actions.getAllUsers(
-                {page: 0, login: login, minLevel: Number(minLevel), maxLevel: Number(maxLevel)}
+                {
+                    page: 0, 
+                    firstName: firstName,
+                    login: login, 
+                    minLevel: Number(minLevel), 
+                    maxLevel: Number(maxLevel)
+                }
             ));
             
         }
@@ -55,6 +62,15 @@ const UserListResult = () => {
                                 <input type="text" id="login" className="form-control"
                                     value={login}
                                     onChange={e => setLogin(e.target.value)}
+                                    autoFocus/>
+                            </div>
+                            <div className="form-group p-2">
+                                <label htmlFor="firstName" className="col-form-label">
+                                    <FormattedMessage id="project.global.fields.firstName"/>
+                                </label>
+                                <input type="text" id="firstName" className="form-control"
+                                    value={firstName}
+                                    onChange={e => setFirstName(e.target.value)}
                                     autoFocus/>
                             </div>
                             <div className="form-group p-2">

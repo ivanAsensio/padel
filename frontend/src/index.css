@@ -4,7 +4,7 @@
 
 .body {
   text-align: center;
-  font-family: inherit !important
+  font-family: unset !important
 }
 
 .form-group > label > span {

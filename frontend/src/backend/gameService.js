@@ -17,10 +17,13 @@ export const addToTeam = (body, onSuccess, onErrors) =>
     appFetch(`/games/addPlayerToTeam`, config('POST', body), 
         onSuccess, onErrors);
 
-export const getFinishedGames = ({page, login,  millisInitDate,  millisFinalDate}, onSuccess) => {
+export const getFinishedGames = ({page, firstName, login,  millisInitDate,  millisFinalDate}, onSuccess) => {
     var params = `?page=${page}`;
     if(login){
         params += `&login=${login}`
+    }
+    if(firstName){
+        params += `&name=${firstName}`
     }
     if(millisInitDate){
         params += `&millisInitDate=${millisInitDate}`

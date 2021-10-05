@@ -50,10 +50,13 @@ export const changePassword = (id, oldPassword, newPassword, onSuccess,
         config('POST', {oldPassword, newPassword}),
         onSuccess, onErrors);
 
-export const getAllUsers = ({page, login, minLevel, maxLevel}, onSuccess) => {
+export const getAllUsers = ({page, login, firstName, minLevel, maxLevel}, onSuccess) => {
     var params = `?page=${page}`;
     if(login){
         params += `&login=${login}`
+    }
+    if(firstName){
+        params += `&name=${firstName}`
     }
     if(minLevel){
         params += `&minLevel=${minLevel}`

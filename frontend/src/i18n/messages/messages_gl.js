@@ -21,7 +21,7 @@ export default {
     'project.global.exceptions.NetworkError': 'Error de rede',
 
     'project.global.fields.position': 'Posición',
-    'project.global.fields.firstName': 'Nome',
+    'project.global.fields.firstName': 'Nome propio',
     'project.global.fields.lastNames': 'Apelidos',
     'project.global.fields.lastName': 'Primer apelido',
     'project.global.fields.lastName2': 'Segundo apelido',

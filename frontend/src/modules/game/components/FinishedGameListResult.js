@@ -16,6 +16,7 @@ const FinishedGameListResult = () => {
     const userRole = useSelector(users.selectors.getUserRole) === "USER";
     const dispatch = useDispatch();
     const [login, setLogin] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
     const [minHour, setMinHour] = useState("");
@@ -44,6 +45,7 @@ const FinishedGameListResult = () => {
             dispatch(actions.getFinishedGames({
                 page: 0,
                 login: login,
+                firstName: firstName,
                 millisInitDate: Number(initDateBody.getTime()),
                 millisFinalDate: Number(finalDateBody.getTime())
             }));           
@@ -69,6 +71,15 @@ const FinishedGameListResult = () => {
                         <input type="text" id="login" className="form-control"
                             value={login}
                             onChange={e => setLogin(e.target.value)}
+                            autoFocus/>
+                    </div>
+                    <div className="form-group p-2">
+                        <label htmlFor="name" className="col-form-label">
+                            <FormattedMessage id="project.global.fields.firstName"/>
+                        </label>
+                        <input type="text" id="firstName" className="form-control"
+                            value={firstName}
+                            onChange={e => setFirstName(e.target.value)}
                             autoFocus/>
                     </div>
                     <div className="form-group p-2">
