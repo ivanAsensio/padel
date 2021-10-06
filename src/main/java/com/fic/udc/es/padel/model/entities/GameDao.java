@@ -36,7 +36,7 @@ public interface GameDao extends PagingAndSortingRepository<Game, Long>{
 	@Query("select g from Game g where g.initDate between ?1 and ?2 order by g.initDate desc")
 	List<Game> findGameByDate(LocalDateTime initDate, LocalDateTime finalDate);
 
-	@Query("select g from Game g where g.field.fieldId = ?3 and ?1 between g.initDate and g.finalDate or "
-			+ "?2 between g.initDate and g.finalDate")
+	@Query("select g from Game g where g.field.fieldId = ?3 and (?1 between g.initDate and g.finalDate or "
+			+ "?2 between g.initDate and g.finalDate)")
 	List<Game> findGameByDateAndField(LocalDateTime initDate, LocalDateTime finalDate, Long fieldId);
 }

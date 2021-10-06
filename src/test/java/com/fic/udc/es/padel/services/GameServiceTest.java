@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fic.udc.es.padel.model.entities.Field;
 import com.fic.udc.es.padel.model.entities.Game;
+import com.fic.udc.es.padel.model.entities.PadelSet;
+import com.fic.udc.es.padel.model.entities.ProfessionalGame;
+import com.fic.udc.es.padel.model.entities.ProfessionalGameDao;
 import com.fic.udc.es.padel.model.entities.RoleEnum;
 import com.fic.udc.es.padel.model.entities.Schedule;
 import com.fic.udc.es.padel.model.entities.ScheduleDao;
+import com.fic.udc.es.padel.model.entities.Team;
 import com.fic.udc.es.padel.model.entities.User;
 import com.fic.udc.es.padel.model.entities.UserDao;
 import com.fic.udc.es.padel.model.exceptions.FieldTakenException;
 import com.fic.udc.es.padel.model.exceptions.FinishedGameException;
+import com.fic.udc.es.padel.model.exceptions.GameTypeException;
 import com.fic.udc.es.padel.model.exceptions.InstanceNotFoundException;
 import com.fic.udc.es.padel.model.exceptions.NoSpaceException;
 import com.fic.udc.es.padel.model.exceptions.UserAlreadyAddedException;
@@ -57,6 +65,15 @@ public class GameServiceTest {
 	
 	@Autowired
 	private ScheduleDao scheduleDao;
+	
+	@Autowired
+	private SetService setService;
+	
+	@Autowired
+	private ProfessionalGameDao professionalDao;
+	
+	@Autowired
+	private TeamService teamService;
 	
 	public GameServiceTest() {}
 	
@@ -208,11 +225,11 @@ public class GameServiceTest {
 		Field field2 = createField();
 		gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
-		gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+		gameService.createGame(initDate.plusMinutes(31), finalDate.plusMinutes(31), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
 		gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
 				field2.getFieldId(), gameType);
-		gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+		gameService.createGame(initDate.plusMinutes(31), finalDate.plusMinutes(31), minimunLevel, maximunLevel, 
 				field2.getFieldId(), gameType);
 		List<Game> games = gameService.findGameByDate(initDate, finalDate.plusHours(1));
 		assertEquals(games.size(), 2);
@@ -335,5 +352,45 @@ public class GameServiceTest {
 		assertThrows(InstanceNotFoundException.class, () -> gameService.getCountAmateurGameUser(Long.valueOf("-1")));
 	}
 	
+	@Test
+	public void scoreGameAndDeleteScoreTest() throws InstanceNotFoundException, FieldTakenException, GameTypeException {
+		Field field = createField();
+		Set<PadelSet> sets = new HashSet<>();
+		Game game = gameService.createGame(initDate.minusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), 1);
+		PadelSet set1 = new PadelSet();
+		Optional<ProfessionalGame> proGame = professionalDao.findById(game.getGameId());
+		set1.setGame(proGame.get());
+		set1.setNumberSet(1);
+		set1.setResult("6-4");
+		sets.add(set1);
+		gameService.scoreGame(game.getGameId(), sets);
+		assertEquals(1, setService.getSetsByGameId(game.getGameId()).size());
+		setService.deleteScore(game.getGameId());
+		assertEquals(0, setService.getSetsByGameId(game.getGameId()).size());
+	}
+	
+	@Test
+	public void scoreGameNoGameTest() throws InstanceNotFoundException, FieldTakenException, GameTypeException {
+		assertThrows(InstanceNotFoundException.class, () -> gameService.scoreGame(Long.valueOf("-1"), null));
+	}
+	
+	@Test
+	public void addAndDeletePlayerToTeamTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, UserNotFoundException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), 1);
+		Set<Team> teams = teamService.findTeamByGameId(game.getGameId());
+		List<Team> teamList = new ArrayList<>(teams);
+		gameService.addPlayerToTeam(teamList.get(0).getTeamId(), user.getUserId());
+		Set<Team> teamsObtained = teamService.findTeamByGameId(game.getGameId());
+		List<Team> teamListObtained = new ArrayList<>(teamsObtained);
+		assertEquals(1, teamListObtained.get(0).getTeamUsers().size());
+		gameService.removePlayerToTeam(teamList.get(0).getTeamId(), user.getUserId());
+		teamsObtained = teamService.findTeamByGameId(game.getGameId());
+		teamListObtained = new ArrayList<>(teamsObtained);
+		assertEquals(0, teamListObtained.get(0).getTeamUsers().size());
+	}
 	
 }

@@ -3,6 +3,7 @@ package com.fic.udc.es.padel.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -79,6 +80,15 @@ public class UserServiceTest {
 	private Game createGame(Field field) throws InstanceNotFoundException, FieldTakenException{
 		return gameService.createGame(LocalDateTime.now(), LocalDateTime.now(), 
 				0, 0, field.getFieldId(), 1);
+	}
+	
+	private Schedule createSchedule(User user) {
+		Schedule schedule = new Schedule();
+		schedule.setDay(DayOfWeek.MONDAY);
+		schedule.setFinalHour(0);
+		schedule.setInitHour(0);
+		schedule.setUser(user);
+		return schedule;
 	}
 	
 	@Test
@@ -250,5 +260,79 @@ public class UserServiceTest {
 		teamSelected.setResultMatch("DEFEAT");
 		teamDao.save(teamSelected);
 		assertEquals(1, userService.getCountGamesByUserIdAndResult(user.getUserId(), "DEFEAT"));
+	}
+	
+	@Test
+	public void changeLevelTest() throws DuplicateInstanceException, NumberFormatException, InstanceNotFoundException {
+		User user = createUser("user");
+		userService.signUp(user);
+		userService.changeLevel(user.getUserId(), Short.valueOf("24"));
+		assertEquals(24, userService.getUserById(user.getUserId()).getLevel());
+	}
+	
+	@Test
+	public void changeLevelNoUserTest() throws DuplicateInstanceException, NumberFormatException, InstanceNotFoundException {
+		assertThrows(InstanceNotFoundException.class, () ->
+			userService.changeLevel(Long.valueOf("-1"), Short.valueOf("24")));
+	}
+	
+	@Test
+	public void addAndDeleteAndFindScheduleTest() throws DuplicateInstanceException, InstanceNotFoundException {
+		User user = createUser("user");
+		userService.signUp(user);
+		Schedule schedule = createSchedule(user);
+		userService.addScheduleByUserId(schedule, user.getUserId());
+		assertEquals(1, userService.findSchedulesByUserId(user.getUserId()).size());
+		userService.deleteSchedulebyScheduleId(userService.findSchedulesByUserId(user.getUserId()).get(0).getScheduleId());
+		assertEquals(0, userService.findSchedulesByUserId(user.getUserId()).size());
+	}
+	
+	@Test
+	public void addScheduleNoUser() {
+		assertThrows(InstanceNotFoundException.class, () ->
+			userService.addScheduleByUserId(null, Long.valueOf("24")));
+	}
+	
+	@Test
+	public void deleteScheduleNoSchedule() {
+		assertThrows(InstanceNotFoundException.class, () ->
+			userService.deleteSchedulebyScheduleId(Long.valueOf("-24")));
+	}
+	
+	@Test
+	public void findScheduleNoUser() {
+		assertThrows(InstanceNotFoundException.class, () ->
+			userService.findSchedulesByUserId(Long.valueOf("24")));
+	}
+	
+	@Test
+	public void findUserByIdTest() throws InstanceNotFoundException, DuplicateInstanceException {
+		User user = createUser("user");
+		userService.signUp(user);
+		assertEquals(user.getUserId(), userService.getUserById(user.getUserId()).getUserId());
+	}
+	
+	@Test
+	public void findUserByIdNoUserTest() throws InstanceNotFoundException, DuplicateInstanceException {
+		assertThrows(InstanceNotFoundException.class, () -> 
+			userService.getUserById(Long.valueOf("-1")).getUserId());
+	}
+	
+	@Test
+	public void getAllUsersTest() throws DuplicateInstanceException {
+		User user = createUser("user");
+		userService.signUp(user);
+		User user2 = createUser("user2");
+		userService.signUp(user2);
+		assertEquals(1, userService.getAllUsers(0, 3, "user2", Float.valueOf("1.4"), Float.valueOf("3.4"), "Nam").getItems().size());
+	}
+	
+	@Test
+	public void getAllUsersNoLoginTest() throws DuplicateInstanceException {
+		User user = createUser("user");
+		userService.signUp(user);
+		User user2 = createUser("user2");
+		userService.signUp(user2);
+		assertEquals(2, userService.getAllUsers(0, 3, null, Float.valueOf("1.4"), Float.valueOf("3.4"), "Nam").getItems().size());
 	}
 }
