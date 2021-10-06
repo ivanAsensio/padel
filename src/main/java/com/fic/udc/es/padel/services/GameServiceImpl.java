@@ -316,6 +316,7 @@ public class GameServiceImpl implements GameService {
 			}
 		}
 		teamObtained.getTeamUsers().add(user.get());
+		professionalGameDao.save(teamObtained.getGame());
 		teamDao.save(teamObtained);		
 	}
 

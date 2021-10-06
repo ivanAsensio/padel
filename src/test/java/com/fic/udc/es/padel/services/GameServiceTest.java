@@ -115,7 +115,7 @@ public class GameServiceTest {
 		Field field = createField();
 		gameService.createGame(initDate, finalDate.plusSeconds(30), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType);
-		assertThrows(FieldTakenException.class,()-> gameService.createGame(initDate, finalDate, minimunLevel, maximunLevel, 
+		assertThrows(FieldTakenException.class,()-> gameService.createGame(initDate.plusSeconds(1), finalDate.plusSeconds(1), minimunLevel, maximunLevel, 
 				field.getFieldId(), gameType));
 	}
 	
@@ -391,6 +391,38 @@ public class GameServiceTest {
 		teamsObtained = teamService.findTeamByGameId(game.getGameId());
 		teamListObtained = new ArrayList<>(teamsObtained);
 		assertEquals(0, teamListObtained.get(0).getTeamUsers().size());
+	}
+	
+	@Test
+	public void addPlayerToTeamNoTeamTest() throws InstanceNotFoundException, FieldTakenException, NumberFormatException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), 1);
+		assertThrows(InstanceNotFoundException.class, () -> gameService.addPlayerToTeam(Long.valueOf("-1"), user.getUserId()));
+	}
+	
+	@Test
+	public void addPlayerToTeamNoUserTest() throws InstanceNotFoundException, FieldTakenException, NumberFormatException, FinishedGameException, UserAlreadyAddedException, NoSpaceException {
+		Field field = createField();
+		Game game = gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), 1);
+		Set<Team> teams = teamService.findTeamByGameId(game.getGameId());
+		List<Team> teamList = new ArrayList<>(teams);
+		assertThrows(InstanceNotFoundException.class, () -> gameService.addPlayerToTeam(teamList.get(0).getTeamId(), Long.valueOf("-1")));
+	}
+	
+	@Test
+	public void addPlayerToTeamAlreadyAddedTest() throws InstanceNotFoundException, FieldTakenException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, UserNotFoundException {
+		User user = getUser("login");
+		Field field = createField();
+		Game game = gameService.createGame(initDate.plusMinutes(30), finalDate.plusMinutes(30), minimunLevel, maximunLevel, 
+				field.getFieldId(), 1);
+		Set<Team> teams = teamService.findTeamByGameId(game.getGameId());
+		List<Team> teamList = new ArrayList<>(teams);
+		gameService.addPlayerToTeam(teamList.get(0).getTeamId(), user.getUserId());
+		gameService.addPlayerToGame(game.getGameId(), user.getUserId());
+		assertThrows(UserAlreadyAddedException.class, () -> gameService.addPlayerToTeam(teamList.get(0).getTeamId(), user.getUserId()));
 	}
 	
 }
