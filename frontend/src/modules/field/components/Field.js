@@ -38,14 +38,14 @@ const Field = ({id, name, state}) => {
     return (
         <div className="tab-content d-flex">
             <div className="mr-auto p-2">
-                <div htmlFor="name" className="col-xs-6">
-                    <label htmlFor="name" className="col-md-6 col-form-label">
-                        <FormattedMessage id="project.global.fields.firstName"/>
+                <div htmlFor="name" className="col-xs-12">
+                    <label htmlFor="name" className="col-md-12 col-form-label">
+                        <FormattedMessage id="project.global.field.name"/>
                         :{name}
                     </label>
                 </div>
-                <div htmlFor="state" className="col-xs-6">
-                    <label htmlFor="state" className="col-md-3 col-form-label">
+                <div htmlFor="state" className="col-xs-12">
+                    <label htmlFor="state" className="col-md-12 col-form-label">
                         <FormattedMessage id="project.global.fields.state"/>    
                         :{
                             state ? 

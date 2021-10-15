@@ -26,6 +26,7 @@ export default {
     'project.global.fields.lastName': 'First lastName',
     'project.global.fields.lastName2': 'Second lastName',
     'project.global.fields.level': 'Level',
+    'project.global.field.name': 'Name',
     'project.global.fields.userName': 'Username',
     'project.global.fields.password': 'Password',
     'project.global.fields.state': 'State',

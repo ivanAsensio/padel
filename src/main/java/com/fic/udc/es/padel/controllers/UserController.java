@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -209,7 +210,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("")
 	public BlockDto<UserDto> getAllUsers(@RequestParam(defaultValue="0") int page, @RequestParam(required = false) String login,
 			@RequestParam(required = false) Float minLevel, @RequestParam(required = false) Float maxLevel, 
 			@RequestParam(required = false) String name){
@@ -218,7 +219,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/filteredUsers")
+	@GetMapping("/filtered")
 	public List<UserDto> getUsersByScheduleAndLevel(@RequestParam float minLevel, @RequestParam float maxLevel,
 			@RequestParam Long millis){
 		Instant instant = Instant.ofEpochMilli(millis);
@@ -233,12 +234,12 @@ public class UserController {
 	    return UserConversor.toUserDtos(userService.findUserByLevelAndDate(minLevel, maxLevel, date));
 	}
 	
-	@GetMapping("/getSchedules/{id}")
+	@GetMapping("/{id}/schedules")
 	public List<ScheduleDto> getSchedulesByUserId(@PathVariable Long id) throws InstanceNotFoundException{
 		return UserConversor.toScheduleDtos(userService.findSchedulesByUserId(id));
 	}
 	
-	@PostMapping("/schedules/{id}")
+	@PostMapping("/{id}/schedules")
 	@ResponseStatus( HttpStatus.NO_CONTENT )
 	public void addScheduleByUserId(@PathVariable Long id, @Validated @RequestBody ScheduleDto scheduleDto) throws InstanceNotFoundException{
 		User user = userService.getUserById(id);
@@ -246,10 +247,10 @@ public class UserController {
 		userService.addScheduleByUserId(schedule, id);
 	}
 	
-	@PostMapping("/deleteSchedules")
+	@DeleteMapping("/{id}/schedules/{scheduleId}")
 	@ResponseStatus( HttpStatus.NO_CONTENT )
-	public void deleteScheduleByUserId(@Validated @RequestBody DeleteScheduleDto scheduleDto) throws InstanceNotFoundException{
-		userService.deleteSchedulebyScheduleId(scheduleDto.getScheduleId());
+	public void deleteScheduleByUserId(@PathVariable Long scheduleId) throws InstanceNotFoundException{
+		userService.deleteSchedulebyScheduleId(scheduleId);
 	}
 	
 	private String generateServiceToken(User user) {

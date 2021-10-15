@@ -25,6 +25,7 @@ const UsersSelectGame = ({gameId, teamId, typeGame, setBackendErrors}) => {
 
         if(typeGame === 'Pro'){
             actions.addToTeam(
+                Number(gameId),
                 {userId: Number(value),
                 teamId: Number(teamId)},
                 () => dispatch(actions.findGameById(gameId)),

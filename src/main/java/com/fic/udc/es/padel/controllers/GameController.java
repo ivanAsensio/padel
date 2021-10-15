@@ -17,6 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -140,7 +141,7 @@ public class GameController {
 		return new ErrorsDto(errorMessage);
 	}
 	
-	@PostMapping("/addGame")
+	@PostMapping("")
 	public Game createGame(@Validated({AddGameDto.AllValidations.class}) @RequestBody AddGameDto params) throws InstanceNotFoundException, FieldTakenException {
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(params.getMillisInitDate()), ZoneId.systemDefault());
@@ -150,8 +151,8 @@ public class GameController {
 				params.getFieldId(), params.getTypeGame());
 	}
 	
-	@PutMapping("/updateGame")
-	public GameDetailsDto updateGame(@Validated({AddGameDto.AllValidations.class}) @RequestBody UpdateGameDto params) throws InstanceNotFoundException, FieldTakenException {
+	@PutMapping("/{gameId}")
+	public GameDetailsDto updateGame(@PathVariable Long gameId, @Validated({AddGameDto.AllValidations.class}) @RequestBody UpdateGameDto params) throws InstanceNotFoundException, FieldTakenException {
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(params.getMillisInitDate()), ZoneId.systemDefault());
 		LocalDateTime finalDate =
@@ -168,9 +169,9 @@ public class GameController {
 		return toGameDetails(game, sets, teams);
 	}
 	
-	@PostMapping("/addPlayerToGame")
+	@PostMapping("/{gameId}/users")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void addPlayerToGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
+	public void addPlayerToGame(@PathVariable Long gameId, @Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
 		Long userId = params.getUserId();
 		if(userId == null) {
 			User user = addNewUser();
@@ -180,9 +181,9 @@ public class GameController {
 		gameService.addPlayerToGame(params.getGameId(), userId);
 	}
 	
-	@PostMapping("/addPlayerToTeam")
+	@PostMapping("/{gameId}/teams/{teamId}/users")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void addPlayerToTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
+	public void addPlayerToTeam(@PathVariable Long gameId, @PathVariable Long teamId, @Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto params) throws InstanceNotFoundException, FinishedGameException, UserAlreadyAddedException, NoSpaceException, DuplicateInstanceException {
 		gameService.addPlayerToTeam(params.getTeamId(), params.getUserId());
 	}
 	
@@ -198,7 +199,7 @@ public class GameController {
 		return toGameDetails(game, sets, teams);
 	}
 	
-	@GetMapping("/findFinishedGames")
+	@GetMapping("/finished")
 	public BlockDto<GameDetailsDto> getFinishedGames(@RequestParam(defaultValue="0") int page, @RequestParam(required=false) String login, 
 			@RequestParam(required=false) Long millisInitDate, @RequestParam(required=false) Long millisFinalDate, @RequestParam(required=false) String name){
 		LocalDateTime initDate = null;
@@ -226,7 +227,7 @@ public class GameController {
 		return new BlockDto<>(gameDetailsDtoList, games.getExistMoreItems());	
 	}
 	
-	@GetMapping("/findPublishedGames")
+	@GetMapping("/published")
 	public BlockDto<GameDetailsDto> getPublishedGames(@RequestParam(defaultValue="0") int page) throws InstanceNotFoundException {
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		Block<Game> games = gameService.findAllPublishedGames(page, 10);
@@ -242,7 +243,7 @@ public class GameController {
 		return new BlockDto<>(gameDetailsDtoList, games.getExistMoreItems());	
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/users/{id}")
 	public BlockDto<GameDetailsDto> getGamesByUserId(@PathVariable Long id, @RequestParam(defaultValue="0") int page) throws InstanceNotFoundException {
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		Block<Game> games = gameService.findGamesByUserId(id, page, 10);
@@ -259,14 +260,20 @@ public class GameController {
 		
 	}
 	
-	@GetMapping("/findGamesFiltered")
-	public List<GameDetailsDto> getGamesFiltered(@RequestParam Long initMillis, @RequestParam Long finalMillis, @RequestParam float level, @RequestParam Long userId) throws InstanceNotFoundException{
+	@GetMapping("")
+	public List<GameDetailsDto> getGamesFiltered(@RequestParam Long initMillis, @RequestParam Long finalMillis, @RequestParam(required=false) Float level, @RequestParam(required=false) Long userId) throws InstanceNotFoundException{
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		LocalDateTime initDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());
 		LocalDateTime finalDate =
 			    LocalDateTime.ofInstant(Instant.ofEpochMilli(finalMillis), ZoneId.systemDefault());
-		List<Game> games = gameService.findByLevelAndScheduleAndDate(userId, initDate, finalDate);
+		List<Game> games = null;
+		if(userId != null) {
+			games = gameService.findByLevelAndScheduleAndDate(userId, initDate, finalDate);
+		}else {
+			games = gameService.findGameByDate(initDate, finalDate);
+		}
+		
 		for(Game game: games) {
 			if(game.getGameType() == "Pro") {
 				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
@@ -279,34 +286,14 @@ public class GameController {
 		return gameDetailsDtoList;
 	}
 	
-	@GetMapping("/findGameByDate")
-	public List<GameDetailsDto> getGamesByDate(@RequestParam Long initMillis, @RequestParam Long finalMillis){
-		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
-		LocalDateTime initDate =
-			    LocalDateTime.ofInstant(Instant.ofEpochMilli(initMillis), ZoneId.systemDefault());
-		LocalDateTime finalDate =
-			    LocalDateTime.ofInstant(Instant.ofEpochMilli(finalMillis), ZoneId.systemDefault());
-		List<Game> games = gameService.findGameByDate(initDate, finalDate);
-		for(Game game: games) {
-			if(game.getGameType() == "Pro") {
-				GameDetailsDto details = toGameDetails(game, setService.getSetsByGameId(game.getGameId()), teamService.findTeamByGameId(game.getGameId()));
-				gameDetailsDtoList.add(details);
-			}else {
-				GameDetailsDto details = toGameDetails(game, new HashSet<>(), new HashSet<>());
-				gameDetailsDtoList.add(details);
-			}
-		}
-		return gameDetailsDtoList;
-	}
-	
-	@PostMapping("/scoreGame/{id}")
+	@PostMapping("/{id}/score")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void scoreGame(@PathVariable Long id, @Validated({SetDto.AllValidations.class}) @RequestBody List<SetDto> sets) throws InstanceNotFoundException, GameTypeException{
 		Set<PadelSet> setsObtained = GameConversor.toSets(sets);
 		gameService.scoreGame(id, setsObtained);
 	}
 	
-	@PostMapping("/deleteScoreGame/{id}")
+	@DeleteMapping("/{id}/score")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateScoreGame(@PathVariable Long id) throws InstanceNotFoundException, GameTypeException{
 		gameService.getGameById(id);
@@ -314,25 +301,25 @@ public class GameController {
 		teamService.deleteResultMatch(id);
 	}
 	
-	@PostMapping("/deleteGame/{id}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteGame(@PathVariable Long id, @Validated({DeleteUserDto.AllValidations.class}) @RequestBody DeleteUserDto userDto) throws InstanceNotFoundException {
-		gameService.deleteGame(userDto.getUserId());
+	public void deleteGame(@PathVariable Long id) throws InstanceNotFoundException {
+		gameService.deleteGame(id);
 	}
 	
-	@PostMapping("/removeFromGame")
+	@DeleteMapping("/{gameId}/users/{userId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleleFromGame(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto removeUserDto) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
-		gameService.removePlayerToGame(removeUserDto.getGameId(), removeUserDto.getUserId());
+	public void deleleFromGame(@PathVariable Long gameId, @PathVariable Long userId) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
+		gameService.removePlayerToGame(gameId, userId);
 	}
 	
-	@PostMapping("/removeFromTeam")
+	@DeleteMapping("/{gameId}/teams/{teamId}/users/{userId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleleFromTeam(@Validated({AddUserTeamDto.AllValidations.class}) @RequestBody AddUserTeamDto removeUserDto) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
-		gameService.removePlayerToTeam(removeUserDto.getTeamId(), removeUserDto.getUserId());
+	public void deleleFromTeam(@PathVariable Long gameId, @PathVariable Long teamId, @PathVariable Long userId) throws InstanceNotFoundException, FinishedGameException, UserNotFoundException {
+		gameService.removePlayerToTeam(teamId, userId);
 	}
 	
-	@GetMapping("/users/{userId}/pendingGames")
+	@GetMapping("/users/{userId}/pending")
 	public List<GameDetailsDto> getPendingGames(@PathVariable Long userId) throws InstanceNotFoundException{
 		List<GameDetailsDto> gameDetailsDtoList = new ArrayList<>();
 		List<Game> games = gameService.findGameByUserAndDatePublished(userId, LocalDateTime.now());
@@ -348,9 +335,9 @@ public class GameController {
 		return gameDetailsDtoList;
 	}
 	
-	@PostMapping("/rentField")
+	@PostMapping("/{gameId}/rentGame")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void rentFullField(@Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto addUserDto) throws InstanceNotFoundException, NoSpaceException, DuplicateInstanceException, FinishedGameException, UserAlreadyAddedException {
+	public void rentFullField(@PathVariable Long gameId, @Validated({AddUserGameDto.AllValidations.class}) @RequestBody AddUserGameDto addUserDto) throws InstanceNotFoundException, NoSpaceException, DuplicateInstanceException, FinishedGameException, UserAlreadyAddedException {
 		Game game = gameService.getGameById(addUserDto.getGameId());
 		if(game.getGameUsers().size() > 0) {
 			throw new NoSpaceException();

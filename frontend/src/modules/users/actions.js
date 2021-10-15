@@ -117,4 +117,4 @@ export const addSchedule = (userId, schedule) => dispatch =>
     backend.userService.addSchedule(userId, schedule, () => dispatch(getAllSchedules(userId)));
 
 export const deleteByScheduleId = (scheduleId, userId) => dispatch =>
-    backend.userService.deleteByScheduleId(scheduleId, () => dispatch(getAllSchedules(userId)));
+    backend.userService.deleteByScheduleId(scheduleId, userId, () => dispatch(getAllSchedules(userId)));

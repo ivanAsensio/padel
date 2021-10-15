@@ -17,8 +17,11 @@ const BtnAddPlayer = ({userId, gameId, teamId, setBackendErrors, typeGame}) => {
             
             if(typeGame === 'Pro'){
                 actions.addToTeam(
-                    {userId: Number(userId),
-                    teamId: Number(teamId)},
+                    Number(gameId),
+                    {
+                        userId: Number(userId),
+                        teamId: Number(teamId)
+                    },
                     () => dispatch(actions.findGameById(gameId)),
                     errors => setBackendErrors(errors)
                 );

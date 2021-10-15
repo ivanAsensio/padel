@@ -57,6 +57,7 @@ const GameDetails = () => {
         actions.deleteFromTeam(
             Number(userId),
             Number(teamId),
+            Number(id),
             () => dispatch(actions.findGameById(id)));
     }
 

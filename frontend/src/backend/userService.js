@@ -64,7 +64,7 @@ export const getAllUsers = ({page, login, firstName, minLevel, maxLevel}, onSucc
     if(maxLevel){
         params += `&maxLevel=${maxLevel}`
     }
-    appFetch(`/users/users` + params, config('GET'), onSuccess);
+    appFetch(`/users` + params, config('GET'), onSuccess);
 }
 
 export const findUserById = (id, onSuccess) => {
@@ -78,17 +78,17 @@ export const changeLevel = (id, level, onSuccess, onErrors) => {
 }
 
 export const getAllSchedules = (userId, onSuccess) => {
-    appFetch(`/users/getSchedules/${userId}`, config('GET'), onSuccess);
+    appFetch(`/users/${userId}/schedules`, config('GET'), onSuccess);
 }
 
 export const addSchedule = (userId, schedule, onSuccess) => {
-    appFetch(`/users/schedules/${userId}`, config('POST', schedule), onSuccess);
+    appFetch(`/users/${userId}/schedules`, config('POST', schedule), onSuccess);
 }
 
 export const findUsersByLevelAndDate = (minimunLevel, maximunLevel, date, onSuccess) => {
-    appFetch(`/users/filteredUsers?minLevel=${minimunLevel}&maxLevel=${maximunLevel}&millis=${date}`, config('GET'), onSuccess);
+    appFetch(`/users/filtered?minLevel=${minimunLevel}&maxLevel=${maximunLevel}&millis=${date}`, config('GET'), onSuccess);
 }
 
-export const deleteByScheduleId = (scheduleId, onSuccess) => {
-    appFetch(`/users/deleteSchedules`, config('POST', {scheduleId: scheduleId}), onSuccess);
+export const deleteByScheduleId = (scheduleId, userId, onSuccess) => {
+    appFetch(`/users/${userId}/schedules/${scheduleId}`, config('DELETE'), onSuccess);
 }

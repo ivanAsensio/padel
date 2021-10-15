@@ -1,21 +1,25 @@
 import {config, appFetch} from './appFetch';
 
 export const getGamesByUserId = ({page}, userId, onSuccess) =>
-    appFetch(`/games/user/${userId}?page=${page}`, config('GET'), onSuccess);
+    appFetch(`/games/users/${userId}?page=${page}`, config('GET'), onSuccess);
 
 export const getGamesByUserIdPending = (userId, onSuccess) =>
-    appFetch(`/games/users/${userId}/pendingGames`, config('GET'), onSuccess);
+    appFetch(`/games/users/${userId}/pending`, config('GET'), onSuccess);
 
 export const findGameById = (id, onSuccess) => 
     appFetch(`/games/${id}`, config('GET'), onSuccess);
 
-export const addToGame = (body, onSuccess, onErrors) =>
-    appFetch(`/games/addPlayerToGame`, config('POST', body), 
+export const addToGame = (body, onSuccess, onErrors) => {
+    const gameId = body["gameId"];
+    appFetch(`/games/${gameId}/users`, config('POST', body), 
         onSuccess, onErrors);
+}
 
-export const addToTeam = (body, onSuccess, onErrors) =>
-    appFetch(`/games/addPlayerToTeam`, config('POST', body), 
+export const addToTeam = (body, gameId, onSuccess, onErrors) => {
+    const teamId = body["teamId"];
+    appFetch(`/games/${gameId}/teams/${teamId}/users`, config('POST', body), 
         onSuccess, onErrors);
+}
 
 export const getFinishedGames = ({page, firstName, login,  millisInitDate,  millisFinalDate}, onSuccess) => {
     var params = `?page=${page}`;
@@ -31,56 +35,40 @@ export const getFinishedGames = ({page, firstName, login,  millisInitDate,  mill
     if(millisFinalDate){
         params += `&millisFinalDate=${millisFinalDate}`
     }
-    appFetch(`/games/findFinishedGames` + params, config('GET'), onSuccess); 
+    appFetch(`/games/finished` + params, config('GET'), onSuccess); 
 }
 
 export const getPublishedGames = ({page}, {initDateMillis, finalDateMillis}, onSuccess) =>
-    appFetch(`/games/findPublishedGames?page=${page}&initDateMillis=${initDateMillis}&finalDateMillis=${finalDateMillis}`, config('GET'), onSuccess);
+    appFetch(`/games/published?page=${page}&initDateMillis=${initDateMillis}&finalDateMillis=${finalDateMillis}`, config('GET'), onSuccess);
 
 export const getGamesByDate = (initDate, finalDate, onSuccess) =>
-    appFetch(`/games/findGameByDate?initMillis=${initDate}&finalMillis=${finalDate}`, config('GET'), onSuccess);
+    appFetch(`/games?initMillis=${initDate}&finalMillis=${finalDate}`, config('GET'), onSuccess);
 
 export const getGamesFiltered = (initDate, finalDate, level, userId, onSuccess) =>
-    appFetch(`/games/findGamesFiltered?initMillis=${initDate}&finalMillis=${finalDate}&level=${level}&userId=${userId}`, config('GET'), onSuccess);
+    appFetch(`/games?initMillis=${initDate}&finalMillis=${finalDate}&level=${level}&userId=${userId}`, config('GET'), onSuccess);
     
 export const addGame = (game, onSuccess, onErrors) =>
-    appFetch(`/games/addGame`, config('POST', game), onSuccess, onErrors); 
+    appFetch(`/games`, config('POST', game), onSuccess, onErrors); 
     
-export const updateGame = (game, onSuccess, onErrors) =>
-    appFetch(`/games/updateGame`, config('PUT', game), onSuccess, onErrors);  
+export const updateGame = (game, onSuccess, onErrors) => {
+    const gameId = game["gameId"];
+    appFetch(`/games/${gameId}`, config('PUT', game), onSuccess, onErrors);  
+}
 
 export const addSetList = (sets, gameId, onSuccess) =>
-    appFetch(`/games/scoreGame/${gameId}`, config('POST', sets), onSuccess);
+    appFetch(`/games/${gameId}/score`, config('POST', sets), onSuccess);
 
-export const deleteGame = (userId, onSuccess) =>
-    appFetch(`/games/deleteGame/${userId}`, config('POST', 
-        {
-            userId: userId
-        }
-    ), onSuccess);
+export const deleteGame = (gameId, onSuccess) =>
+    appFetch(`/games/${gameId}`, config('DELETE'), onSuccess);
 
 export const deleteScoreGame = (gameId, onSuccess) =>
-    appFetch(`/games/deleteScoreGame/${gameId}`, config('POST', 
-        {
-            gameId: gameId
-        }
-    ), onSuccess);
+    appFetch(`/games/${gameId}/score`, config('DELETE'), onSuccess);
 
 export const deleteFromGame = (userId, gameId, onSuccess) =>
-    appFetch(`/games/removeFromGame`, config('POST', 
-        {
-            userId: userId,
-            gameId: gameId
-        }
-    ), onSuccess);
+    appFetch(`/games/${gameId}/users/${userId}`, config('DELETE'), onSuccess);
 
-export const deleteFromTeam = (userId, teamId, onSuccess) =>
-    appFetch(`/games/removeFromTeam`, config('POST', 
-        {
-            userId: userId,
-            teamId: teamId
-        }
-    ), onSuccess);
+export const deleteFromTeam = (userId, teamId, gameId, onSuccess) =>
+    appFetch(`/games/${gameId}/teams/${teamId}/users/${userId}`, config('DELETE'), onSuccess);
 
 export const rentField = (gameId, userId, onSuccess) =>
     appFetch(`/games/rentField`, config('POST', 

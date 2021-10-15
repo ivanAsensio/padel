@@ -43,8 +43,8 @@ export const addToGame = (body, onSuccess, onErrors) => {
     backend.gameService.addToGame(body, onSuccess, onErrors);
 }
 
-export const addToTeam = (body, onSuccess, onErrors) => {
-    backend.gameService.addToTeam(body, onSuccess, onErrors);
+export const addToTeam = (gameId, body, onSuccess, onErrors) => {
+    backend.gameService.addToTeam(body, gameId, onSuccess, onErrors);
 }
 
 export const getFinishedGames = (criteria) => dispatch => {
