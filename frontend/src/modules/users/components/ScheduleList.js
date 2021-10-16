@@ -104,7 +104,7 @@ const ScheduleList = (user) => {
                                     <tr key={schedule.scheduleId}>
                                         <td>
                                             <label className="col-md-6 col-form-label">
-                                                {schedule.day}
+                                                <FormattedMessage id={"project.global.day." + schedule.day.toLowerCase()}/>
                                             </label>
                                         </td>
                                         <td>
